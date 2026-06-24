@@ -1,21 +1,32 @@
-# Cấu trúc Kiến trúc & Nguyên tắc Lập trình (Constitution)
-Dự án: Hệ thống Quản lý Ký túc xá (Dormitory Management System)
+# HIẾN PHÁP DỰ ÁN (PROJECT CONSTITUTION) - DORMIFY
 
-## 1. Frontend (Next.js)
-- Framework: Bắt buộc sử dụng Next.js (App Router) phiên bản mới nhất.
-- Styling: Bắt buộc sử dụng Tailwind CSS cho mọi UI component. Không dùng file CSS rời.
-- Ngôn ngữ: TypeScript (Strict mode).
-- UI/UX: Giao diện hiện đại, tối giản (màu chủ đạo: Blue/Slate). Bắt buộc Responsive cho cả Mobile và Desktop.
-- Quản lý trạng thái: Sử dụng React Hooks (useState, useEffect, useContext).
+Tài liệu này định nghĩa các nguyên tắc cốt lõi, tiêu chuẩn coding và quy ước kiến trúc cho dự án Dormify. Mọi lập trình viên và AI Assistant (Gemini, Claude, Cursor...) BẮT BUỘC phải tuân thủ các quy tắc này trong mọi dòng code được sinh ra.
 
-## 2. Backend (Nest.js)
-- Framework: Bắt buộc sử dụng Nest.js.
-- Kiến trúc: Tuân thủ nghiêm ngặt mô hình Module -> Controller -> Service. Sử dụng Dependency Injection.
-- Cơ sở dữ liệu: Sử dụng Mongoose (MongoDB).
-- Ngôn ngữ: TypeScript (Strict mode).
-- Bảo mật: Mọi API ngoại trừ `/login` đều phải được bảo vệ bằng JWT Auth Guard. Phân quyền chặt chẽ dựa trên Roles (Admin, Student, Maintenance).
+## 1. Nguyên tắc cốt lõi (Core Principles)
+* **Tuyệt đối không phá vỡ code đang chạy (No breaking changes):** Khi thêm tính năng mới, phải đảm bảo không làm hỏng các tính năng đã được đánh dấu hoàn thành `[✅]` trong `spec.md`.
+* **Không dùng dữ liệu giả (No hardcoded mock data) trừ khi được yêu cầu:** Code sinh ra phải sẵn sàng tích hợp API thực tế.
+* **Bảo mật là ưu tiên (Security First):** Mọi API endpoint của Backend đều phải có `@UseGuards(JwtAuthGuard)` và `@Roles(...)` phù hợp. Frontend phải bọc component bằng `<RoleGuard>`.
 
-## 3. Quy tắc chung cho AI
-- KHÔNG sử dụng dữ liệu giả (mock data) cứng trong component, mọi dữ liệu phải được fetch qua API.
-- Tên biến, tên hàm sử dụng tiếng Anh (camelCase).
-- Bắt buộc xử lý lỗi (Error Handling) và trả về thông báo rõ ràng cho UI.
+## 2. Tiêu chuẩn Giao diện (Frontend - Next.js App Router)
+* **UI Framework:** Chỉ sử dụng Tailwind CSS cho việc styling. Bắt đầu từ phase này, **TUYỆT ĐỐI KHÔNG dùng Inline Styles** (`style={{...}}`) hoặc thẻ `<style>` trong file `.tsx`.
+* **Cấu trúc Layout:** Sidebar và Topbar (chứa Notification) phải được đặt trong `app/admin/layout.tsx` và `app/student/layout.tsx`. Các file `page.tsx` chỉ chứa nội dung view.
+* **Chuyển trang (Routing):** Bắt buộc sử dụng `useRouter()` từ `next/navigation` hoặc thẻ `<Link>` của Next.js. Tuyệt đối không dùng `window.location.href`.
+* **Icons & Biểu đồ:** Chỉ sử dụng `react-icons` và `recharts`.
+* **Ngôn ngữ UI:** Mọi văn bản hiển thị cho người dùng BẮT BUỘC phải là Tiếng Việt có dấu, văn phong lịch sự, chuyên nghiệp.
+
+## 3. Tiêu chuẩn Máy chủ (Backend - NestJS)
+* **Kiến trúc (Architecture):** Tuân thủ chặt chẽ mô hình Module -> Controller -> Service. Không viết logic database vào Controller.
+* **Cơ sở dữ liệu (Database):** Sử dụng Mongoose. Luôn định nghĩa Schema rõ ràng và sử dụng Type cho Document.
+* **Real-time:** Mọi tính năng cần thông báo thời gian thực phải gọi qua `NotificationsModule` và `NotificationsGateway` (Socket.IO).
+* **Naming Convention:** * Biến, hàm: `camelCase`.
+  * Class, Decorator: `PascalCase`.
+  * URL API: `kebab-case` (ví dụ: `/api/users/student-list`).
+
+## 4. Quản lý Môi trường & API (Environment Variables)
+* Tuyệt đối **KHÔNG HARDCODE** các đường dẫn API như `http://localhost:3001` trong Frontend.
+* Bắt buộc sử dụng biến môi trường: `${process.env.NEXT_PUBLIC_API_URL}` để gọi API.
+
+## 5. Quy tắc cho AI (AI Directives)
+* Trước khi đưa ra giải pháp, hãy đọc `spec.md` để biết tính năng thuộc Module nào.
+* Trả về **Toàn bộ code (Full code)** của file nếu file đó cần thay đổi cấu trúc lớn, để tránh lỗi Copy/Paste bị thiếu ngoặc.
+* Luôn sử dụng TypeScript strict mode (không dùng type `any` trừ trường hợp bất khả kháng).
