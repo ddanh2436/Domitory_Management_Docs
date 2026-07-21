@@ -30,7 +30,14 @@ This file lists all changes made to the project documents compared to the previo
 * Created the PA3 Section C deliverable: 7 Mermaid use-case diagrams (Authentication, System Administration, Booking & Allocation, Contracts & Checkout, Finance, Maintenance, Residency Rules) with actors, use cases, and `«include»`/`«extend»` relationships.
 * Added an actor catalog (5 actors incl. the cron scheduler) and a full FR ↔ UC traceability table covering FR01–FR30.
 
-## 4. Implementation changes since the previous submission (context for the documents above)
+## 4. `analysis-and-design/use-case-specs/` (Use-Case Specifications) — **new folder, PA3 Section D**
+
+* Created the full Section D deliverable: one specification per use case in `use-case-model.md` (40 use cases, UC-01–UC-40), split into 7 files matching the diagram groups, each with name/ID, actor(s), description, preconditions, basic flow, alternative flows, postconditions, and special requirements.
+* Alternative flows were derived from actually reading the corresponding NestJS controllers/services (not assumed), so they reflect real validation rules, role guards, and edge cases (e.g., race-condition handling on room occupancy, the one-time-only maintenance rating, the floor-at-zero conduct score).
+* Flagged 14 open decision points directly in the specs (marked ⚠) where the code's actual behavior is ambiguous, inconsistent with `spec.md`'s wording, or simply unimplemented (e.g., FR08, dynamic RBAC, the missing gender-input UI, the `sandbox-reset-password` endpoint) — collected in `use-case-specs/README.md` for the team to resolve.
+* The UI-prototype requirement (screenshots per use case) is intentionally left as a team action item, since it requires either running the live app or building a separate design-tool prototype — see the note in `use-case-specs/01-authentication-profile.md`.
+
+## 5. Implementation changes since the previous submission (context for the documents above)
 
 New features implemented end-to-end (backend module + frontend pages + realtime notifications):
 

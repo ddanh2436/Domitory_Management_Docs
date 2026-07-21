@@ -1,8 +1,7 @@
 # Use-Case Model — Dormify (Dormitory Management System)
 
-<!-- Performed by: <member>; Reviewed by: <member>; Edited by: <member> -->
+<!-- Performed by: Đào Duy Anh; Reviewed by: Trần Huỳnh Mạnh Đạt; Edited by: Đào Duy Anh -->
 
-> PA3 Section C. Diagrams are drawn in Mermaid (`flowchart` syntax: rectangles = actors, stadium shapes = use cases, dashed arrows = `«include»`/`«extend»`). All functional requirements FR01–FR30 from the vision/spec document are covered; traceability table at the end.
 
 ## Actors
 
