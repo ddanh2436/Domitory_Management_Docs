@@ -20,6 +20,8 @@
 
 The **System Admin** and **Dormitory Manager** are separate roles. They are not generalized into a common Manager actor because they have different responsibilities and access permissions.
 
+> **Modeling note (Floor Manager):** This diagram set presents former Floor Manager responsibilities as folded into the Dormitory Manager actor, for a simpler and more readable diagram. This is a **presentation simplification only** — the backend's RBAC model still defines `FLOOR_MANAGER` as a real, distinct role (`users.schema.ts → USER_ROLES`) and several endpoints (transfers, absences, bookings review, contracts list, violations lookup) still guard on it explicitly via `@Roles(...)`. No code change to remove the role has been made. If the team decides to actually retire `FLOOR_MANAGER`, that requires a separate backend change (remove it from the enum and every `@Roles()` list it appears in) — see `system_plan.md` §3 for where it is currently used.
+
 ---
 
 ## 2. Authentication and Personal Profile
@@ -197,9 +199,9 @@ flowchart LR
 | UC-ROOM-09 | Track room transfer status | View the processing status of a transfer request |
 | UC-ROOM-10 | Review room transfer request | Approve or reject a transfer and record transfer history |
 
-### Reassigned Floor Manager Responsibilities
+### Reassigned Floor Manager Responsibilities (Room & Student Management)
 
-Because the Floor Manager role has been removed:
+Because Floor Manager responsibilities are folded into the Dormitory Manager actor in this diagram set (see the modeling note in §1):
 
 - Viewing students by floor is handled in `UC-STU-01`.
 - Viewing residence information is handled in `UC-STU-01`.
@@ -365,9 +367,9 @@ flowchart LR
 | UC-FIN-10 | View payment history | Review successful, pending, and failed payments |
 | UC-FIN-11 | Download invoice PDF | Export an invoice as a PDF file |
 
-### Reassigned Floor Manager Responsibilities
+### Reassigned Floor Manager Responsibilities (Finance & Meter Management)
 
-The following former Floor Manager functions are assigned to the Dormitory Manager:
+The following Floor Manager functions are folded into the Dormitory Manager actor in this diagram set:
 
 - Enter electricity opening and closing readings.
 - Enter water opening and closing readings.
@@ -415,7 +417,7 @@ flowchart LR
 | UC-RES-04 | Register a visitor | Student registers visitor information and visit time |
 | UC-RES-05 | Review and track residence declarations | Manager views and processes residence-related declarations |
 
-The Dormitory Manager assumes all residence-monitoring responsibilities previously assigned to the removed Floor Manager role.
+The Dormitory Manager actor assumes all residence-monitoring responsibilities that this diagram set folds in from Floor Manager (see the modeling note in §1).
 
 ---
 
@@ -519,7 +521,7 @@ flowchart LR
 | UC-FBK-02 | Submit suggestion | Student |
 | UC-FBK-03 | Review and respond to feedback | Dormitory Manager |
 
-The Dormitory Manager assumes the feedback-handling responsibility previously assigned to the removed Floor Manager role.
+The Dormitory Manager actor assumes the feedback-handling responsibility that this diagram set folds in from Floor Manager (see the modeling note in §1).
 
 ---
 
@@ -635,7 +637,7 @@ Examples include:
 | FR16 | UC-CON-03 | Covered |
 | FR17 | UC-CON-04, UC-CON-06 | Covered |
 | FR18 | UC-CHK-01, UC-CHK-02 | Covered |
-| FR19 | - | Removed from scope |
+| FR19 | UC-CHK-02, UC-CHK-03 | Covered — merged into checkout review/compensation, not a standalone use case (implemented: `Checkout.damages[]`, `/admin/checkouts` inspection modal) |
 | FR20 | UC-CHK-03 | Covered |
 | FR21 | UC-CHK-04 | Covered |
 | FR22 | UC-FIN-01, UC-FIN-02, UC-FIN-03, UC-FIN-07, UC-FIN-08, UC-FIN-09, UC-FIN-10, UC-FIN-11 | Covered |
@@ -684,7 +686,7 @@ Examples include:
 
 ---
 
-## 16. Reassignment of Removed Floor Manager Functions
+## 16. Floor Manager Function Reassignment (Diagram-Level Simplification)
 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Đào Duy Anh
 

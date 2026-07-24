@@ -25,17 +25,18 @@ This file lists all changes made to the project documents compared to the previo
   * Key design decisions: concurrency-safe occupancy updates, transactions, deposit convention, fire-and-forget logging/notifications.
 * Language switched to **English** per PA3 submission guidelines.
 
-## 3. `analysis-and-design/use-case-model.md` (Use-Case Model) — **new file**
+## 3. `analysis-and-design/use-case-model.md` (Use-Case Model)
 
-* Created the PA3 Section C deliverable: 7 Mermaid use-case diagrams (Authentication, System Administration, Booking & Allocation, Contracts & Checkout, Finance, Maintenance, Residency Rules) with actors, use cases, and `«include»`/`«extend»` relationships.
-* Added an actor catalog (5 actors incl. the cron scheduler) and a full FR ↔ UC traceability table covering FR01–FR30.
+* **v1 (initial):** 7 Mermaid use-case diagrams (Authentication, System Administration, Booking & Allocation, Contracts & Checkout, Finance, Maintenance, Residency Rules), 40 use cases (UC-01–UC-40), 5 actors, FR01–FR30 traceability table.
+* **v2 (team revision by Trần Huỳnh Mạnh Đạt, reviewed/edited by Đào Duy Anh):** expanded to 11 functional groups covering the full vision document (72 use cases: UC-AUTH/PRO/STAY, UC-ADM, UC-ROOM/STU, UC-CON, UC-CHK, UC-FIN, UC-RES, UC-MNT, UC-FBK, UC-COND, UC-NOT). Added external-system actors (Google OAuth Provider, Email/SMS Service, Payment Gateway, Scheduled Trigger) and consolidated the Floor Manager role into the Dormitory Manager actor for diagram clarity. Added a Student-feature and Maintenance-Staff-feature traceability table (§14–15) and a Floor Manager function-reassignment table (§16).
+* **Consistency fixes applied after review:** added a modeling note (§1) clarifying that folding Floor Manager into Dormitory Manager is a **diagram-level simplification only** — the backend still enforces `FLOOR_MANAGER` as a real, distinct RBAC role in several endpoint guards, and no code change removed it. Reworded every place that asserted the role had been "removed" (§4, §7, §8, §10, §16 heading) to instead say "folded into this diagram's Dormitory Manager actor," to avoid contradicting `system_plan.md`. Corrected the FR19 traceability row, which read "Removed from scope" in a way that contradicted the already-implemented asset-inspection feature (FR19 ✅ in `spec.md`) — reworded to "Covered — merged into checkout review/compensation, not a standalone use case."
 
-## 4. `analysis-and-design/use-case-specs/` (Use-Case Specifications) — **new folder, PA3 Section D**
+## 4. `analysis-and-design/use-case-specs/` (Use-Case Specifications, PA3 Section D)
 
-* Created the full Section D deliverable: one specification per use case in `use-case-model.md` (40 use cases, UC-01–UC-40), split into 7 files matching the diagram groups, each with name/ID, actor(s), description, preconditions, basic flow, alternative flows, postconditions, and special requirements.
-* Alternative flows were derived from actually reading the corresponding NestJS controllers/services (not assumed), so they reflect real validation rules, role guards, and edge cases (e.g., race-condition handling on room occupancy, the one-time-only maintenance rating, the floor-at-zero conduct score).
-* Flagged 14 open decision points directly in the specs (marked ⚠) where the code's actual behavior is ambiguous, inconsistent with `spec.md`'s wording, or simply unimplemented (e.g., FR08, dynamic RBAC, the missing gender-input UI, the `sandbox-reset-password` endpoint) — collected in `use-case-specs/README.md` for the team to resolve.
-* The UI-prototype requirement (screenshots per use case) is intentionally left as a team action item, since it requires either running the live app or building a separate design-tool prototype — see the note in `use-case-specs/01-authentication-profile.md`.
+* **v1 (initial):** one file per group (7 files), 40 use cases (UC-01–UC-40), matching the model's v1 numbering.
+* **v2 (full rewrite to match the model's v2 revision):** all 7 v1 files deleted and replaced with 11 files (one per functional group, 72 use cases, UC-AUTH-01…UC-NOT-03) plus a rewritten index. Each use case is tagged ✅ (implemented, verified against code) / 🔶 (partially implemented) / 🆕 (not yet implemented — proposed design only): 54 ✅, 10 🔶, 8 🆕 of 72.
+* Re-verified implementation details directly against the backend/frontend for every group, uncovering several **new discrepancies** between the v2 diagram and the actual code not caught in the v1 pass — most notably: `UC-CON-02`/`UC-CON-03` (contract extend/terminate) are attributed to Dormitory Manager in the diagram but are actually **student self-service** endpoints with no role guard; `UC-FIN-06` (revenue report) is diagrammed for Dormitory Manager but backend-restricted to Admin only; `UC-FIN-05`'s "Scheduled Trigger" link has no corresponding cron job. All flagged inline (⚠) and summarized in a themed list (A: diagram/code mismatches, B: described-more-than-built gaps, C: fully unbuilt use cases, D: prototype screenshots) in `use-case-specs/README.md`.
+* The UI-prototype requirement (screenshots per use case) remains a team action item — see the note in `use-case-specs/01-authentication-profile.md`.
 
 ## 5. Implementation changes since the previous submission (context for the documents above)
 
