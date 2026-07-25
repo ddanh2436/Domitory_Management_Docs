@@ -57,6 +57,7 @@
 | SDP-06 | Sprint objectives were not explicit. | Added a sprint goal, expected increment, milestone, and exit criteria for every sprint. | Sprint Overview | Sprint Review record |
 | SDP-07 | Progress tracking was difficult to verify. | Added Trello issue IDs, task statuses, and links to related commits or artifacts. | Sprint Task Details | Trello screenshots and Git log |
 | SDP-08 | The plan's presentation was inconsistent. | Standardized headings, tables, terminology, spacing, and contribution information. | Entire document | Markdown and exported PDF review |
+| SDP-09 | Team membership changed during PA3. | Added a team membership update stating that Tô Trần Hoàng Triệu was removed from the active project group because of non-contribution, repeated missed deadlines, and work quality that caused rework for other members. Future planned tasks were reassigned to active members. | Scrum Organization / Sprint Backlogs | Team review and updated SDP task table |
 
 ### 2.2 Detailed Sprint Structure
 
@@ -259,7 +260,7 @@ Use this table to provide direct evidence that every declared change was applied
 
 | Change ID | Document | Updated section | Related TA feedback | Responsible member | Review status | Evidence or location |
 | --- | --- | --- | --- | --- | --- | --- |
-| SDP-01 to SDP-08 | Software Development Plan | Sprint Plan, Schedule, Task Details | TA-01, TA-03 | [NAME] | Reviewed | [FILE SECTION/TRELLO/LINK] |
+| SDP-01 to SDP-09 | Software Development Plan | Sprint Plan, Schedule, Task Details, Scrum Organization, team membership update | TA-01, TA-03 | [NAME] | Reviewed | [FILE SECTION/TRELLO/LINK] |
 | VIS-APP-01 to VIS-APP-08 | Vision Document | Appearance, formatting, navigation, table styling, feature scanning, and visual polish | TA-03 | Trần Huỳnh Mạnh Đạt | Reviewed | `PA3/VD_v1.1.md` |
 | AI-01 to AI-07 | AI Usage Report | Declaration, Usage Log, Verification, Compliance | TA-02, TA-03 | [NAME] | Reviewed | [FILE SECTION/LINK] |
 | FMT-01 to FMT-10 | All revised documents | Entire documents | TA-03 | [NAME] | Reviewed | [FILES/PDF REVIEW] |

@@ -105,11 +105,11 @@ The purpose of this document is to explain why Dormify is needed, who will use i
 
 ## 3. Stakeholder and User Descriptions
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Tô Trần Hoàng Triệu | _Edited by:_ Trần Huỳnh Mạnh Đạt
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 ### 3.1 Stakeholder Summary
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Tô Trần Hoàng Triệu | _Edited by:_ Trần Huỳnh Mạnh Đạt
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 | Stakeholder | Interest and responsibility |
 | --- | --- |
@@ -122,7 +122,7 @@ The purpose of this document is to explain why Dormify is needed, who will use i
 
 ### 3.2 User Summary
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Tô Trần Hoàng Triệu | _Edited by:_ Trần Huỳnh Mạnh Đạt
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 | User | Main responsibilities | Repository alignment |
 | --- | --- | --- |
@@ -132,6 +132,12 @@ The purpose of this document is to explain why Dormify is needed, who will use i
 | Student | Maintains a profile, searches and books rooms, reviews contracts and invoices, submits maintenance and absence requests, requests room transfers, and receives notifications. | Student routes exist for the primary workflows. |
 
 > _Role correction:_ The PA3 scope removes the separate Floor Manager actor. Floor-related responsibilities are assigned to the Dormitory Manager, and financial and administrative duties are assigned to `ADMIN` and `DORMITORY_MANAGER`.
+
+#### Project Team Membership Update
+
+| Member | Updated status | Reason | Documentation impact |
+| --- | --- | --- | --- |
+| Tô Trần Hoàng Triệu | Removed from the active project group in the PA3 revision. | The member did not provide meaningful contribution, repeatedly missed agreed deadlines, and submitted work that required significant correction and rework by other members. | Future responsibility, review, and evidence references are reassigned to active members before submission. |
 
 ### 3.3 User Environment
 
@@ -143,7 +149,7 @@ The application requires an internet connection. External-service failures must 
 
 ### 3.4 Summary of Key Stakeholder and User Needs
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Tô Trần Hoàng Triệu | _Edited by:_ Trần Huỳnh Mạnh Đạt
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 | Need | Priority | Proposed solution | PA3 status |
 | --- | --- | --- | --- |
@@ -229,7 +235,7 @@ The Vision describes the intended product outcome, but it does not fix all imple
 
 ## 5. Product Features
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh and Tô Trần Hoàng Triệu | _Edited by:_ Trần Huỳnh Mạnh Đạt
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 | Feature | Capability area | PA3 status |
 | --- | --- | --- |
@@ -278,7 +284,7 @@ Authorized managers can create monthly room invoices containing room, electricit
 
 ### F-05 Maintenance Requests and Maintenance Staff Workspace
 
-> _Performed by:_ Tô Trần Hoàng Triệu | _Reviewed by:_ Trần Huỳnh Mạnh Đạt | _Edited by:_ Trần Huỳnh Mạnh Đạt
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Trần Huỳnh Mạnh Đạt | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Status:** Partial; maintenance-staff workspace added as a planned highlighted feature.
 
@@ -318,7 +324,7 @@ A student can request a transfer from the current room to an available target ro
 
 ### F-10 Dashboards and Operational Reporting
 
-> _Performed by:_ Hồ Phúc Kiên | _Reviewed by:_ Tô Trần Hoàng Triệu | _Edited by:_ Trần Huỳnh Mạnh Đạt
+> _Performed by:_ Hồ Phúc Kiên | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Status:** Partial.
 
@@ -344,7 +350,7 @@ flowchart TD
 
 ### 5.2 Important Workflow Diagram — Invoice and Overdue Notification
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Tô Trần Hoàng Triệu | _Edited by:_ Trần Huỳnh Mạnh Đạt
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 ```mermaid
 flowchart TD
@@ -369,7 +375,7 @@ The following items may be added only after Product Owner approval, Trello estim
 
 ## 6. Non-Functional Requirements
 
-> _Performed by:_ Tô Trần Hoàng Triệu | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 | ID | Category | Measurable requirement | Priority |
 | --- | --- | --- | --- |
@@ -394,7 +400,7 @@ The following items may be added only after Product Owner approval, Trello estim
 
 ## 7. Scope Traceability Summary
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Tô Trần Hoàng Triệu | _Edited by:_ Trần Huỳnh Mạnh Đạt
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 | Vision feature | Main repository area | Planned validation evidence |
 | --- | --- | --- |

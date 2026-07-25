@@ -1,0 +1,112 @@
+* 2e51703 Big update V1.1.2
+*   04e9882 Merge pull request #26 from ddanh2436/DaoDuyAnh
+|\  
+| * bf4ede4 Add noi quy features
+* | e0965dd Merge pull request #25 from ddanh2436/DaoDuyAnh
+|\| 
+| * 6188c79 Add logic for star vote in student and admin
+* | 2baf1e2 Merge pull request #24 from ddanh2436/DaoDuyAnh
+|\| 
+| * 1546b6b Improve logic for security and fix a lot of bugs
+|/  
+*   637fea6 Merge pull request #23 from ddanh2436/QuocKhanh
+|\  
+| * 8261784 feat(api): support MSSV auth and prevent duplicates
+|/  
+*   16423a3 Merge pull request #22 from ddanh2436/QuocKhanh
+|\  
+| * 3b72e30 feat: improve contract print layout and add forgot password sandbox
+|/  
+*   7171a74 Merge pull request #21 from ddanh2436/TranHuynhManhDat
+|\  
+| * 9fe3f99 Add Upload photos feature for Maintenance modules
+| * 7c04dce Add notifications for student and handle notification automatic cleaning
+| *   d965e1b Merge branch 'main' of https://github.com/ddanh2436/Domitory_Management_Backend into TranHuynhManhDat
+| |\  
+| |/  
+|/|   
+* |   dbf0181 Merge pull request #20 from ddanh2436/DaoDuyAnh
+|\ \  
+| * | 8aa5b97 Package.json changed
+|/ /  
+* |   c83e9c7 Merge pull request #19 from ddanh2436/QuocKhanh
+|\ \  
+| * | 2fc7ce9 feat(student): standardize API integration, student's profile tab UI and notification layout
+|/ /  
+| * b214d89 Automate overdue invoice updates with cron job
+|/  
+*   90cd80c Merge pull request #18 from ddanh2436/DaoDuyAnh
+|\  
+| * f2e2193 Fix API Fetch Error
+|/  
+*   d238579 Merge pull request #17 from ddanh2436/QuocKhanh
+|\  
+| * f137e83 feat(contracts): add extension and termination functionality with improved UI/UX
+|/  
+*   6fea37d Merge pull request #16 from ddanh2436/QuocKhanh
+|\  
+| * 44dec09 feat(maintenance): optimize request prioritization and auto-sorting
+|/  
+*   6c58fec Merge pull request #15 from ddanh2436/TranHuynhManhDat
+|\  
+| * aa0445a Improve Socket security by JWT and add notification bell for students
+| *   b7a296b Merge pull request #13 from ddanh2436/main
+| |\  
+| |/  
+|/|   
+* |   2c1f572 Merge pull request #11 from ddanh2436/DaoDuyAnh
+|\ \  
+| * | ad709b1 Add and fixing all the missing Feautures
+* | | 418c898 Merge pull request #10 from ddanh2436/DaoDuyAnh
+|\| | 
+| * | 09e5b02 Fix and improve
+| | *   064c9b7 Merge pull request #8 from ddanh2436/main
+| | |\  
+| |_|/  
+|/| |   
+* | | 8aace39 Merge pull request #7 from ddanh2436/DaoDuyAnh
+|\| | 
+| * | f3a8400 Add logic to render a chart at admin page
+|/ /  
+* |   6818924 Merge pull request #6 from ddanh2436/QuocKhanh
+|\ \  
+| * | 41769f2 feat: implement account block/unblock functionality and UI enhancements
+|/ /  
+* |   479756e Merge pull request #5 from ddanh2436/QuocKhanh
+|\ \  
+| * | de28a8b Improve notification feature
+|/ /  
+* | 94b546f Merge pull request #4 from ddanh2436/TranHuynhManhDat
+|\| 
+| *   ec6ac7f Merge remote-tracking branch 'origin/main' into TranHuynhManhDat
+| |\  
+| |/  
+|/|   
+* | a45772a Add Mock  Payment Feautures
+* |   fa62730 Merge pull request #3 from ddanh2436/QuocKhanh
+|\ \  
+| * | 6ea9c41  enhance student management with edit, delete, and notification features
+|/ /  
+* | 28c7fdd Add notification Features
+* | daf38d6 Add maintenance Feature
+* |   136eff3 Merge pull request #2 from ddanh2436/QuocKhanh
+|\ \  
+| * | 35bb783 View, update profile and upload avatar features for admin
+| | * 045a479 Remove choosing roles in register term, add account permission management backend for admin
+| | * b3052d3 Remove backend .env.example
+| | * 8a0ebe4 Add backend environment setup template
+| |/  
+|/|   
+* | d1302b7 Merge pull request #1 from ddanh2436/QuocKhanh
+|\| 
+| * a4599d8 feat: upload avatar, admin can change profile, update frontend and implement automatic rental contract generation feature
+|/  
+* 504204a Add Reiceipt Features
+* e35b6ce Improve logic of create rooms
+* b6eca6e add booking rooms feature
+* 48542c5 Connect to Mongodb Atlas
+* 984cb6c Improve UI/UX of admin page and create logic for updating rooms in admin page
+* 5a2ff20 Add logic for student profile and admin overall page
+* 806ac85 Add logic for JWT AUTHEN AND GG AUTH
+* b47585b Major change before init
+* 3088c28 First commmit
