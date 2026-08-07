@@ -1,0 +1,196 @@
+* c163fa1 Big update V1.1.2
+* 6896243 Add proxy.ts
+* 2bd5cdd Improve UI
+* ba9901d Add toast for student page
+* 95e308d Add toast features
+* 4308d38 Add nội quy page
+*   fa5eac1 Merge pull request #40 from ddanh2436/HoPhucKien
+|\  
+| * ba745af Fixed admin Invoices, Room Approval design and removed 'Security information' sector from room information for Student role.
+|/  
+*   c0f89c4 Merge pull request #39 from ddanh2436/DaoDuyAnh
+|\  
+| * e96dfe3 Add star vote and real-time log
+* | 80c21bf Merge pull request #38 from ddanh2436/DaoDuyAnh
+|\| 
+| * 47376c1 Add avatar render and view feautures
+* | 9024cec Merge pull request #37 from ddanh2436/DaoDuyAnh
+|\| 
+| * 14524b8 Improve UI for notification bell
+|/  
+*   e851199 Merge pull request #36 from ddanh2436/QuocKhanh
+|\  
+| * 093dbd5 feat(ui): add MSSV login and room status chart
+|/  
+*   e514134 Merge pull request #35 from ddanh2436/DaoDuyAnh
+|\  
+| * 37d3bd0 Add .md for agents
+* | e580990 Merge pull request #34 from ddanh2436/DaoDuyAnh
+|\| 
+| * c837125 Improve the UI
+* | d41b095 Merge pull request #33 from ddanh2436/DaoDuyAnh
+|\| 
+| * 729893a Simplify the contracts UI
+* | 0018c36 Merge pull request #32 from ddanh2436/DaoDuyAnh
+|\| 
+| * 0b6c1a0 Add 2d room choosen option for student page
+| *   7ce35c0 Merge branch 'main' of https://github.com/ddanh2436/Domitory_Management_Frontend into DaoDuyAnh
+| |\  
+| |/  
+|/|   
+* |   f0a84e0 Merge pull request #31 from ddanh2436/HoPhucKien
+|\ \  
+| * | f071135 Improved logo effects and design in admin sections.
+|/ /  
+| * 3f07d24 Fix API render
+|/  
+*   76ab70e Merge pull request #30 from ddanh2436/QuocKhanh
+|\  
+| * 2b4e46e feat: improve contract print layout and add forgot password sandbox
+|/  
+*   6177b83 Merge pull request #29 from ddanh2436/DaoDuyAnh
+|\  
+| * c67bea4 Add toggle header and improve Contracts UI
+|/  
+*   9d02931 Merge pull request #28 from ddanh2436/TranHuynhManhDat
+|\  
+| *   d480c8c Merge branch 'main' into TranHuynhManhDat
+| |\  
+| |/  
+|/|   
+* |   0d93c3c Merge pull request #27 from ddanh2436/HoPhucKien
+|\ \  
+| * | 67e2d5c Fixed Login/Signup design and logo modification
+|/ /  
+* |   c474180 Merge pull request #26 from ddanh2436/DaoDuyAnh
+|\ \  
+| * | 14d8426 Package.json change
+|/ /  
+* |   1ca82da Merge pull request #25 from ddanh2436/QuocKhanh
+|\ \  
+| * | 161247f feat(student): standardize API integration and notification layout and improve student's profile tab UI
+|/ /  
+* |   d2c7652 Merge pull request #24 from ddanh2436/DaoDuyAnh
+|\ \  
+| * | 2f28682 Small update UI
+* | | f753688 Merge pull request #23 from ddanh2436/DaoDuyAnh
+|\| | 
+| * | c31b132 Fix the contract API render and improve UI of the contract
+| | * efbead3 Add Upload photos feature for Maintenance modules
+| | * f6b2dbb Add notifications for student and handle notification automatic cleaning
+| | * f9e6de6 Automate overdue invoice updates with cron job
+| |/  
+|/|   
+* | 5eae8e4 Merge pull request #22 from ddanh2436/DaoDuyAnh
+|\| 
+| * 1cb703c Fix API FETCH
+|/  
+*   4a1cd53 Merge pull request #21 from ddanh2436/QuocKhanh
+|\  
+| * 12a2a31 feat(contracts): add extension and termination functionality with improved UI/UX
+|/  
+*   771b5d7 Merge pull request #20 from ddanh2436/QuocKhanh
+|\  
+| * 3b82c03 feat(maintenance): optimize request prioritization and auto-sorting
+|/  
+*   320d9c7 Merge pull request #19 from ddanh2436/TranHuynhManhDat
+|\  
+| * 84fee5b Improve Socket security by JWT and add notification bell for students
+|/  
+*   7debcfc Merge pull request #18 from ddanh2436/DaoDuyAnh
+|\  
+| * ded703b Fix and restore all the missing Feauture
+* | 99c6838 Merge pull request #17 from ddanh2436/DaoDuyAnh
+|\| 
+| * 998856d Improve and fix all the issues in the previous commit
+|/  
+*   75181fe Merge pull request #16 from ddanh2436/DaoDuyAnh
+|\  
+| *   4a6d45c Fix issues
+| |\  
+| * | 9736a51 Add interface
+* | |   1595485 Merge pull request #15 from ddanh2436/DaoDuyAnh
+|\ \ \  
+| | |/  
+| |/|   
+| * |   b2d56a3 Merge branch 'main' into DaoDuyAnh
+| |\ \  
+| |/ /  
+|/| /   
+| |/    
+* |   1ce4e24 Merge pull request #13 from ddanh2436/ToTranHoangTrieu
+|\ \  
+| * | 68e4e30 feat: room access control and room management UI
+|/ /  
+| * c7ed49b Merge conflict
+| * 99d9b0a Improve file and overwrite the commit
+|/  
+*   2a8968a Merge pull request #12 from ddanh2436/DaoDuyAnh
+|\  
+| * 677c8c6 Change file admin/page.tsx
+| * 63bae7c Change way to call API at admin page
+* | 1e914a5 Merge pull request #10 from ddanh2436/DaoDuyAnh
+|\| 
+| * 05999b7 Add chart at admin page
+* | 84191a8 Merge pull request #9 from ddanh2436/DaoDuyAnh
+|\| 
+| * 3626a1b Fix json error and improve the Login form UI
+| *   c8a93b1 Merge branch 'main' of https://github.com/ddanh2436/Domitory_Management_Frontend into DaoDuyAnh
+| |\  
+| |/  
+|/|   
+* |   08beef9 Merge pull request #8 from ddanh2436/QuocKhanh
+|\ \  
+| * | f1b30d6 feat: implement account block/unblock functionality and UI enhancements
+|/ /  
+| * 4b018ad Thêm thư viện react-icons cho giao diện
+|/  
+*   545f3d5 Merge pull request #7 from ddanh2436/HoPhucKien
+|\  
+| * 1b94cbe Changed logo, Login/Register redesign and added 'Room preview' feature.
+|/  
+*   199d995 Merge pull request #6 from ddanh2436/QuocKhanh
+|\  
+| * 505ab99 Refactor: Apply Nested Layouts, remove duplicated UI, and optimize Socket.IO connection
+|/  
+*   bf8d3d5 Merge pull request #5 from ddanh2436/QuocKhanh
+|\  
+| * 6238832 Improve notification feature
+|/  
+*   622f710 Merge pull request #4 from ddanh2436/TranHuynhManhDat
+|\  
+| *   a2f0e55 Merge branch 'main' of https://github.com/ddanh2436/Domitory_Management_Frontend into TranHuynhManhDat
+| |\  
+| |/  
+|/|   
+* | 6461d4b Improve UI for reiceipt checking page
+* | 7cd7194 Add content to Agents.md
+* | 9e5ea1c Add Payment page
+* |   c394abd Merge pull request #3 from ddanh2436/QuocKhanh
+|\ \  
+| * | 5ffd642 enhance student management with edit, delete, and notification features
+|/ /  
+* | 586b4b7 Add Notification Feature
+* | 81f5b9d Add maintenance Feauture
+* |   7d55ef7 Merge pull request #2 from ddanh2436/QuocKhanh
+|\ \  
+| * | cf5f6bd View, update profile and upload avatar features for admin
+| | * 4298271 Connect account permission management frontend
+| |/  
+|/|   
+* | b6afd95 Merge pull request #1 from ddanh2436/QuocKhanh
+|\| 
+| * 34d8aca adjust frontend, admin can change profile, student can upload avatar and student can access the rental contract
+|/  
+* a4dbc32 Fix some bugs
+* c05931f Improve logic in FE
+* 351aa0b Add booking page and improve UI/UX of admin and student
+* 3becba5 Add student dashboard and rooms
+* 63eddb0 Improve UI/UX of admin page and Create room page
+* 6c82673 Add landing page
+* ff57199 Add logic for user profile and admin all profile
+* 23cb506 Add logic to force user login if they not yet have 1
+* dfcbce1 Add logic to redirect to admin/student page on role
+* d17334a Add register page and gg authen
+* e902681 Add homepage and login page
+* 7601bf1 Initial commit from Create Next App
