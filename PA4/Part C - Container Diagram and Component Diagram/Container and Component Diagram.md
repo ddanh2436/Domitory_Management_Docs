@@ -1,96 +1,127 @@
+<!-- Recovered from the accompanying PA4 PDF after the pre-sync Markdown was unavailable. The Mermaid diagrams below were reconstructed from the rendered PDF diagrams. -->
+
 # Software Architecture: Container Diagram and Component Diagrams
 
 **Project:** Dormify – Dormitory Management System  
 **Assignment:** PA4-2026  
-**Architecture Views:** C4 Model Level 2 and Level 3  
-**Source Baseline:** Latest `main` branches of the frontend and backend repositories reviewed on August 2, 2026
-
----
+**Architecture View:** C4 Model Level 2 and Level 3  
+**Source Baseline:** Latest repository state reviewed on August 8, 2026
 
 ## 1. Purpose
 
-**Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
+**Performed by:   Trần Huỳnh Mạnh Đạt |   Reviewed by:   Đào Duy Anh |   Edited by:   Trần Huỳnh Mạnh Đạt**
 
 This section documents the internal software architecture of Dormify using:
-
 - **C4 Level 2 – Container Diagram**
 - **C4 Level 3 – Frontend Component Diagram**
 - **C4 Level 3 – Backend Component Diagram**
 
 The diagrams reflect the current implementation in:
+- [Domitory_Management_Frontend](https://github.com/ddanh2436/Domitory_Management_Frontend.git)
+- [Domitory_Management_Backend](https://github.com/ddanh2436/Domitory_Management_Backend.git)
 
-- `Domitory_Management_Frontend`
-- `Domitory_Management_Backend`
+All diagrams use standard Mermaid `flowchart`   syntax with C4-style labels so that they can be rendered by
+common Markdown tools.
+## 2. C4 Level 2 – Container Diagram
 
-All diagrams use standard Mermaid `flowchart` syntax with C4-style labels so that they can be rendered by common Markdown tools.
+**Performed by:   Trần Huỳnh Mạnh Đạt |   Reviewed by:   Đào Duy Anh |   Edited by:   Trần Huỳnh Mạnh Đạt**
 
----
+### 2.1 Container Diagram
 
-# 2. C4 Level 2 – Container Diagram
-
-**Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
-
-## 2.1 Container Diagram
-
-**Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
+**Performed by:   Trần Huỳnh Mạnh Đạt |   Reviewed by:   Đào Duy Anh |   Edited by:   Trần Huỳnh Mạnh Đạt**
 
 ```mermaid
 flowchart LR
-    %% People
-    student["Person<br/><b>Student / Resident</b><br/>Uses accommodation, billing, maintenance,<br/>absence, transfer, checkout, and chatbot features"]
 
-    management["Person<br/><b>Administrative Users</b><br/>System Administrator, Dormitory Manager,<br/>and Floor Manager"]
+    subgraph PEOPLE[" "]
+        direction TB
 
-    maintenanceStaff["Person<br/><b>Maintenance Staff</b><br/>Processes assigned maintenance requests"]
+        STUDENT["Person<br/><b>Student / Resident</b><br/>Uses accommodation,<br/>billing, maintenance,<br/>absence, transfer,<br/>checkout, and chatbot<br/>features"]
 
-    %% Dormify system boundary
-    subgraph dormify["Software System: Dormify Dormitory Management System"]
-        web["Container: Web Application<br/><b>Next.js 16, React 19, TypeScript,<br/>Tailwind CSS, Recharts</b><br/><br/>Provides role-based browser interfaces,<br/>route protection, dashboards, forms,<br/>chatbot UI, and notification UI"]
+        ADMIN["Person<br/><b>Administrative Users</b><br/>System Administrator,<br/>Dormitory Manager,<br/>and Floor Manager"]
 
-        api["Container: Backend API Application<br/><b>NestJS 11, Node.js, TypeScript</b><br/><br/>Provides REST APIs, JWT authentication,<br/>business logic, authorization, scheduled jobs,<br/>SSE chatbot streaming, and Socket.IO events"]
+        STAFF["Person<br/><b>Maintenance Staff</b><br/>Processes assigned<br/>maintenance requests"]
 
-        database[("Container: Operational Database<br/><b>MongoDB Atlas + Mongoose</b><br/><br/>Stores users, rooms, bookings, contracts,<br/>invoices, maintenance requests, notifications,<br/>knowledge vectors, feedback, and audit data")]
+        STUDENT ~~~ ADMIN
+        ADMIN ~~~ STAFF
     end
 
-    %% External systems
-    google["External System<br/><b>Google Identity Services</b><br/>Verifies Google Sign-In identity tokens"]
+    subgraph DORMIFY["Software System: Dormify Dormitory Management System"]
+        direction LR
 
-    cloudinary["External System<br/><b>Cloudinary</b><br/>Stores maintenance evidence images"]
+        WEB["Container: Web Application<br/><b>Next.js 16, React 19,<br/>TypeScript,<br/>Tailwind CSS, Recharts</b><br/><br/>Provides role-based<br/>browser interfaces,<br/>route protection,<br/>dashboards, forms,<br/>chatbot UI, and<br/>notification UI"]
 
-    ollama["External System / Local AI Runtime<br/><b>Ollama</b><br/>Runs chat generation and embedding models"]
+        API["Container: Backend API Application<br/><b>NestJS 11, Node.js,<br/>TypeScript</b><br/><br/>Provides REST APIs, JWT<br/>authentication,<br/>business logic,<br/>authorization, scheduled jobs,<br/>SSE chatbot streaming,<br/>and Socket.IO events"]
 
-    %% People to web
-    student -->|"Uses through web browser<br/>HTTPS"| web
-    management -->|"Uses management dashboards<br/>HTTPS"| web
-    maintenanceStaff -->|"Uses staff workspace<br/>HTTPS"| web
+        subgraph INTERNAL_RIGHT[" "]
+            direction TB
 
-    %% Frontend to backend
-    web -->|"REST-style API requests<br/>HTTP/HTTPS + JSON + JWT"| api
-    web -->|"Real-time notifications<br/>Socket.IO / WebSocket"| api
-    web -->|"Streams chatbot responses<br/>HTTP Server-Sent Events"| api
+            DB[("Container: Operational Database<br/><b>MongoDB Atlas + Mongoose</b><br/><br/>Stores users, rooms,<br/>bookings, contracts,<br/>invoices, maintenance requests,<br/>notifications, knowledge vectors,<br/>feedback, and audit data")]
 
-    %% Backend to persistence/external
-    api -->|"Reads and writes domain data<br/>Mongoose / MongoDB protocol over TLS"| database
-    api -->|"Uses Atlas Vector Search and text search<br/>MongoDB aggregation/query"| database
-    api -->|"Verifies Google identity token<br/>OAuth 2.0 / HTTPS"| google
-    api -->|"Uploads maintenance images<br/>Cloudinary API / HTTPS"| cloudinary
-    api -->|"Requests embeddings and generated responses<br/>HTTP / JSON"| ollama
+            LLM["Container: Local LLM Runtime<br/><b>Ollama</b><br/><br/>Runs chat generation and<br/>embedding models<br/>for the authenticated RAG<br/>chatbot"]
+
+            DB ~~~ LLM
+        end
+    end
+
+    subgraph EXTERNALS[" "]
+        direction TB
+
+        GOOGLE["External System<br/><b>Google Identity Services</b><br/>Verifies Google Sign-In<br/>identity tokens"]
+
+        CLOUDINARY["External System<br/><b>Cloudinary</b><br/>Stores maintenance<br/>evidence images"]
+
+        GOOGLE ~~~ CLOUDINARY
+    end
+
+    STUDENT -->|"Uses through web browser<br/>HTTPS"| WEB
+    ADMIN -->|"Uses management dashboards<br/>HTTPS"| WEB
+    STAFF -->|"Uses staff workspace<br/>HTTPS"| WEB
+
+    WEB -->|"REST-style API requests<br/>HTTP/HTTPS + JSON + JWT"| API
+
+    API -.->|"Real-time notifications<br/>Socket.IO / WebSocket"| WEB
+
+    API -->|"Streams chatbot responses<br/>HTTP Server-Sent Events"| WEB
+
+    API -->|"Reads and writes domain data<br/>Mongoose / MongoDB protocol over TLS"| DB
+
+    API -->|"Uses Atlas Vector Search and text search<br/>MongoDB aggregation/query"| DB
+
+    API -->|"Requests embeddings and generated responses<br/>HTTP / JSON"| LLM
+
+    API -->|"Verifies Google identity token<br/>OAuth 2.0 / HTTPS"| GOOGLE
+
+    API -->|"Uploads maintenance images<br/>Cloudinary API / HTTPS"| CLOUDINARY
+
+    classDef person fill:#F1EFFF,stroke:#8A6BFF,color:#2B2B2B;
+    classDef container fill:#F1EFFF,stroke:#8A6BFF,color:#2B2B2B;
+    classDef database fill:#F1EFFF,stroke:#8A6BFF,color:#2B2B2B;
+    classDef external fill:#F1EFFF,stroke:#8A6BFF,color:#2B2B2B;
+
+    class STUDENT,ADMIN,STAFF person;
+    class WEB,API,LLM container;
+    class DB database;
+    class GOOGLE,CLOUDINARY external;
+
+    style PEOPLE fill:none,stroke:none;
+    style INTERNAL_RIGHT fill:none,stroke:none;
+    style EXTERNALS fill:none,stroke:none;
+
+    style DORMIFY fill:#FFFEDB,stroke:#B7AE2E,color:#2B2B2B;
 ```
 
----
+### 2.2 Container Descriptions
 
-## 2.2 Container Descriptions
+**Performed by:   Trần Huỳnh Mạnh Đạt |   Reviewed by:   Đào Duy Anh |   Edited by:   Trần Huỳnh Mạnh Đạt**
 
-**Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
+#### 2.2.1 Web Application
 
-## 2.2.1 Web Application
-
-**Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
+**Performed by:   Trần Huỳnh Mạnh Đạt |   Reviewed by:   Đào Duy Anh |   Edited by:   Trần Huỳnh Mạnh Đạt**
 
 ### Responsibility
 
 The Web Application is the browser-based user interface of Dormify. It provides:
-
 - Public authentication pages
 - Student dashboards and resident services
 - Administrative dashboards
@@ -101,11 +132,9 @@ The Web Application is the browser-based user interface of Dormify. It provides:
 - Real-time notification display
 - AI chatbot user interface
 - Confirmation dialogs, toast messages, and shared visual components
-
 ### Technology
-
-| Technology | Purpose |
-|---|---|
+| **Technology** | **Purpose** |
+| --- | --- |
 | Next.js 16 | Application framework, App Router, layouts, routing, and production build |
 | React 19 | Interactive UI components |
 | TypeScript 5 | Static typing |
@@ -115,7 +144,7 @@ The Web Application is the browser-based user interface of Dormify. It provides:
 | Google OAuth React | Google Sign-In UI |
 | Lucide React / React Icons | Icons |
 
-### Communication
+#### Communication
 
 The Web Application communicates with:
 
@@ -128,11 +157,11 @@ JWT data is used for authenticated API calls, role checks, and protected navigat
 
 ---
 
-## 2.2.2 Backend API Application
+### 2.2.2 Backend API Application
 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
 
-### Responsibility
+#### Responsibility
 
 The Backend API Application is the main business and security boundary. It provides:
 
@@ -151,14 +180,14 @@ The Backend API Application is the main business and security boundary. It provi
 - Temporary absence management
 - Room transfer management
 - Checkout and refund processing
-- Audit logging
+- Audit logging 
 - RAG chatbot and personalized student queries
 - Scheduled overdue-invoice processing
 
-### Technology
+#### Technology
 
-| Technology | Purpose |
-|---|---|
+| **Technology** | **Purpose** |
+| --- | --- |
 | NestJS 11 | Modular backend framework |
 | Node.js | Runtime |
 | TypeScript | Static typing |
@@ -173,7 +202,7 @@ The Backend API Application is the main business and security boundary. It provi
 | Cloudinary SDK | Image upload |
 | Native `fetch` | Calls Ollama HTTP endpoints |
 
-### Communication
+#### Communication
 
 The Backend API communicates with:
 
@@ -187,11 +216,11 @@ The current backend listens on port `3001`.
 
 ---
 
-## 2.2.3 Operational Database
+### 2.2.3 Operational Database
 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
 
-### Responsibility
+#### Responsibility
 
 The Operational Database stores all persistent business data, including:
 
@@ -209,69 +238,64 @@ The Operational Database stores all persistent business data, including:
 - Absences
 - Checkout records
 - Audit logs
-- Chatbot knowledge chunks
+- C hatbot knowledge chunks
 - Vector embeddings
 - Chatbot feedback
 
-### Technology
-
+#### Technology
 - MongoDB Atlas
 - Mongoose schemas and models
 - MongoDB text indexes
 - MongoDB Atlas Vector Search
 
-### Communication
+#### Communication
 
 Only the Backend API accesses the database. The frontend never connects directly to MongoDB.
 
 The chatbot uses both:
-
 - Vector similarity search
 - MongoDB text search
 
 The results are merged before context is sent to the AI runtime.
-
----
-
-## 2.2.4 Google Identity Services
+### 2.2.4 Google Identity Services
 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
 
-### Responsibility
+#### Responsibility
 
 Google Identity Services validates Google accounts used for Google Sign-In.
 
 The frontend obtains an identity token and sends it to the backend. The backend verifies the token, resolves or creates the local Dormify account, and returns a Dormify JWT.
 
-### Communication
+#### Communication
 
 - OAuth 2.0 / OpenID-style identity token
 - HTTPS
 
 ---
 
-## 2.2.5 Cloudinary
+### 2.2.5 Cloudinary
 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
 
-### Responsibility
+#### Responsibility
 
 Cloudinary stores images attached to maintenance requests.
 
 The backend uploads image data and saves the returned secure URL in MongoDB.
 
-### Communication
+#### Communication
 
 - Cloudinary SDK
 - HTTPS
 
 ---
 
-## 2.2.6 Ollama AI Runtime
+### 2.2.6 Ollama AI Runtime
 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
 
-### Responsibility
+#### Responsibility
 
 Ollama executes the models used by the chatbot:
 
@@ -291,7 +315,7 @@ http://localhost:11434
 
 It may be changed using environment variables.
 
-### Communication
+#### Communication
 
 The backend calls Ollama using HTTP JSON requests for:
 
@@ -337,74 +361,100 @@ The frontend repository uses the Next.js App Router and organizes pages mainly u
 
 ```mermaid
 flowchart LR
-    user["User<br/>Student, Administrator,<br/>Manager, or Maintenance Staff"]
 
-    subgraph frontend["Container: Dormify Web Application<br/>Next.js 16 + React 19 + TypeScript"]
+    USER["User<br/>Student, Administrator,<br/>Manager, or Maintenance Staff"]
 
-        proxy["Component: Route Protection Proxy<br/><b>proxy.ts</b><br/><br/>Reads authentication information,<br/>protects role-based routes, and redirects<br/>users to the permitted application area"]
+    subgraph WEB["Container: Dormify Web Application<br/>Next.js 16 + React 19 + TypeScript"]
+        direction LR
 
-        authUI["Component: Authentication UI<br/><b>app/(auth)</b><br/><br/>Provides login, registration,<br/>password-related forms, and Google Sign-In"]
+        PROXY["Component: Route<br/>Protection Proxy<br/><b>proxy.ts</b><br/><br/>Reads authentication<br/>information,<br/>protects role-based<br/>routes, and redirects<br/>users to the permitted<br/>application area"]
 
-        studentUI["Component: Student Application Area<br/><b>app/student</b><br/><br/>Provides student dashboard, profile,<br/>booking, room, invoice, maintenance,<br/>absence, transfer, checkout, and violation views"]
+        subgraph AREAS[" "]
+            direction TB
 
-        adminUI["Component: Administrative Application Area<br/><b>app/admin</b><br/><br/>Provides dashboards and management pages<br/>for rooms, students, bookings, invoices,<br/>maintenance, absences, transfers,<br/>announcements, and permissions"]
+            STAFF["Component: Maintenance<br/>Staff Area<br/><b>app/staff</b><br/><br/>Displays assigned<br/>maintenance work<br/>and supports status<br/>updates"]
 
-        staffUI["Component: Maintenance Staff Area<br/><b>app/staff</b><br/><br/>Displays assigned maintenance work<br/>and supports status updates"]
+            ADMIN["Component:<br/>Administrative Application<br/>Area<br/><b>app/admin</b><br/><br/>Provides dashboards and<br/>management pages<br/>for rooms, students,<br/>bookings, invoices,<br/>maintenance, absences,<br/>transfers,<br/>announcements, and<br/>permissions"]
 
-        sharedUI["Component: Shared UI Components<br/><b>app/components</b><br/><br/>RoleGuard, NotificationBell, ToastProvider,<br/>ConfirmProvider, room filters, bed map,<br/>avatar viewer, and reusable controls"]
+            STUDENT["Component: Student<br/>Application Area<br/><b>app/student</b><br/><br/>Provides student<br/>dashboard, profile,<br/>booking, room, invoice,<br/>maintenance,<br/>absence, transfer,<br/>checkout, and violation<br/>views"]
 
-        socketContext["Component: Socket Context<br/><b>SocketContext.tsx</b><br/><br/>Creates the authenticated Socket.IO connection<br/>and exposes it to React components"]
+            AUTH["Component:<br/>Authentication UI<br/><b>app/(auth)</b><br/><br/>Provides login, registration,<br/>password-related forms,<br/>and Google Sign-In"]
+        end
 
-        chatbotWidget["Component: Chatbot Widget<br/><b>ChatbotWidget.tsx</b><br/><br/>Maintains conversation history, sends questions,<br/>renders streamed text, status, sources,<br/>invoice cards, and feedback controls"]
+        subgraph CORE[" "]
+            direction TB
 
-        apiAccess["Component: Backend API Access<br/><b>Fetch-based client logic</b><br/><br/>Sends JWT-authenticated HTTP requests<br/>and maps JSON responses to page state"]
+            SHARED["Component: Shared UI<br/>Components<br/><b>app/components</b><br/><br/>RoleGuard,<br/>NotificationBell,<br/>ToastProvider,<br/>ConfirmProvider, room<br/>filters, bed map,<br/>avatar viewer, and<br/>reusable controls"]
 
-        stateAndFeedback["Component: Client State and Feedback<br/><b>React state and providers</b><br/><br/>Coordinates UI state, confirmations,<br/>toasts, loading states, and local interaction data"]
+            APIACCESS["Component: Backend API<br/>Access<br/><b>Fetch-based client logic</b><br/><br/>Sends JWT-authenticated<br/>HTTP requests<br/>and maps JSON responses<br/>to page state"]
+
+            CHAT["Component: Chatbot<br/>Widget<br/><b>ChatbotWidget.tsx</b><br/><br/>Maintains conversation<br/>history, sends questions,<br/>renders streamed text,<br/>status, sources,<br/>invoice cards, and<br/>feedback controls"]
+        end
+
+        subgraph SUPPORT[" "]
+            direction TB
+
+            NOTIFY["Component: Notification<br/>Socket Clients<br/><b>NotificationBell and role<br/>pages</b><br/><br/>Each opens an<br/>authenticated Socket.IO<br/>connection<br/>and refreshes notification-<br/>related UI"]
+
+            STATE["Component: Client State<br/>and Feedback<br/><b>React state and providers</b><br/><br/>Coordinates UI state,<br/>confirmations,<br/>toasts, loading states,<br/>and local interaction data"]
+        end
     end
 
-    backend["Container: NestJS Backend API<br/>REST + SSE + Socket.IO"]
+    API["Container: NestJS Backend<br/>API<br/>REST + SSE + Socket.IO"]
 
-    google["External System<br/>Google Identity Services"]
+    GOOGLE["External System<br/>Google Identity Services"]
 
-    user -->|"Navigates"| proxy
-    proxy -->|"Allows or redirects"| authUI
-    proxy -->|"Allows authorized student routes"| studentUI
-    proxy -->|"Allows authorized management routes"| adminUI
-    proxy -->|"Allows authorized staff routes"| staffUI
 
-    authUI -->|"Google login interaction"| google
-    authUI -->|"Login and registration requests"| apiAccess
+    USER -->|"Navigates"| PROXY
 
-    studentUI -->|"Uses reusable components"| sharedUI
-    adminUI -->|"Uses reusable components"| sharedUI
-    staffUI -->|"Uses reusable components"| sharedUI
+    PROXY -->|"Allows authorized staff<br/>routes"| STAFF
+    PROXY -->|"Allows authorized<br/>management routes"| ADMIN
+    PROXY -->|"Allows authorized student<br/>routes"| STUDENT
+    PROXY -->|"Allows or redirects"| AUTH
 
-    studentUI -->|"Reads and changes domain data"| apiAccess
-    adminUI -->|"Reads and changes domain data"| apiAccess
-    staffUI -->|"Reads and changes maintenance data"| apiAccess
+    STAFF -->|"Uses reusable components"| SHARED
+    ADMIN -->|"Uses reusable components"| SHARED
+    STUDENT -->|"Uses reusable components"| SHARED
 
-    sharedUI -->|"Consumes notifications and shared state"| socketContext
-    sharedUI -->|"Uses dialogs and toast state"| stateAndFeedback
+    ADMIN -->|"Reads and changes<br/>domain data"| APIACCESS
+    STUDENT -->|"Reads and changes<br/>domain data"| APIACCESS
+    STAFF -->|"Reads and changes<br/>maintenance data"| APIACCESS
 
-    studentUI -->|"Opens chatbot"| chatbotWidget
-    adminUI -->|"May access chatbot/feedback features"| chatbotWidget
+    SHARED -->|"Consumes notifications<br/>and shared state"| NOTIFY
+    SHARED -->|"Uses dialogs and toast state"| STATE
 
-    chatbotWidget -->|"SSE stream, ask, and feedback requests"| backend
-    apiAccess -->|"HTTP/HTTPS JSON + JWT"| backend
-    socketContext -->|"Socket.IO handshake with JWT"| backend
+    STUDENT -->|"Opens chatbot"| CHAT
+
+    APIACCESS -->|"HTTP/HTTPS JSON + JWT"| API
+    NOTIFY -->|"Socket.IO handshake with<br/>JWT"| API
+    CHAT -->|"SSE stream, ask, and<br/>feedback requests"| API
+
+    AUTH -->|"Google login interaction"| GOOGLE
+
+
+    classDef person fill:#F1EFFF,stroke:#8A6BFF,color:#2B2B2B;
+    classDef component fill:#F1EFFF,stroke:#8A6BFF,color:#2B2B2B;
+    classDef external fill:#F1EFFF,stroke:#8A6BFF,color:#2B2B2B;
+
+    class USER person;
+    class PROXY,AUTH,ADMIN,STUDENT,STAFF,SHARED,APIACCESS,CHAT,NOTIFY,STATE component;
+    class API,GOOGLE external;
+
+    style WEB fill:#FFFEDB,stroke:#B7AE2E,color:#2B2B2B;
+    style AREAS fill:none,stroke:none;
+    style CORE fill:none,stroke:none;
+    style SUPPORT fill:none,stroke:none;
 ```
-
----
 
 ## 3.3 Frontend Component Descriptions
 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
 
-## 3.3.1 Route Protection Proxy
+### 3.3.1 Route Protection Proxy
 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
 
-### Responsibility
+#### Responsibility
 
 The Route Protection Proxy executes before protected page access. It:
 
@@ -414,7 +464,7 @@ The Route Protection Proxy executes before protected page access. It:
 - Redirects unauthenticated users
 - Redirects authenticated users away from areas they are not authorized to use
 
-### Relationships
+#### Relationships
 
 - Receives navigation requests from the browser
 - Routes users to Authentication UI or the appropriate role-specific area
@@ -422,11 +472,11 @@ The Route Protection Proxy executes before protected page access. It:
 
 ---
 
-## 3.3.2 Authentication UI
+### 3.3.2 Authentication UI
 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
 
-### Responsibility
+#### Responsibility
 
 The Authentication UI provides:
 
@@ -435,7 +485,7 @@ The Authentication UI provides:
 - Google Sign-In
 - Authentication-related feedback and redirection
 
-### Relationships
+#### Relationships
 
 - Communicates with Google Identity Services for the client-side Google login flow
 - Sends login and registration data to the Backend API
@@ -444,11 +494,11 @@ The Authentication UI provides:
 
 ---
 
-## 3.3.3 Student Application Area
+### 3.3.3 Student Application Area
 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
 
-### Responsibility
+#### Responsibility
 
 The Student Application Area contains resident-facing pages and workflows, including:
 
@@ -467,20 +517,20 @@ The Student Application Area contains resident-facing pages and workflows, inclu
 - Notifications
 - Chatbot access
 
-### Relationships
+#### Relationships
 
 - Uses Shared UI Components
 - Sends HTTP requests through Backend API Access
-- Uses Socket Context for real-time updates
+- Uses the current per-component Socket.IO notification clients for real-time updates
 - Opens the Chatbot Widget
 
 ---
 
-## 3.3.4 Administrative Application Area
+### 3.3.4 Administrative Application Area
 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
 
-### Responsibility
+#### Responsibility
 
 The Administrative Application Area supports administrators and management roles. It provides pages for:
 
@@ -496,7 +546,7 @@ The Administrative Application Area supports administrators and management roles
 - Permissions and account access
 - Profile management
 
-### Relationships
+#### Relationships
 
 - Uses Shared UI Components
 - Calls the Backend API
@@ -505,11 +555,11 @@ The Administrative Application Area supports administrators and management roles
 
 ---
 
-## 3.3.5 Maintenance Staff Area
+### 3.3.5 Maintenance Staff Area
 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
 
-### Responsibility
+#### Responsibility
 
 The Maintenance Staff Area provides the focused operational interface for maintenance workers. It:
 
@@ -518,26 +568,23 @@ The Maintenance Staff Area provides the focused operational interface for mainte
 - Allows status updates
 - Supports completion or rejection information
 
-### Relationships
+#### Relationships
 
 - Calls the maintenance endpoints in the Backend API
 - Receives real-time assignment and status notifications
 - Uses common feedback components
 
 ---
+### 3.3.6 Shared UI Components
 
-## 3.3.6 Shared UI Components
-
-**Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
-
-### Responsibility
+#### Responsibility
 
 Shared UI Components provide reusable application behavior and presentation.
 
 Important current components include:
 
-| Component | Responsibility |
-|---|---|
+| **Component** | **Responsibility** |
+| --- | --- |
 | `RoleGuard` | Restricts rendering based on role |
 | `NotificationBell` | Displays notifications |
 | `ToastProvider` | Displays transient success and error messages |
@@ -547,37 +594,36 @@ Important current components include:
 | `VisualBedMap` | Displays room-bed occupancy visually |
 | `AvatarLightbox` | Enlarges profile or evidence images |
 
-### Relationships
+#### Relationships
 
 These components are used by student, administrative, and staff pages.
 
 ---
 
-## 3.3.7 Socket Context
+### 3.3.7 Notification Socket Clients
 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
 
-### Responsibility
+#### Responsibility
 
-The Socket Context:
+The current frontend does not mount `SocketContext.tsx`. Instead, `NotificationBell`, `StudentLayout`, `student/page.tsx`, and `staff/page.tsx` each create their own Socket.IO client connection.
 
-- Creates a Socket.IO client connection
-- Sends the JWT during the connection handshake
-- Makes the socket instance available through React context
-- Allows components such as the notification bell to listen for events
+These notification clients:
 
-### Relationships
+- Send the JWT during the connection handshake
+- Subscribe to `newNotification` events or refresh notification-related UI
+- Close their own connection when the containing component unmounts
 
-- Connects directly to the Backend Notification Gateway
-- Is consumed by shared and role-specific frontend components
+#### Relationships
+
+- Connect directly to the Backend Notification Gateway
+- Are owned by the components that need realtime updates; `SocketContext.tsx` remains unused infrastructure
 
 ---
 
-## 3.3.8 Chatbot Widget
+### 3.3.8 Chatbot Widget
 
-**Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
-
-### Responsibility
+#### Responsibility
 
 The Chatbot Widget is a substantial frontend component that:
 
@@ -591,7 +637,7 @@ The Chatbot Widget is a substantial frontend component that:
 - Displays not-found suggestions
 - Submits positive or negative answer feedback
 
-### Relationships
+#### Relationships
 
 - Calls `/api/chatbot/stream`
 - Calls chatbot feedback endpoints
@@ -600,11 +646,11 @@ The Chatbot Widget is a substantial frontend component that:
 
 ---
 
-## 3.3.9 Backend API Access
+### 3.3.9 Backend API Access
 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
 
-### Responsibility
+#### Responsibility
 
 The frontend currently uses fetch-based request logic to:
 
@@ -614,7 +660,7 @@ The frontend currently uses fetch-based request logic to:
 - Update page-level React state
 - Report request errors to the UI
 
-### Relationships
+#### Relationships
 
 - Used by authentication and all role-specific application areas
 - Communicates only with the NestJS Backend API
@@ -666,97 +712,75 @@ The current root `AppModule` registers:
 
 ```mermaid
 flowchart TB
-    frontend["Container: Next.js Web Application"]
+    WEB["Container: Next.js Web Application"]
+    GOOGLE["External System: Google Identity Services"]
+    CLOUDINARY["External System: Cloudinary"]
+    DB[("Container: MongoDB Atlas<br/>Operational data + vector index")]
+    OLLAMA["Container: Local LLM Runtime<br/>Ollama"]
 
-    subgraph backend["Container: Dormify Backend API<br/>NestJS 11 + TypeScript"]
-
-        controllers["Component: HTTP Controllers<br/><b>NestJS Controllers</b><br/><br/>Expose REST-style endpoints,<br/>receive DTOs, and return JSON responses"]
-
-        security["Component: Authentication and Authorization<br/><b>AuthModule, JwtAuthGuard, RolesGuard</b><br/><br/>Authenticates local and Google users,<br/>issues JWTs, validates tokens,<br/>and enforces role access"]
-
-        userResidence["Component: User and Residence Management<br/><b>Users, Rooms, Bookings, Assignments</b><br/><br/>Manages accounts, profiles, rooms,<br/>beds, booking applications, and allocations"]
-
-        contractFinance["Component: Contract and Finance Management<br/><b>Contracts, Invoices</b><br/><br/>Manages contracts, fee records,<br/>invoice status, mock payment confirmation,<br/>and overdue processing"]
-
-        residentLifecycle["Component: Resident Lifecycle Management<br/><b>Transfers, Absences, Checkouts</b><br/><br/>Processes temporary absences,<br/>room transfers, checkout, deposit,<br/>and departure-related workflows"]
-
-        conduct["Component: Conduct Management<br/><b>Violations</b><br/><br/>Stores and manages resident violation<br/>and conduct-related records"]
-
-        maintenance["Component: Maintenance Management<br/><b>MaintenanceModule</b><br/><br/>Creates repair requests, validates evidence,<br/>assigns staff, controls status transitions,<br/>stores resolution data, and accepts ratings"]
-
-        notifications["Component: Notification Service and Gateway<br/><b>NotificationsModule + Socket.IO Gateway</b><br/><br/>Persists notifications, authenticates socket clients,<br/>joins private user rooms, and emits events"]
-
-        audit["Component: Audit Logging<br/><b>AuditLogsModule</b><br/><br/>Records important administrative<br/>and business operations for traceability"]
-
-        chatbot["Component: RAG Chatbot<br/><b>ChatbotModule</b><br/><br/>Handles questions, conversation history,<br/>personalized data lookup, hybrid retrieval,<br/>SSE responses, ingestion, and feedback"]
-
-        scheduler["Component: Scheduled Jobs<br/><b>NestJS Schedule</b><br/><br/>Runs recurring business tasks such as<br/>changing expired pending invoices to overdue"]
-
-        persistence["Component: Persistence Layer<br/><b>Mongoose Models and Schemas</b><br/><br/>Maps domain objects to MongoDB collections<br/>and provides query and aggregation access"]
-
-        cloudinaryAdapter["Component: Cloudinary Integration<br/><b>Cloudinary SDK</b><br/><br/>Uploads maintenance evidence images"]
-
-        googleAdapter["Component: Google Identity Adapter<br/><b>google-auth-library</b><br/><br/>Verifies Google identity tokens"]
-
-        ollamaAdapter["Component: Ollama Client<br/><b>HTTP fetch client</b><br/><br/>Requests embeddings and generated responses"]
+    subgraph API["Container: Dormify Backend API<br/>NestJS 11 + TypeScript"]
+        CONTROLLERS["Component: HTTP Controllers<br/>NestJS Controllers<br/>REST endpoints, DTOs, and JSON responses"]
+        AUTH["Component: Authentication and Authorization<br/>AuthModule, JwtAuthGuard, RolesGuard<br/>Local and Google login, JWTs, and role access"]
+        USERRES["Component: User and Residence Management<br/>Users, Rooms, Bookings, Assignments<br/>Accounts, profiles, rooms, beds, bookings, allocations"]
+        LIFECYCLE["Component: Resident Lifecycle Management<br/>Transfers, Absences, Checkouts<br/>Temporary absence, transfers, checkout and departure workflows"]
+        FINANCE["Component: Contract and Finance Management<br/>Contracts, Invoices<br/>Contracts, fees, invoice status, mock payment, overdue processing"]
+        MAINTENANCE["Component: Maintenance Management<br/>MaintenanceModule<br/>Requests, evidence, assignments, status transitions, ratings"]
+        CONDUCT["Component: Conduct Management<br/>Violations<br/>Resident violation and conduct records"]
+        NOTIFY["Component: Notification Service and Gateway<br/>NotificationsModule + Socket.IO Gateway<br/>Notifications, socket authentication, private rooms, events"]
+        CHAT["Component: RAG Chatbot<br/>ChatbotModule<br/>Conversation history, personalized data lookup, hybrid retrieval,<br/>SSE responses, ingestion, and feedback"]
+        AUDIT["Component: Audit Logging<br/>AuditLogsModule<br/>Activity records and traceability"]
+        JOBS["Component: Scheduled Jobs<br/>NestJS Schedule<br/>Recurring jobs such as overdue-invoice processing"]
+        CLOUDADAPTER["Component: Cloudinary Integration<br/>Cloudinary SDK<br/>Uploads maintenance evidence images"]
+        GOOGLEADAPTER["Component: Google Identity Adapter<br/>google-auth-library<br/>Verifies Google identity tokens"]
+        PERSIST["Component: Persistence Layer<br/>Mongoose Models and Schemas<br/>Domain mapping, queries, aggregation access,<br/>Atlas Vector Search and text search"]
+        OLLAMACLIENT["Component: Ollama Client<br/>HTTP fetch client<br/>Requests embeddings and generated responses"]
     end
 
-    mongo[("Container: MongoDB Atlas<br/>Operational data + vector index")]
-    cloudinary["External System: Cloudinary"]
-    google["External System: Google Identity Services"]
-    ollama["External System / Process: Ollama"]
+    WEB -->|"HTTP JSON requests"| CONTROLLERS
+    CONTROLLERS -->|"Calls business services"| AUTH
+    CONTROLLERS -->|"Calls business services"| USERRES
+    CONTROLLERS -->|"Calls business services"| LIFECYCLE
+    CONTROLLERS -->|"Calls business services"| FINANCE
+    CONTROLLERS -->|"Calls business services"| MAINTENANCE
+    CONTROLLERS -->|"Calls business services"| CONDUCT
+    CONTROLLERS -->|"Calls chatbot operations<br/>SSE chatbot stream"| CHAT
+    CONTROLLERS -->|"Socket.IO connection"| NOTIFY
+    JOBS -->|"Updates expired invoices"| FINANCE
+    USERRES -->|"Creates notifications"| NOTIFY
+    LIFECYCLE -->|"Creates notifications"| NOTIFY
+    FINANCE -->|"Creates notifications"| NOTIFY
+    MAINTENANCE -->|"Emits request and status events"| NOTIFY
+    MAINTENANCE -->|"Uploads evidence"| CLOUDADAPTER
+    CLOUDADAPTER -->|"HTTPS API"| CLOUDINARY
+    AUTH -->|"Verifies Google token<br/>HTTPS token verification"| GOOGLEADAPTER
+    GOOGLEADAPTER --> GOOGLE
+    AUTH -->|"Reads/updates users"| PERSIST
+    USERRES -->|"Reads/writes entities"| PERSIST
+    LIFECYCLE -->|"Reads/writes lifecycle records"| PERSIST
+    FINANCE -->|"Reads/writes contracts and invoices"| PERSIST
+    MAINTENANCE -->|"Reads/writes maintenance records"| PERSIST
+    CONDUCT -->|"Reads/writes violations"| PERSIST
+    NOTIFY -->|"Persists notifications"| PERSIST
+    CHAT -->|"Reads knowledge, feedback, users, contracts, invoices, and rooms"| PERSIST
+    AUDIT -->|"Stores audit records"| PERSIST
+    PERSIST -->|"Mongoose / MongoDB protocol"| DB
+    CHAT -->|"Requests embedding and chat output"| OLLAMACLIENT
+    OLLAMACLIENT -->|"HTTP JSON"| OLLAMA
 
-    frontend -->|"HTTP JSON requests"| controllers
-    frontend -->|"Socket.IO connection"| notifications
-    frontend -->|"SSE chatbot stream"| chatbot
-
-    controllers -->|"Delegates protected requests"| security
-    controllers -->|"Calls business services"| userResidence
-    controllers -->|"Calls business services"| contractFinance
-    controllers -->|"Calls business services"| residentLifecycle
-    controllers -->|"Calls business services"| conduct
-    controllers -->|"Calls business services"| maintenance
-    controllers -->|"Calls chatbot operations"| chatbot
-
-    security -->|"Reads/updates users"| persistence
-    security -->|"Verifies Google token"| googleAdapter
-
-    userResidence -->|"Reads/writes entities"| persistence
-    contractFinance -->|"Reads/writes contracts and invoices"| persistence
-    residentLifecycle -->|"Reads/writes lifecycle records"| persistence
-    conduct -->|"Reads/writes violations"| persistence
-    maintenance -->|"Reads/writes maintenance records"| persistence
-    notifications -->|"Stores and reads notifications"| persistence
-    audit -->|"Stores audit records"| persistence
-    chatbot -->|"Reads knowledge, feedback, users,<br/>contracts, invoices, and rooms"| persistence
-    scheduler -->|"Updates expired invoices"| contractFinance
-
-    userResidence -->|"Creates activity records"| audit
-    contractFinance -->|"Creates notifications"| notifications
-    residentLifecycle -->|"Creates notifications and audit records"| notifications
-    residentLifecycle -->|"Writes trace records"| audit
-    maintenance -->|"Emits request and status events"| notifications
-    maintenance -->|"Uploads evidence"| cloudinaryAdapter
-    chatbot -->|"Requests embedding and chat output"| ollamaAdapter
-
-    persistence -->|"Mongoose / MongoDB protocol"| mongo
-    chatbot -->|"Atlas Vector Search and text search"| mongo
-    cloudinaryAdapter -->|"HTTPS API"| cloudinary
-    googleAdapter -->|"HTTPS token verification"| google
-    ollamaAdapter -->|"HTTP JSON"| ollama
+    classDef component fill:#1168BD,stroke:#0b4884,color:#ffffff
+    classDef external fill:#8C8C8C,stroke:#5f5f5f,color:#ffffff
+    class WEB,GOOGLE,CLOUDINARY,DB,OLLAMA external
+    class CONTROLLERS,AUTH,USERRES,LIFECYCLE,FINANCE,MAINTENANCE,CONDUCT,NOTIFY,CHAT,AUDIT,JOBS,CLOUDADAPTER,GOOGLEADAPTER,PERSIST,OLLAMACLIENT component
 ```
-
----
-
 ## 4.3 Backend Component Descriptions
 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
 
-## 4.3.1 HTTP Controllers
+### 4.3.1 HTTP Controllers
 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
 
-### Responsibility
+#### Responsibility
 
 NestJS controllers form the HTTP entry layer. They:
 
@@ -769,19 +793,18 @@ NestJS controllers form the HTTP entry layer. They:
 
 The chatbot controller also provides a Server-Sent Events endpoint.
 
-### Relationships
+#### Relationships
 
 - Called by the frontend
 - Uses authentication and authorization guards
 - Delegates to domain services
 
 ---
-
-## 4.3.2 Authentication and Authorization
+### 4.3.2 Authentication and Authorization
 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
 
-### Responsibility
+#### Responsibility
 
 The security component includes:
 
@@ -794,7 +817,7 @@ The security component includes:
 - Role-based authorization
 - Locked-account enforcement
 
-### Relationships
+#### Relationships
 
 - Reads user records through Mongoose
 - Uses the Google Identity Adapter
@@ -803,11 +826,11 @@ The security component includes:
 
 ---
 
-## 4.3.3 User and Residence Management
+### 4.3.3 User and Residence Management
 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
 
-### Responsibility
+#### Responsibility
 
 This component groups modules that manage:
 
@@ -818,7 +841,7 @@ This component groups modules that manage:
 - Booking requests
 - Resident-room assignments
 
-### Relationships
+#### Relationships
 
 - Persists users, rooms, bookings, and assignments
 - Supports contracts, invoices, transfers, and maintenance
@@ -826,11 +849,11 @@ This component groups modules that manage:
 
 ---
 
-## 4.3.4 Contract and Finance Management
+### 4.3.4 Contract and Finance Management
 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
 
-### Responsibility
+#### Responsibility
 
 This component manages:
 
@@ -843,67 +866,54 @@ This component manages:
 - Current mock-payment flow
 - Overdue invoice detection
 
-### Relationships
+#### Relationships
 
 - Reads resident and room data
 - Stores contracts and invoices
 - Sends payment and overdue notifications
 - Is invoked by Scheduled Jobs
+- No real third-party payment gateway is currently integrated.
+### 4.3.5 Resident Lifecycle Management
 
-No real third-party payment gateway is currently integrated.
+**Performed by:   Trần Huỳnh Mạnh Đạt |   Reviewed by:   Đào Duy Anh |   Edited by:   Trần Huỳnh Mạnh Đạt**
 
----
-
-## 4.3.5 Resident Lifecycle Management
-
-**Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
-
-### Responsibility
+#### Responsibility
 
 This component handles processes that occur during or at the end of residence:
-
 - Temporary absence reports
 - Room transfer requests
 - Checkout requests
 - Deposit and refund-related data
 - Resident departure processing
-
-### Relationships
+#### Relationships
 
 - Uses user, room, assignment, contract, and invoice data
 - Sends notifications
 - Records traceable operations through audit logs
+### 4.3.6 Conduct Management
 
----
+**Performed by:   Trần Huỳnh Mạnh Đạt |   Reviewed by:   Đào Duy Anh |   Edited by:   Trần Huỳnh Mạnh Đạt**
 
-## 4.3.6 Conduct Management
-
-**Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
-
-### Responsibility
+#### Responsibility
 
 The Violations module manages:
-
 - Resident violations
 - Conduct-related records
 - Administrative review data
 
-### Relationships
+#### Relationships
 
 - Associates violation data with users
 - Exposes records to student and management interfaces
 - Stores records through Mongoose
 
----
+### 4.3.7 Maintenance Management
 
-## 4.3.7 Maintenance Management
+**Performed by:   Trần Huỳnh Mạnh Đạt |   Reviewed by:   Đào Duy Anh |   Edited by:   Trần Huỳnh Mạnh Đạt**
 
-**Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
-
-### Responsibility
+#### Responsibility
 
 The Maintenance module:
-
 - Creates maintenance requests
 - Accepts image evidence
 - Validates the requesting student
@@ -916,20 +926,18 @@ The Maintenance module:
 - Accepts resident ratings
 - Produces notifications throughout the workflow
 
-### Relationships
+#### Relationships
 
 - Uses Cloudinary Integration for images
 - Uses Persistence Layer for maintenance records
 - Sends events through Notification Service and Gateway
 - Uses user and room data
 
----
-
-## 4.3.8 Notification Service and Gateway
+### 4.3.8 Notification Service and Gateway
 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
 
-### Responsibility
+#### Responsibility
 
 This component combines persisted notifications and real-time delivery.
 
@@ -941,19 +949,19 @@ The gateway:
 4. Joins the user to a private room named `user_<userId>`.
 5. Emits `newNotification` events to individual users or broadcasts.
 
-### Relationships
+#### Relationships
 
 - Receives notification requests from invoice, maintenance, and lifecycle modules
 - Stores notifications in MongoDB
-- Sends events to the frontend Socket Context
+- Sends events to the frontend's active Socket.IO clients
 
 ---
 
-## 4.3.9 Audit Logging
+### 4.3.9 Audit Logging
 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
 
-### Responsibility
+#### Responsibility
 
 The Audit Logs module records important operations to improve:
 
@@ -962,7 +970,7 @@ The Audit Logs module records important operations to improve:
 - Administrative review
 - Debugging and investigation
 
-### Relationships
+#### Relationships
 
 - Receives significant actions from business modules
 - Stores records in MongoDB
@@ -970,16 +978,15 @@ The Audit Logs module records important operations to improve:
 
 ---
 
-## 4.3.10 RAG Chatbot
+### 4.3.10 RAG Chatbot
 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
 
-### Responsibility
+#### Responsibility
 
 The Chatbot module provides an authenticated AI assistant.
 
 Its current responsibilities include:
-
 - Receiving normal and streaming questions
 - Accepting recent chat history
 - Detecting follow-up questions
@@ -997,22 +1004,19 @@ Its current responsibilities include:
 - Allowing administrators to view feedback
 - Allowing administrators to trigger knowledge ingestion
 
-### Personalized data
+#### Personalized data
 
 The chatbot may read:
-
 - User profile data
 - Contract data
 - Invoice data
 - Room data
-
-This enables questions such as:
-
+- This enables questions such as:
 - Which room am I staying in?
 - What is my contract status?
 - Which invoices are unpaid?
 
-### Relationships
+#### Relationships
 
 - Protected by JWT and role guards
 - Reads several MongoDB collections
@@ -1022,63 +1026,55 @@ This enables questions such as:
 
 ---
 
-## 4.3.11 Scheduled Jobs
+### 4.3.11 Scheduled Jobs
 
-**Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
+**Performed by:   Trần Huỳnh Mạnh Đạt |   Reviewed by:   Đào Duy Anh |   Edited by:   Trần Huỳnh Mạnh Đạt**
 
-### Responsibility
+#### Responsibility
 
-The scheduler runs internal recurring operations.
-
-A representative current task checks invoices and:
-
+- The scheduler runs internal recurring operations.
+- A representative current task checks invoices and:
 - Finds pending invoices past their due date
-- Changes them to `OVERDUE`
+- Changes them to   OVERDUE
 - Records the overdue time
 - Creates student notifications
-
-### Relationships
+#### Relationships
 
 - Calls Contract and Finance Management
 - Uses Notification Service
 - Runs inside the NestJS process
+### 4.3.12 Persistence Layer
 
----
+**Performed by:   Trần Huỳnh Mạnh Đạt |   Reviewed by:   Đào Duy Anh |   Edited by:   Trần Huỳnh Mạnh Đạt**
 
-## 4.3.12 Persistence Layer
+#### Responsibility
 
-**Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
-
-### Responsibility
-
-The Persistence Layer consists of Mongoose schemas and models. It:
-
+- The Persistence Layer consists of Mongoose schemas and models. It:
 - Maps TypeScript domain structures to MongoDB documents
 - Defines collection relationships
 - Performs queries and updates
 - Supports population of referenced documents
 - Runs aggregation pipelines
 - Supports text and vector retrieval for chatbot knowledge
-
-### Relationships
+#### Relationships
 
 All business modules access MongoDB through this layer.
 
 ---
 
-## 4.3.13 External Integration Adapters
+### 4.3.13 External Integration Adapters
 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
 
-### Google Identity Adapter
+#### Google Identity Adapter
 
-Verifies Google ID tokens and returns trusted identity information to AuthModule.
+Verifies Google ID tokens and returns trusted identity information to `AuthModule`.
 
-### Cloudinary Integration
+#### Cloudinary Integration
 
 Uploads maintenance images and returns secure URLs.
 
-### Ollama Client
+#### Ollama Client
 
 Calls the configured Ollama endpoint to:
 
@@ -1086,20 +1082,23 @@ Calls the configured Ollama endpoint to:
 - Generate chatbot responses
 - Support streamed AI output
 
-Adapters keep external-service code separate from most domain logic.
+Adapters keep integration code separate from most domain logic; the self-hosted Ollama runtime is modeled as an internal container, while Google Identity Services and Cloudinary are external systems.
 
 ---
 
+## 5. Main Communication Mechanisms
+
+**Performed by:   Trần Huỳnh Mạnh Đạt |   Reviewed by:   Đào Duy Anh |   Edited by:   Trần Huỳnh Mạnh Đạt**
 # 5. Main Communication Mechanisms
 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
 
-| Source | Destination | Mechanism | Purpose |
-|---|---|---|---|
+| **Source** | **Destination** | **Mechanism** | **Purpose** |
+| --- | --- | --- | --- |
 | Browser | Next.js Web Application | HTTPS | Loads pages and user interface |
 | Web Application | Backend API | HTTP/HTTPS + JSON | Authentication and business operations |
 | Web Application | Backend API | JWT | Authenticated requests |
-| Socket Context | Notification Gateway | Socket.IO | Real-time notification delivery |
+| Notification socket clients | Notification Gateway | Socket.IO | Real-time notification delivery |
 | Chatbot Widget | Chatbot Controller | HTTP + SSE | Streaming chatbot responses |
 | Backend | MongoDB Atlas | Mongoose / MongoDB TLS | Persistent domain data |
 | Chatbot | MongoDB Atlas | Vector Search + text search | RAG knowledge retrieval |
@@ -1160,7 +1159,6 @@ Invoice payment currently uses:
 No real banking, card, wallet, or payment-gateway container should be shown until one is integrated in source code.
 
 ---
-
 ## 6.4 The database is one logical container
 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
@@ -1217,4 +1215,4 @@ The frontend is organized into authentication, student, administrative, maintena
 
 The backend follows a modular NestJS architecture and separates authentication, residence management, finance, maintenance, notifications, resident lifecycle, audit logging, and RAG chatbot responsibilities.
 
-These diagrams are aligned with the source code reviewed on August 2, 2026 and should be updated whenever the implementation changes.
+These diagrams are aligned with the repository state reviewed on August 8, 2026 and should be updated whenever the implementation changes.

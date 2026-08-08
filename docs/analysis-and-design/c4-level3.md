@@ -2,7 +2,7 @@
 
 **Performed by:** `<member>` | **Reviewed by:** `<member>` | **Edited by:** `<member>`
 
-> Verified against the codebase on 2026-08-07. Sources: backend `src/main.ts`, `src/app.module.ts`, all 16 `*.module.ts` / `*.controller.ts` / `*.service.ts`, `src/auth/jwt-auth.guard.ts`, `src/auth/roles.guard.ts`, `src/auth/roles.decorator.ts`, `src/auth/mail.service.ts`, `src/audit-logs/audit-log.interceptor.ts`, `src/notifications/notifications.gateway.ts`, `src/bookings/bookings.service.ts`, `src/contracts/contracts.service.ts`, `src/maintenance/maintenance.service.ts`, `src/chatbot/chatbot.service.ts`, `src/chatbot/chatbot.controller.ts`; frontend `proxy.ts`, `app/layout.tsx`, `app/{admin,student,staff}/layout.tsx`, `app/components/*`, `app/utils/*`, `app/context/SocketContext.tsx`. Builds on `c4-container-diagram.md` (Level 2).
+> Verified against the codebase on 2026-08-08. Sources: backend `src/main.ts`, `src/app.module.ts`, all 15 feature `*.module.ts` / `*.controller.ts` files and their service implementations, `src/auth/jwt-auth.guard.ts`, `src/auth/roles.guard.ts`, `src/auth/roles.decorator.ts`, `src/auth/mail.service.ts`, `src/audit-logs/audit-log.interceptor.ts`, `src/notifications/notifications.gateway.ts`, `src/bookings/bookings.service.ts`, `src/contracts/contracts.service.ts`, `src/maintenance/maintenance.service.ts`, `src/chatbot/chatbot.service.ts`, `src/chatbot/chatbot.controller.ts`; frontend `proxy.ts`, `app/layout.tsx`, `app/{admin,student,staff}/layout.tsx`, `app/components/*`, `app/utils/*`, `app/context/SocketContext.tsx`. Builds on `c4-level2.md` (Level 2).
 
 This document zooms one level further than the Container diagram. Level 2 showed **four containers**; Level 3 opens the two containers the team actually writes code in — the **Web Application** and the **API & Realtime Server** — and shows the components inside each, what each is responsible for, and how they call one another.
 
@@ -32,16 +32,16 @@ flowchart TB
             AUD["AuditLogInterceptor<br/><i>[Component: APP_INTERCEPTOR]</i><br/>Logs every POST/PATCH/PUT/DELETE"]
         end
 
-        subgraph CTRL["API layer — 16 controllers, all under /api/*"]
+        subgraph CTRL["API layer — 15 feature controllers, all under /api/*"]
             AUTHC["AuthController<br/><i>[Component: Nest controller]</i><br/>/api/auth — the only controller with no class-level guard"]
-            DOMC["Domain controllers ×14<br/><i>[Component: Nest controllers]</i><br/>users, rooms, bookings, assignments, contracts,<br/>checkouts, transfers, absences, invoices, maintenance,<br/>violations, feedback, notifications, audit-logs"]
+            DOMC["Domain controllers ×13<br/><i>[Component: Nest controllers]</i><br/>users, rooms, bookings, assignments, contracts,<br/>checkouts, transfers, absences, invoices, maintenance,<br/>violations, notifications, audit-logs"]
             CHATC["ChatbotController<br/><i>[Component: Nest controller + SSE]</i><br/>/api/chatbot — streams text/event-stream"]
         end
 
-        subgraph LOGIC["Domain logic layer — 17 injectable services"]
+        subgraph LOGIC["Feature logic layer — 16 services"]
             AUTHS["AuthService<br/><i>[Component: Nest service]</i><br/>Register, login, Google login, reset password"]
             MAILS["MailService<br/><i>[Component: Nodemailer]</i><br/>Sends the reset-link email"]
-            DOMS["Domain services ×12<br/><i>[Component: Nest services]</i><br/>All dormitory business rules, transactions,<br/>state machines and role checks"]
+            DOMS["Domain services ×10<br/><i>[Component: Nest services]</i><br/>All dormitory business rules, transactions,<br/>state machines and role checks"]
             CONTS["ContractsService<br/><i>[Component: Nest service, exported]</i><br/>Generates and renews contracts"]
             NOTS["NotificationsService<br/><i>[Component: Nest service, exported]</i><br/>Persists a notification, then pushes it"]
             CHATS["ChatbotService<br/><i>[Component: Nest service]</i><br/>RAG pipeline — see §2"]
@@ -50,7 +50,7 @@ flowchart TB
 
         GW["NotificationsGateway<br/><i>[Component: @WebSocketGateway, Socket.IO]</i><br/>Authenticates the handshake, joins room user_&lt;id&gt;,<br/>emits newNotification"]
         SCHED["Scheduled jobs<br/><i>[Component: @nestjs/schedule]</i><br/>Daily 08:00 contract-expiry reminder;<br/>per-minute overdue-invoice sweep"]
-        ODM["Mongoose models<br/><i>[Component: @nestjs/mongoose, 16 schemas]</i><br/>The only data-access path in the container"]
+        ODM["Mongoose models<br/><i>[Component: @nestjs/mongoose, 15 schemas]</i><br/>The only data-access path in the container"]
     end
 
     DB[("Application Database<br/><i>[Container: MongoDB Atlas]</i>")]
@@ -76,7 +76,7 @@ flowchart TB
     CHATC --> CHATS
 
     AUTHS --> MAILS
-    DOMS -->|"10 of 13 services inject it"| NOTS
+    DOMS -->|"8 of 10 grouped services inject it"| NOTS
     CONTS --> NOTS
     DOMS -->|"BookingsService, AssignmentsService<br/>create contracts"| CONTS
     NOTS -->|"in-process call"| GW
@@ -107,26 +107,26 @@ flowchart TB
 | Component | Technology | Responsibility | Relationships |
 | --- | --- | --- | --- |
 | **ValidationPipe** | `class-validator` + `class-transformer`, registered globally in `main.ts` | First thing every request meets. Strips unknown fields (`whitelist: true`) and coerces types (`transform` + `enableImplicitConversion`), so a service never sees an unvalidated DTO. | Runs before the guards; hands the request on to the controller layer. |
-| **JwtAuthGuard** | Nest `CanActivate` + `@nestjs/jwt` | Extracts the `Bearer` token, verifies its signature, then **re-reads the user from MongoDB** to check `accessStatus` — so an admin locking an account takes effect immediately, without waiting for the 1-day token to expire. Attaches `role` and `accessStatus` to `request.user`. | Applied via `@UseGuards(...)` on 15 of 16 controllers (`RoomsController` applies it per-method so room browsing stays public). Reads the `User` model. Always runs before `RolesGuard`. |
+| **JwtAuthGuard** | Nest `CanActivate` + `@nestjs/jwt` | Extracts the `Bearer` token, verifies its signature, then **re-reads the user from MongoDB** to check `accessStatus` — so an admin locking an account takes effect immediately, without waiting for the 1-day token to expire. Attaches `role` and `accessStatus` to `request.user`. | Applied via `@UseGuards(...)` on 14 of 15 feature controllers (`RoomsController` applies it per-method so room browsing stays public). Reads the `User` model. Always runs before `RolesGuard`. |
 | **RolesGuard + `@Roles`** | Nest guard + `Reflector` | Reads the `'roles'` metadata the `@Roles(...)` decorator wrote on the handler and compares it to `request.user.role`. No metadata means no role restriction. | Depends on `JwtAuthGuard` having populated `request.user` — the two are always listed together in `@UseGuards()`. |
 | **AuditLogInterceptor** | Nest interceptor registered once as `APP_INTERCEPTOR` in `audit-logs.module.ts` | Wraps every HTTP request; for `POST/PATCH/PUT/DELETE` it writes who did what, from which IP, and with which status code — **including failed requests** (it taps both `next` and `error`). Writing is fire-and-forget so a logging failure can never break a response. | Global, so it needs no wiring from other modules. Writes through the `AuditLog` model. Skips `/api/audit-logs` to avoid logging the log reader. |
 | **AuthController** | Nest controller, `/api/auth` | Registration, local login, Google login, forgot/reset password. Deliberately the **only** controller without class-level guards — these endpoints must be reachable without a token. | Calls `AuthService` only. |
-| **Domain controllers (×14)** | Nest controllers, `/api/<domain>` | Thin HTTP adapters: bind route + DTO, declare the required roles, delegate to a service, return its result. No business rules live here. | Guard chain above them; exactly one matching domain service below them. |
-| **ChatbotController** | Nest controller + raw Express `Response` | Four endpoints: `POST ask` (non-streamed), `POST stream` (Server-Sent Events), `POST/GET feedback` (👍/👎, admin listing), `POST ingest` (admin re-indexes the knowledge base). For `stream` it sets `text/event-stream`, subscribes to the service's RxJS `Observable`, writes each event as `data: {...}`, and unsubscribes when the client disconnects. | Calls `ChatbotService`. Guarded like any other controller. |
+| **Domain controllers (×13)** | Nest controllers, `/api/<domain>` | Thin HTTP adapters: bind route + DTO, declare the required roles, delegate to a service, return its result. No business rules live here. | Guard chain above them; exactly one matching domain service below them. |
+| **ChatbotController** | Nest controller + raw Express `Response` | Five routes: `POST ask` (non-streamed), `POST stream` (Server-Sent Events), `POST feedback` (👍/👎), `GET feedback` (admin listing), and `POST ingest` (admin re-indexes the knowledge base). For `stream` it sets `text/event-stream`, subscribes to the service's RxJS `Observable`, writes each event as `data: {...}`, and unsubscribes when the client disconnects. | Calls `ChatbotService`. Guarded like any other controller. |
 | **AuthService** | Nest service | bcrypt password hashing (10 salt rounds), JWT issuing (1-day expiry), Google ID-token verification, and a hashed, 15-minute reset token. | Injects `MailService`; calls Google's `OAuth2Client`; reads/writes the `User` model. |
 | **MailService** | Nodemailer over SMTP | Sends the password-reset link. If `SMTP_USER`/`SMTP_PASS` are absent it logs the link to the console instead, so development works without a mail account. | Used only by `AuthService`. |
-| **Domain services (×13)** | Nest services | Where the system actually lives: eligibility rules, approval state machines, multi-document transactions, occupancy arithmetic, fee calculation, photo upload, cron handlers. | `BookingsService` and `AssignmentsService` call the exported `ContractsService`; **10 of the 13** call `NotificationsService`; all of them go through Mongoose models. `MaintenanceService` is the only one that talks to Cloudinary. |
-| **NotificationsService** | Nest service, exported by `NotificationsModule` | The single fan-out point for user-facing events: persists a `Notification` document (with a TTL — 30 days unread, 10 days after being read) and then asks the gateway to push it. | Imported by 10 domain modules. Depends on `NotificationsGateway`; owns the `Notification`, `Announcement` and `User` models. |
+| **Domain services (×13)** | Nest services | Where the system actually lives: eligibility rules, approval state machines, multi-document transactions, occupancy arithmetic, fee calculation, photo upload, cron handlers. | `BookingsService` and `AssignmentsService` call the exported `ContractsService`; **9 of the 13** call `NotificationsService`; all of them go through Mongoose models. `MaintenanceService` is the only one that talks to Cloudinary. |
+| **NotificationsService** | Nest service, exported by `NotificationsModule` | The single fan-out point for user-facing events: persists a `Notification` document (with a TTL — 30 days unread, 10 days after being read) and then asks the gateway to push it. | Imported by 9 domain modules. Depends on `NotificationsGateway`; owns the `Notification`, `Announcement` and `User` models. |
 | **ChatbotService** | Nest service + RxJS | The retrieval-augmented-generation pipeline — detailed in §2. | Calls Ollama over HTTP; reads `Knowledge`, `ChatFeedback`, and — for personalised answers — `User`, `Contract`, `Invoice`, `Room`. |
 | **AuditLogsService** | Nest service | Read side of the audit trail: paged, filterable queries for the admin screen. The write side is the interceptor. | Reads the `AuditLog` model. |
 | **NotificationsGateway** | `@WebSocketGateway` + Socket.IO | Verifies the JWT presented in the socket handshake, drops unauthenticated sockets, joins each client to a private `user_<id>` room, and tracks the live socket per user. Exposes `sendToUser` / `sendToAll`. | Called in-process by `NotificationsService`. Lives in the same Nest app and the same port as the REST controllers — a component, not a container (see Level 2). |
 | **Scheduled jobs** | `@nestjs/schedule` (`ScheduleModule.forRoot()`) | Two `@Cron` handlers written as ordinary service methods: `ContractsService.remindExpiringContracts()` daily at 08:00, and `InvoicesService.handleOverdueInvoicesCron()` every minute. | They reuse the same services and the same `NotificationsService` as HTTP requests do — nothing is duplicated for the scheduler. |
-| **Mongoose models** | `@nestjs/mongoose`, 16 schemas registered with `MongooseModule.forFeature` | The container's only data-access mechanism. There is no repository layer: services inject `Model<T>` directly. | Every service, the `JwtAuthGuard`, and the audit interceptor depend on them; they in turn speak the MongoDB wire protocol to Atlas. |
+| **Mongoose models** | `@nestjs/mongoose`, 15 schemas registered with `MongooseModule.forFeature` | The container's only data-access mechanism. There is no repository layer: services inject `Model<T>` directly. | Every service, the `JwtAuthGuard`, and the audit interceptor depend on them; they in turn speak the MongoDB wire protocol to Atlas. |
 
 ### 1.3. The three rules the backend layering follows
 
 1. **Controller → service → model, never a shortcut.** No controller touches a Mongoose model, and no service issues an HTTP response. The one deliberate exception is `ChatbotController`, which holds the raw Express `Response` because SSE has to write to the socket incrementally.
-2. **Cross-module reuse happens through exported services, not through shared collections — with one exception.** `NotificationsModule` exports `NotificationsService` and `ContractsModule` exports `ContractsService`; that is how bookings create contracts and how ten modules send notifications. The exception is `ChatbotModule`, which registers other domains' schemas (`User`, `Contract`, `Invoice`, `Room`) directly so it can read a student's real data for personalised answers. It is read-only, but it does bypass those domains' services — worth revisiting if their rules grow.
+2. **Cross-module reuse happens through exported services, not through shared collections — with one exception.** `NotificationsModule` exports `NotificationsService` and `ContractsModule` exports `ContractsService`; that is how bookings create contracts and how nine modules send notifications. The exception is `ChatbotModule`, which registers other domains' schemas (`User`, `Contract`, `Invoice`, `Room`) directly so it can read a student's real data for personalised answers. It is read-only, but it does bypass those domains' services — worth revisiting if their rules grow.
 3. **Side effects happen after the data is safe.** `BookingsService.approveBooking()` is the clearest example: booking status, room occupancy, room status, the student's room field and the generated contract all commit inside **one MongoDB transaction**; only *after* `commitTransaction()` does it send the notification, inside its own `try/catch` so a notification failure cannot roll back a successful approval.
 
 ---

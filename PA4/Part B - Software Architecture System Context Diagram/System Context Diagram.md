@@ -1,33 +1,40 @@
-# B. Software Architecture: System Context Diagram
+<!-- Recovered from the accompanying PA4 PDF after the pre-sync Markdown was unavailable. The Mermaid diagrams below were reconstructed from the rendered PDF diagrams. -->
+
+# Software Architecture: System Context Diagram
 
 **Project:** Dormify – Dormitory Management System  
 **Assignment:** PA4-2026  
 **Architecture View:** C4 Model – Level 1 (System Context)  
-**Source Baseline:** Latest `main` branches of the frontend and backend repositories reviewed on August 1, 2026
+**Source Baseline:** Latest repository state reviewed on August 8, 2026
 
 ## 1. Purpose
 
-**Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
+**Performed by:   Trần Huỳnh Mạnh Đạt |   Reviewed by:   Đào Duy Anh |   Edited by:   Trần Huỳnh Mạnh Đạt**
 
-This section formally documents the high-level architecture of the Dormify Dormitory Management System. It describes the technologies currently used by the implementation, the people who interact with the system, the external software systems on which Dormify depends, and the relationships among them.
+This section formally documents the high-level architecture of the Dormify Dormitory Management System. It
+describes the technologies currently used by the implementation, the people who interact with the system,
+the external software systems on which Dormify depends, and the relationships among them.
 
 The architecture description is based on the current source code in:
 
-- `Domitory_Management_Frontend`
-- `Domitory_Management_Backend`
+- [Domitory_Management_Frontend](https://github.com/ddanh2436/Domitory_Management_Frontend.git)
+- [Domitory_Management_Backend](https://github.com/ddanh2436/Domitory_Management_Backend.git)
 
-The System Context view treats Dormify as one software system. Internal applications, modules, databases, and implementation details are summarized here and may be expanded later in a C4 Level 2 Container Diagram.
+The System Context view treats Dormify as one software system. Internal applications, modules, databases,
+and implementation details are summarized here and may be expanded later in a C4 Level 2 Container
+Diagram.
 
 ---
 
 ## 2. System Overview
 
-**Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
+**Performed by:   Trần Huỳnh Mạnh Đạt |   Reviewed by:   Đào Duy Anh |   Edited by:   Trần Huỳnh Mạnh Đạt**
 
-Dormify is a web-based information system used to manage dormitory accommodation and daily residential operations. It provides role-based interfaces for students, administrators, dormitory managers, floor managers, and maintenance staff.
+Dormify is a web-based information system used to manage dormitory accommodation and daily residential
+operations. It provides role-based interfaces for students, administrators, dormitory managers, floor managers,
+and maintenance staff.
 
 The current backend is organized into the following business modules:
-
 - Authentication
 - User and resident management
 - Room management
@@ -39,6 +46,7 @@ The current backend is organized into the following business modules:
 - Student violations and conduct management
 - Room transfer management
 - Temporary absence management
+- AI chatbot assistance, knowledge ingestion, and answer feedback
 
 The frontend provides separate protected application areas for:
 
@@ -50,14 +58,13 @@ The frontend provides separate protected application areas for:
 
 ## 3. Architecture Scope
 
-**Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
+**Performed by:   Trần Huỳnh Mạnh Đạt |   Reviewed by:   Đào Duy Anh |   Edited by:   Trần Huỳnh Mạnh Đạt**
 
 ### 3.1 Included in the current architecture
 
-**Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
+**Performed by:   Trần Huỳnh Mạnh Đạt |   Reviewed by:   Đào Duy Anh |   Edited by:   Trần Huỳnh Mạnh Đạt**
 
 This document includes components and integrations that are directly supported by the current repositories:
-
 - Next.js web frontend
 - NestJS backend API
 - MongoDB database through Mongoose
@@ -67,21 +74,22 @@ This document includes components and integrations that are directly supported b
 - Cloudinary image storage for maintenance evidence
 - NestJS scheduled jobs for overdue invoice processing
 - Role-based access for students, administrators, dormitory managers, floor managers, and maintenance staff
-
+- Chatbot streaming through Server-Sent Events and a self-hosted Ollama runtime
+- Password-reset link email through the registered Nodemailer `MailService`
 ### 3.2 Not represented as active external systems
 
-**Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
+**Performed by:   Trần Huỳnh Mạnh Đạt |   Reviewed by:   Đào Duy Anh |   Edited by:   Trần Huỳnh Mạnh Đạt**
 
 The following items are not shown as active external systems in the context diagram:
 
 - **Online payment gateway:** the current invoice module uses an internal mock-payment flow and administrative payment confirmation. No real third-party payment gateway is integrated.
-- **Email/OTP provider:** `nodemailer` exists in backend dependencies, but no active email or OTP module is registered in the current root application module.
-- **Generative AI service:** the Google Generative AI package exists in dependencies, but no active AI module or service is registered in the current root application module.
+
+- **Third-party generative AI API:** `@google/generative-ai` remains declared in `package.json`, but it is not installed in the current dependency tree and has no source imports. The implemented AI feature uses the registered `ChatbotModule` and self-hosted Ollama instead.
 
 These technologies may be shown in a future-state architecture after they are fully integrated.
 
----
 
+---
 ## 4. Technology Stack
 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
@@ -90,8 +98,8 @@ These technologies may be shown in a future-state architecture after they are fu
 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
 
-| Technology | Current architectural responsibility |
-|---|---|
+| **Technology** | **Current architectural responsibility** |
+| --- | --- |
 | **Next.js 16** | Provides the web application framework, routing, layouts, server-side route protection, and production build process. |
 | **React 19** | Implements reusable user-interface components and interactive pages. |
 | **TypeScript 5** | Provides static typing for frontend code. |
@@ -110,8 +118,8 @@ The frontend runs in the user's web browser and communicates with the backend th
 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
 
-| Technology | Current architectural responsibility |
-|---|---|
+| **Technology** | **Current architectural responsibility** |
+| --- | --- |
 | **NestJS 11** | Implements the backend application as modular controllers, services, guards, gateways, and scheduled jobs. |
 | **Node.js** | Runs the backend application. |
 | **TypeScript** | Provides static typing for backend source code. |
@@ -123,6 +131,9 @@ The frontend runs in the user's web browser and communicates with the backend th
 | **Socket.IO / NestJS WebSockets** | Deliver private and broadcast real-time notifications. |
 | **NestJS Schedule** | Runs internal scheduled tasks, including overdue-invoice processing. |
 | **Cloudinary SDK** | Uploads maintenance-request images and stores their secure URLs. |
+| **Nodemailer** | Sends password-reset links through the registered `MailService`; without SMTP credentials, development mode logs the link instead. |
+| **Server-Sent Events and RxJS** | Stream typed chatbot events from `ChatbotController` to the browser. |
+| **Ollama HTTP client** | Calls the self-hosted LLM runtime for embeddings and streamed chat generation. |
 
 The backend listens on port `3001` in the current implementation and is the authoritative security and business-logic boundary.
 
@@ -132,8 +143,8 @@ The backend listens on port `3001` in the current implementation and is the auth
 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
 
-| Technology | Current architectural responsibility |
-|---|---|
+| **Technology** | **Current architectural responsibility** |
+| --- | --- |
 | **MongoDB** | Stores users, rooms, bookings, contracts, invoices, maintenance requests, notifications, violations, transfers, and absences. |
 | **MongoDB Atlas connection** | The backend README and environment configuration use `MONGO_URI` for a MongoDB Atlas connection string. |
 | **Mongoose** | Defines schemas, references, validation rules, queries, and persistence logic. |
@@ -155,8 +166,8 @@ After authentication, the backend issues a JWT containing the user's ID, email, 
 
 The current role model includes:
 
-| Role | Main responsibility |
-|---|---|
+| **Role** | **Main responsibility** |
+| --- | --- |
 | `STUDENT` | Uses resident-facing dormitory services. |
 | `ADMIN` | Performs system-wide administrative operations. |
 | `DORMITORY_MANAGER` | Manages dormitory accommodation and operations. |
@@ -230,86 +241,88 @@ Because this scheduler is implemented inside the NestJS application, it is part 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
 
 ```mermaid
-C4Context
-    title System Context Diagram – Dormify Dormitory Management System
+flowchart TB
+    STUDENT["<<person>><br/><b>Student / Resident</b><br/>Registers and signs in, manages a personal profile, books accommodation,<br/>views room, contract and invoice information, submits requests,<br/>receives notifications, and uses the AI assistant."]
+    ADMIN["<<person>><br/><b>System Administrator</b><br/>Manages accounts, access status, operational data,<br/>AI knowledge ingestion, and AI answer feedback."]
+    MANAGER["<<person>><br/><b>Dormitory Manager</b><br/>Manages accommodation operations, residents, room allocation,<br/>contracts, invoices, transfers, absences, violations, and maintenance."]
+    FLOOR["<<person>><br/><b>Floor Manager</b><br/>Supervises residents and operational activities<br/>assigned to a dormitory floor."]
+    STAFF["<<person>><br/><b>Maintenance Staff</b><br/>Receives assigned maintenance requests, updates work status,<br/>records outcomes, and completes repair tasks."]
 
-    Person(student, "Student / Resident", "Registers and signs in, manages a personal profile, books accommodation, views room and contract information, views and pays dormitory invoices through the current mock-payment flow, submits maintenance requests, reports absences, requests room transfers, views violations, and receives notifications.")
+    subgraph BOUNDARY["Dormify System Boundary"]
+        DORMIFY["<<system>><br/><b>Dormify Dormitory Management System</b><br/>Web-based accommodation, resident, room, contract, billing, maintenance,<br/>conduct, absence and transfer management with real-time notifications<br/>and an AI assistant."]
+    end
 
-    Person(admin, "System Administrator", "Manages user accounts, access status, rooms, bookings, contracts, invoices, reports, notifications, and system-wide dormitory data.")
+    GOOGLE["<<external_system>><br/><b>Google Identity Services</b><br/>Verifies Google identity tokens used for Google Sign-In."]
+    CLOUDINARY["<<external_system>><br/><b>Cloudinary</b><br/>Stores maintenance-request images and returns secure image URLs."]
+    SMTP["<<external_system>><br/><b>Email Service (SMTP)</b><br/>Delivers password-reset link emails."]
 
-    Person(dormManager, "Dormitory Manager", "Manages accommodation operations, residents, room allocation, contracts, invoices, transfers, absences, violations, and maintenance activities.")
+    STUDENT -->|"Uses resident services<br/>HTTPS and Socket.IO"| DORMIFY
+    ADMIN -->|"Administers the system<br/>HTTPS and Socket.IO"| DORMIFY
+    MANAGER -->|"Manages dormitory operations<br/>HTTPS and Socket.IO"| DORMIFY
+    FLOOR -->|"Supervises floor-level operations<br/>HTTPS and Socket.IO"| DORMIFY
+    STAFF -->|"Processes maintenance assignments<br/>HTTPS and Socket.IO"| DORMIFY
+    DORMIFY -->|"Verifies Google Sign-In tokens<br/>OAuth 2.0 / HTTPS"| GOOGLE
+    DORMIFY -->|"Uploads and retrieves maintenance images<br/>Cloudinary API / HTTPS"| CLOUDINARY
+    DORMIFY -->|"Sends password-reset links<br/>SMTP over TLS"| SMTP
 
-    Person(floorManager, "Floor Manager", "Supervises residents and operational activities assigned to a dormitory floor.")
-
-    Person(maintenanceStaff, "Maintenance Staff", "Receives assigned maintenance requests, updates work status, records resolution notes or rejection reasons, and completes repair tasks.")
-
-    System(dormify, "Dormify Dormitory Management System", "A web-based system for dormitory accommodation, resident administration, room management, contracts, billing, maintenance, conduct tracking, absence and transfer processing, dashboards, and real-time notifications.")
-
-    System_Ext(googleIdentity, "Google Identity Services", "Verifies Google identity tokens used for Google Sign-In.")
-
-    System_Ext(cloudinary, "Cloudinary", "Stores images attached to maintenance requests and returns secure image URLs.")
-
-    System_Ext(mongoAtlas, "MongoDB Atlas", "Hosts the operational MongoDB database used by the Dormify backend.")
-
-    Rel(student, dormify, "Uses dormitory services", "HTTPS and Socket.IO")
-    Rel(admin, dormify, "Administers the system", "HTTPS and Socket.IO")
-    Rel(dormManager, dormify, "Manages dormitory operations", "HTTPS and Socket.IO")
-    Rel(floorManager, dormify, "Supervises floor-level operations", "HTTPS and Socket.IO")
-    Rel(maintenanceStaff, dormify, "Processes maintenance assignments", "HTTPS and Socket.IO")
-
-    Rel(dormify, googleIdentity, "Verifies Google Sign-In tokens through", "OAuth 2.0 / HTTPS")
-    Rel(dormify, cloudinary, "Uploads and retrieves maintenance images through", "Cloudinary API / HTTPS")
-    Rel(dormify, mongoAtlas, "Reads and writes operational data in", "MongoDB protocol over TLS")
+    classDef person fill:#0D1B2A,stroke:#08131f,color:#ffffff
+    classDef system fill:#1168BD,stroke:#0b4884,color:#ffffff
+    classDef external fill:#8C8C8C,stroke:#5f5f5f,color:#ffffff
+    class STUDENT,ADMIN,MANAGER,FLOOR,STAFF person
+    class DORMIFY system
+    class GOOGLE,CLOUDINARY,SMTP external
 ```
-
----
 
 ### 5.2 Mermaid Flowchart Compatibility Version
 
-**Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
+**Performed by:   Trần Huỳnh Mạnh Đạt |   Reviewed by:   Đào Duy Anh |   Edited by:   Trần Huỳnh Mạnh Đạt**
 
 Some Markdown renderers do not enable Mermaid's `C4Context` extension. The following standard Mermaid flowchart represents the same Level 1 context and is more broadly compatible.
 
 ```mermaid
 flowchart LR
-    student["Student / Resident"]
-    admin["System Administrator"]
-    dormManager["Dormitory Manager"]
-    floorManager["Floor Manager"]
-    maintenanceStaff["Maintenance Staff"]
 
-    subgraph systemBoundary["Dormify System Boundary"]
-        dormify["Dormify Dormitory Management System<br/><br/>Accommodation, rooms, bookings, contracts,<br/>invoices, maintenance, notifications,<br/>violations, transfers, absences, and reports"]
+    STUDENT["Student / Resident"] -->|"Uses resident services<br/>HTTPS + Socket.IO"| DORMIFY
+    ADMIN["System Administrator"] -->|"Administers users and<br/>system data<br/>HTTPS + Socket.IO"| DORMIFY
+    MANAGER["Dormitory Manager"] -->|"Manages dormitory<br/>operations<br/>HTTPS + Socket.IO"| DORMIFY
+    FLOOR["Floor Manager"] -->|"Supervises floor-level<br/>operations<br/>HTTPS + Socket.IO"| DORMIFY
+    STAFF["Maintenance Staff"] -->|"Processes assigned repair work<br/>HTTPS + Socket.IO"| DORMIFY
+
+    subgraph DORMIFY_BOUNDARY["Dormify System Boundary"]
+        direction TB
+
+        DORMIFY["Dormify Dormitory<br/>Management System<br/><br/>
+        Accommodation, rooms, bookings, contracts, invoices,<br/>
+        maintenance, notifications, AI assistance, violations,<br/>
+        transfers, absences, and reports"]
     end
 
-    googleIdentity["Google Identity Services"]
-    cloudinary["Cloudinary"]
-    mongoAtlas[("MongoDB Atlas")]
+    DORMIFY -->|"Verifies Google ID token<br/>OAuth 2.0 / HTTPS"| GOOGLE["Google Identity Services"]
+    DORMIFY -->|"Uploads maintenance images<br/>Cloudinary API / HTTPS"| CLOUDINARY["Cloudinary"]
+    DORMIFY -->|"Sends password-reset links<br/>SMTP over TLS"| SMTP["Email Service (SMTP)"]
 
-    student -->|"Uses resident services<br/>HTTPS + Socket.IO"| dormify
-    admin -->|"Administers users and system data<br/>HTTPS + Socket.IO"| dormify
-    dormManager -->|"Manages dormitory operations<br/>HTTPS + Socket.IO"| dormify
-    floorManager -->|"Supervises floor-level operations<br/>HTTPS + Socket.IO"| dormify
-    maintenanceStaff -->|"Processes assigned repair work<br/>HTTPS + Socket.IO"| dormify
+    classDef person fill:#0D1B2A,stroke:#08131f,color:#ffffff
+    classDef system fill:#1168BD,stroke:#0b4884,color:#ffffff
+    classDef external fill:#8C8C8C,stroke:#5f5f5f,color:#ffffff
 
-    dormify -->|"Verifies Google ID token<br/>OAuth 2.0 / HTTPS"| googleIdentity
-    dormify -->|"Uploads maintenance images<br/>Cloudinary API / HTTPS"| cloudinary
-    dormify -->|"Persists operational data<br/>MongoDB protocol / TLS"| mongoAtlas
+    class STUDENT,ADMIN,MANAGER,FLOOR,STAFF person
+    class DORMIFY system
+    class GOOGLE,CLOUDINARY,SMTP external
+
+    style DORMIFY_BOUNDARY fill:#FFFDE0,stroke:#B8B320,stroke-width:2px,color:#222222
 ```
-
----
 
 ## 6. Diagram Explanation
 
-**Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
+**Performed by:   Trần Huỳnh Mạnh Đạt |   Reviewed by:   Đào Duy Anh |   Edited by:   Trần Huỳnh Mạnh Đạt**
 
 ### 6.1 Dormify System
 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
 
-The central element is the **Dormify Dormitory Management System**. At C4 Level 1, the Next.js frontend, NestJS backend, Socket.IO gateway, scheduled jobs, and domain modules are treated as one software system.
+The central element is the **Dormify Dormitory Management System**. At C4 Level 1, the Next.js frontend, NestJS backend, Socket.IO gateway, scheduled jobs, chatbot module, self-hosted Ollama runtime, database, and domain modules are treated as one software system.
 
-Dormify provides a single role-based web platform for managing accommodation and resident-related processes. The system receives requests from authenticated users, applies business and authorization rules in the backend, stores operational data in MongoDB, uploads maintenance evidence to Cloudinary, and sends real-time notifications through Socket.IO.
+Dormify provides a single role-based web platform for managing accommodation and resident-related processes. The system receives requests from authenticated users, applies business and authorization rules in the backend, stores operational data in MongoDB, uploads maintenance evidence to Cloudinary, sends real-time notifications through Socket.IO, and provides authenticated AI assistance through the chatbot.
 
 ---
 
@@ -317,7 +330,7 @@ Dormify provides a single role-based web platform for managing accommodation and
 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
 
-### Student / Resident
+#### Student / Resident
 
 Students use Dormify to access resident-facing services, including:
 
@@ -335,8 +348,9 @@ Students use Dormify to access resident-facing services, including:
 - Reporting temporary absences
 - Viewing recorded violations and conduct information
 - Receiving real-time notifications
+- Asking the AI assistant about dormitory rules and the student's own room, contract, or invoice information
 
-### System Administrator
+#### System Administrator
 
 The System Administrator has system-wide administrative responsibility, including:
 
@@ -350,21 +364,21 @@ The System Administrator has system-wide administrative responsibility, includin
 - Managing violations, transfers, and absences
 - Viewing statistics and administrative dashboards
 - Sending or receiving operational notifications
+- Reviewing AI answer feedback and rebuilding the AI knowledge base
 
-### Dormitory Manager
+#### Dormitory Manager
 
 The Dormitory Manager performs business and operational management rather than low-level system administration. This actor manages accommodation processes, resident allocation, contracts, billing, maintenance coordination, conduct records, room transfers, and absences.
 
 In the frontend, the Dormitory Manager is authorized to access the administrative application area together with other management roles.
 
-### Floor Manager
+#### Floor Manager
 
 The Floor Manager supervises residents and operational activities associated with a dormitory floor. This role is represented separately because it exists explicitly in the backend role model, even though it currently shares the main administrative frontend area.
 
-### Maintenance Staff
+#### Maintenance Staff
 
 Maintenance Staff members:
-
 - View maintenance requests assigned to them
 - Update work status
 - Record repair completion notes
@@ -374,12 +388,11 @@ Maintenance Staff members:
 The backend prevents maintenance staff from modifying requests that are not assigned to them.
 
 ---
-
-## 6.3 External Software Systems
+### 6.3 External Software Systems
 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
 
-### Google Identity Services
+#### Google Identity Services
 
 Dormify supports Google Sign-In.
 
@@ -387,7 +400,7 @@ The frontend obtains a Google identity token and sends it to the backend. The ba
 
 Google is responsible only for identity verification. Dormify remains responsible for local roles, account status, room assignment, and authorization.
 
-### Cloudinary
+#### Cloudinary
 
 Cloudinary stores images attached to maintenance requests.
 
@@ -401,13 +414,11 @@ The backend:
 
 Students and staff access the image through Dormify rather than interacting directly with Cloudinary credentials.
 
-### MongoDB Atlas
+#### Email Service (SMTP)
 
-MongoDB Atlas hosts the application's operational database.
+The registered `MailService` sends password-reset links through Nodemailer. When SMTP credentials are absent, development mode logs the reset link instead of attempting delivery.
 
-The backend connects using the `MONGO_URI` environment variable and Mongoose. It stores data for all current domain modules. Direct browser-to-database access is not permitted.
-
-Although a database is commonly shown inside a C4 Level 2 Container Diagram, MongoDB Atlas is included in this Level 1 diagram because it is an externally managed software dependency explicitly required by the project's technology-stack description.
+The email service is an external dependency because Dormify relies on an SMTP provider to deliver a reset link to a user who cannot sign in. MongoDB Atlas, by contrast, is a system-owned datastore and is shown as an internal container at C4 Level 2 rather than as an external Level 1 system.
 
 ---
 
@@ -415,8 +426,8 @@ Although a database is commonly shown inside a C4 Level 2 Container Diagram, Mon
 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
 
-| Source | Destination | Relationship | Technology |
-|---|---|---|---|
+| **Source** | **Destination** | **Relationship** | **Technology** |
+| --- | --- | --- | --- |
 | Student / Resident | Dormify | Uses resident and accommodation services | HTTPS, Socket.IO |
 | System Administrator | Dormify | Manages accounts, configuration, and system-wide records | HTTPS, Socket.IO |
 | Dormitory Manager | Dormify | Manages dormitory business operations | HTTPS, Socket.IO |
@@ -424,10 +435,9 @@ Although a database is commonly shown inside a C4 Level 2 Container Diagram, Mon
 | Maintenance Staff | Dormify | Processes assigned maintenance work | HTTPS, Socket.IO |
 | Dormify | Google Identity Services | Verifies Google identity tokens | OAuth 2.0, HTTPS |
 | Dormify | Cloudinary | Stores maintenance images | Cloudinary API, HTTPS |
-| Dormify | MongoDB Atlas | Persists and queries operational data | MongoDB protocol over TLS |
+| Dormify | Email Service (SMTP) | Sends password-reset links | SMTP over TLS |
 
 ---
-
 ## 8. Internal Responsibilities Hidden at Level 1
 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
@@ -444,16 +454,18 @@ The following elements are inside the Dormify system boundary and are intentiona
 - Invoice module
 - Maintenance module
 - Notification WebSocket gateway
+- Chatbot module and its SSE endpoints
+- Self-hosted Ollama runtime
+- MongoDB Atlas datastore and Mongoose persistence layer
 - Violation module
 - Transfer module
 - Absence module
 - Scheduled overdue-invoice job
 - Reporting and dashboard logic
 
-These elements should be shown separately in a **C4 Level 2 Container Diagram** or **C4 Level 3 Component Diagram**, not in the Level 1 System Context Diagram.
+The elements should be shown separately in a **C4 Level 2 Container Diagram** or **C4 Level 3 Component Diagram**, not in the Level 1 System Context Diagram.
 
 ---
-
 ## 9. Architectural Characteristics
 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
@@ -513,6 +525,7 @@ These elements should be shown separately in a **C4 Level 2 Container Diagram** 
 - Real-time notifications reduce the need for manual status checking.
 - Dashboard charts provide operational summaries.
 - Google Sign-In reduces login friction.
+- The authenticated AI assistant provides sourced answers and structured invoice information.
 
 ---
 
@@ -522,12 +535,12 @@ These elements should be shown separately in a **C4 Level 2 Container Diagram** 
 
 The repository review changes several assumptions from the earlier generic sample:
 
-| Earlier assumption | Repository-based correction |
-|---|---|
+| **Earlier assumption** | **Repository-based correction** |
+| --- | --- |
 | Frontend uses React with Vite | The current frontend uses **Next.js 16** with React 19. |
 | A real online payment gateway is integrated | Payment is currently an **internal mock-payment or admin-confirmation flow**. |
-| Email/OTP is an active external service | Nodemailer is installed, but no active email/OTP module is registered in the current application root. |
-| AI maintenance routing and RAG chatbot are active | The AI package is installed, but no active AI module is registered in the current application root. |
+| Email/OTP is an active external service | The registered `MailService` sends password-reset links through SMTP; there is no OTP or SMS provider. |
+| AI maintenance routing and RAG chatbot are active | The registered `ChatbotModule` provides authenticated RAG assistance, SSE streaming, answer feedback, and admin-triggered knowledge ingestion through self-hosted Ollama. |
 | Only Student, Admin, and Maintenance Staff are modeled | The backend also explicitly defines **Dormitory Manager** and **Floor Manager** roles. |
 | A generic cloud file service is used | The maintenance implementation specifically integrates with **Cloudinary**. |
 | The scheduler is an external system | The scheduler is an **internal NestJS scheduled service**. |
@@ -537,19 +550,20 @@ The repository review changes several assumptions from the earlier generic sampl
 
 ## 11. Assumptions and Constraints
 
-**Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
+**Performed by:   Trần Huỳnh Mạnh Đạt |   Reviewed by:   Đào Duy Anh |   Edited by:   Trần Huỳnh Mạnh Đạt**
 
-- The current diagram reflects the `main` branches reviewed on August 1, 2026.
-- Deployment providers for the frontend and backend are not confirmed by the repositories and are therefore not shown.
+- The current diagram reflects the repository state reviewed on August 8, 2026.
+- Deployment providers for the frontend and backend are not confirmed by the repositories and are
+therefore not shown.
 - MongoDB Atlas availability is required for persistence.
 - Google Sign-In depends on Google Identity Services.
 - Maintenance image upload depends on valid Cloudinary configuration.
 - Real-time notifications require an active Socket.IO connection.
 - The current payment function does not transfer real money.
-- AI and email features should not be described as deployed external integrations until their modules are implemented and registered.
+- The active AI feature depends on a self-hosted Ollama runtime; it is modeled as an internal C4
+- container rather than a third-party external service.
+- Password-reset delivery depends on configured SMTP credentials; without them the backend logs the reset link for development.
 - The frontend's role-based proxy improves navigation security, but authoritative access control must always remain in the backend.
-
----
 
 ## 12. Conclusion
 

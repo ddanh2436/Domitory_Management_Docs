@@ -2,7 +2,7 @@
 
 **Performed by:** Trần Hoàng Quốc Khánh | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Hoàng Quốc Khánh
 
-> Reviewed against the codebase on 2026-08-07. Sources: backend `src/app.module.ts`, `src/main.ts`, every `src/*/*.controller.ts` / `*.service.ts` / `*.module.ts` / `*.schema.ts`, `src/notifications/notifications.gateway.ts`, `src/chatbot/chatbot.service.ts`, `src/auth/auth.service.ts`, `src/auth/mail.service.ts`, `src/audit-logs/audit-logs.module.ts`; frontend `proxy.ts`; `system_plan.md`, `use-case-model.md`.
+> Reviewed against the codebase on 2026-08-08. Sources: backend `src/app.module.ts`, `src/main.ts`, every `src/*/*.controller.ts` / `*.service.ts` / `*.module.ts` / `*.schema.ts`, `src/notifications/notifications.gateway.ts`, `src/chatbot/chatbot.service.ts`, `src/auth/auth.service.ts`, `src/auth/mail.service.ts`, `src/audit-logs/audit-logs.module.ts`; frontend `proxy.ts`; `system_plan.md`, `use-case-model.md`.
 
 This zooms one level into the **Dormify** software system from the Level 1 System Context view. It shows every container — a separately runnable/deployable unit — the technology it is actually built with, and the protocol each connection uses in the running application.
 
@@ -20,16 +20,16 @@ C4Container
   Person(staff, "Maintenance Staff", "Works assigned repair jobs")
 
   System_Boundary(dormify, "Dormify — Dormitory Management System") {
-    Container(webapp, "Web Application", "Next.js 16, React 19, Tailwind CSS 4", "Role-scoped UI for all four roles; proxy.ts edge middleware gates routes by JWT role (UX only)")
-    Container(api, "API & Realtime Server", "NestJS 11, Node.js, Socket.IO", "REST /api/* (16 domain modules) + WebSocket notification gateway, one process on port 3001. Per-controller JwtAuthGuard + RolesGuard, a global AuditLogInterceptor, and 2 scheduled cron jobs")
-    ContainerDb(db, "Application Database", "MongoDB Atlas (Mongoose)", "14 domain collections + the chatbot's knowledge (RAG vectors) and chat-feedback collections — 16 total")
+    Container(webapp, "Web Application", "Next.js 16, React 19, Tailwind CSS 4", "Role-scoped UI for five RBAC roles; proxy.ts edge middleware gates routes by JWT role (UX only)")
+    Container(api, "API & Realtime Server", "NestJS 11, Node.js, Socket.IO", "REST /api/* (15 feature modules) + WebSocket notification gateway, one process on port 3001. Per-controller JwtAuthGuard + RolesGuard, a global AuditLogInterceptor, and 2 scheduled cron jobs")
+    ContainerDb(db, "Application Database", "MongoDB Atlas (Mongoose)", "13 business-data schemas plus the chatbot's knowledge (RAG vectors) and chat-feedback schemas — 15 total")
     Container(llm, "Local LLM Runtime", "Ollama — qwen2.5:3b, nomic-embed-text", "Self-hosted model server behind the chatbot module: embeddings + streamed chat completion")
   }
 
   System_Ext(cloudinary, "Cloudinary", "Image CDN — stores maintenance photos")
   System_Ext(email, "Email Service", "SMTP (Gmail) — password-reset link email")
   System_Ext(google, "Google OAuth 2.0", "Verifies Google ID tokens")
-  System_Ext(payment, "Payment Gateway", "Documented in the use-case model; NOT integrated — invoices use POST /invoices/pay-mock today")
+  System_Ext(payment, "Payment Gateway", "Documented in the use-case model; NOT integrated — invoices use PATCH /api/invoices/:id/pay-mock today")
 
   Rel(student, webapp, "Uses", "HTTPS")
   Rel(manager, webapp, "Uses", "HTTPS")
@@ -71,8 +71,8 @@ C4Container
 | Container | Technology | Responsibility | Talks to (protocol) |
 | --- | --- | --- | --- |
 | **Web Application** | Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS 4 | Serves the role-scoped UI (`/admin`, `/student`, `/staff`, `/(auth)`); edge middleware (`proxy.ts`) reads the JWT cookie to gate routes by role, as a UX convenience only — not a security boundary. | **API & Realtime Server** — REST/JSON over HTTPS with a Bearer JWT for regular calls, plus a persistent WebSocket (Socket.IO, JWT handshake) for realtime notifications. |
-| **API & Realtime Server** | NestJS 11, Node.js, Socket.IO | One process, port 3001. 16 domain modules behind `/api/*` (`auth`, `users`, `rooms`, `bookings`, `invoices`, `contracts`, `maintenance`, `notifications`, `violations`, `transfers`, `absences`, `checkouts`, `assignments`, `audit-logs`, `chatbot`, `feedback`). Each controller applies `JwtAuthGuard` + `RolesGuard` via `@UseGuards(...)` (not registered globally in `main.ts`); a global `AuditLogInterceptor` is registered once as an `APP_INTERCEPTOR` provider in `audit-logs.module.ts` and logs every mutating request. A Socket.IO gateway pushes realtime notifications; `@nestjs/schedule` (`ScheduleModule.forRoot()`) runs 2 cron jobs — overdue-invoice marking every minute and a daily 8am contract-expiry reminder. | **Application Database** — Mongoose driver over the MongoDB wire protocol. **Local LLM Runtime** — plain HTTP (embeddings + chat completion). **Cloudinary** — HTTPS, multipart upload. **Email Service** — SMTP. **Google OAuth 2.0** — HTTPS. |
-| **Application Database** | MongoDB Atlas via Mongoose | System of record for users, rooms, bookings, contracts, invoices, maintenance, transfers, checkouts, absences, violations, notifications, announcements, feedback, and the audit log (14 domain collections) — plus the chatbot's `knowledge` collection (embedding vectors + text index for RAG) and `chat-feedback` collection (👍/👎 on answers). 16 collections in total. | — (only ever called by the API & Realtime Server; never called directly by the Web Application) |
+| **API & Realtime Server** | NestJS 11, Node.js, Socket.IO | One process, port 3001. 15 feature modules behind `/api/*` (`auth`, `users`, `rooms`, `bookings`, `invoices`, `contracts`, `maintenance`, `notifications`, `violations`, `transfers`, `absences`, `checkouts`, `assignments`, `audit-logs`, `chatbot`). Each controller applies `JwtAuthGuard` + `RolesGuard` via `@UseGuards(...)` (not registered globally in `main.ts`); a global `AuditLogInterceptor` is registered once as an `APP_INTERCEPTOR` provider in `audit-logs.module.ts` and logs every mutating request. A Socket.IO gateway pushes realtime notifications; `@nestjs/schedule` (`ScheduleModule.forRoot()`) runs 2 cron jobs — overdue-invoice marking every minute and a daily 8am contract-expiry reminder. | **Application Database** — Mongoose driver over the MongoDB wire protocol. **Local LLM Runtime** — plain HTTP (embeddings + chat completion). **Cloudinary** — HTTPS, multipart upload. **Email Service** — SMTP. **Google OAuth 2.0** — HTTPS. |
+| **Application Database** | MongoDB Atlas via Mongoose | System of record for users, rooms, bookings, contracts, invoices, maintenance, transfers, checkouts, absences, violations, notifications, announcements, and the audit log (13 business-data schemas) — plus the chatbot's `knowledge` schema (embedding vectors + text index for RAG) and `chat-feedback` schema (👍/👎 on answers). 15 registered schemas in total. | — (only ever called by the API & Realtime Server; never called directly by the Web Application) |
 | **Local LLM Runtime** | Ollama | Self-hosted model server backing the AI assistant module: `nomic-embed-text` embeds knowledge chunks and questions for the RAG similarity search; `qwen2.5:3b` generates the streamed chat answer. | — (only ever called by the API & Realtime Server, over plain HTTP on `localhost:11434`) |
 
 ### Two things that look like containers but aren't

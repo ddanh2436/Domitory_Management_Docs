@@ -7,9 +7,9 @@ The architecture is documented across four files. This file holds the tech stack
 | PA4 section | Document | Contents |
 | --- | --- | --- |
 | B | **This file, §1** | Tech stack — every technology used, and why |
-| B | [`c4-system-context-diagram.md`](./c4-system-context-diagram.md) | **C4 Level 1** — Dormify as one box: its users and the external systems it depends on |
-| C | [`c4-container-diagram.md`](./c4-container-diagram.md) | **C4 Level 2** — the four containers, their technologies and the protocols between them |
-| C | [`c4-level3-component-diagram.md`](./c4-level3-component-diagram.md) | **C4 Level 3** — components inside the frontend and backend containers, plus a zoom on the AI assistant |
+| B | [`c4-level1.md`](./c4-level1.md) | **C4 Level 1** — Dormify as one box: its users and the external systems it depends on |
+| C | [`c4-level2.md`](./c4-level2.md) | **C4 Level 2** — the four containers, their technologies and the protocols between them |
+| C | [`c4-level3.md`](./c4-level3.md) | **C4 Level 3** — components inside the frontend and backend containers, plus a zoom on the AI assistant |
 | D | [`deployment-diagram.md`](./deployment-diagram.md) | Deployment — containers mapped onto infrastructure nodes *(to be written)* |
 
 Related: [`system_plan.md`](./system_plan.md) documents the database collections and the full API/route surface.
@@ -29,10 +29,10 @@ Dormify is a **three-tier web application**: a Next.js single-page-style fronten
 | Frontend | Next.js (App Router) + React | 16.2.9 / 19.2.7 | All user interfaces for Student, Admin and Maintenance Staff |
 | Frontend styling | Tailwind CSS (via `@tailwindcss/postcss`) | 4.3.0 | Utility-first styling, no separate CSS framework |
 | Backend | NestJS on Node.js (Express platform) | 11.1.24 / Node 22 LTS | REST API `/api/*`, business logic, authorization, scheduled jobs |
-| Database | MongoDB Atlas + Mongoose ODM | 9.6.3 (driver/ODM) | Persistent storage for all 14 domain collections |
+| Database | MongoDB Atlas + Mongoose ODM | 9.6.3 (ODM) | Persistent storage through 15 registered Mongoose schemas: 13 business-data schemas plus chatbot knowledge and answer-feedback schemas |
 | Realtime | Socket.IO (server + client) | 4.8.3 | Push notifications to a specific user or broadcast |
 | AI streaming | Server-Sent Events (native HTTP) | — | Token-by-token streaming of chatbot answers |
-| Language / runtime | TypeScript on Node.js | 5.9.3 / v22.13.1 | Shared language for frontend and backend |
+| Language / runtime | TypeScript on Node.js | 5.9.3 / v22.21.0 | Shared language for frontend and backend |
 | Auth | JSON Web Token (`@nestjs/jwt`) + bcrypt | 11.0.2 / 6.0.0 | Stateless bearer-token authentication, password hashing |
 | Federated login | Google Identity Services + `google-auth-library` | 0.13.5 / 10.7.0 | "Sign in with Google" ID-token verification |
 | File storage | Cloudinary | 2.10.0 | Hosting of maintenance-request photos |
@@ -44,7 +44,7 @@ Dormify is a **three-tier web application**: a Next.js single-page-style fronten
 ### 1.2. Frontend
 
 **Framework — Next.js 16.2.9 (App Router) with React 19.2.7 and TypeScript.**
-The UI lives in `src/frontend/app`, organised into route groups per actor: `(auth)` for login and password recovery, `student/*`, `admin/*` (Admin and Manager) and `staff/*` (Maintenance Staff). Each area has its own layout that wraps its pages in a shared guard component. Pages are mostly React Client Components because nearly every screen is data-driven and interactive.
+The UI lives in the frontend repository's `app/` directory, organised into route groups per actor: `(auth)` for login and password recovery, `student/*`, `admin/*` (Admin and Manager) and `staff/*` (Maintenance Staff). Each area has its own layout that wraps its pages in a shared guard component. Pages are mostly React Client Components because nearly every screen is data-driven and interactive.
 
 Key frontend pieces:
 
@@ -68,7 +68,7 @@ PDF export (contracts, invoices) is implemented in `app/utils/exportPdf.ts` **wi
 
 ### 1.3. Backend
 
-**Framework — NestJS 11 on the Express platform**, bootstrapped in `src/backend/src/main.ts` and listening on **port 3001**. Bootstrap configures CORS, a global `ValidationPipe` (`whitelist` + `transform`), and a 10 MB body limit so Base64 maintenance photos fit in a request.
+**Framework — NestJS 11 on the Express platform**, bootstrapped in the backend repository's `src/main.ts` and listening on **port 3001**. Bootstrap configures CORS, a global `ValidationPipe` (`whitelist` + `transform`), and a 10 MB body limit so Base64 maintenance photos fit in a request.
 
 The code is organised as **one NestJS module per domain**, each with its own controller, service, DTOs and Mongoose schemas:
 
@@ -115,14 +115,16 @@ The student-facing chatbot is a **retrieval-augmented generation (RAG)** pipelin
 3. **Personal context** — for questions about "my invoice / my contract", the service additionally loads the signed-in student's own records and returns structured invoice cards so the UI can render a real table instead of asking a 3B model to draw one.
 4. **Generation** — `qwen2.5:3b` produces the answer, streamed back to the browser over SSE.
 
-The knowledge base is a set of Markdown documents under `src/backend/src/chatbot/docs/` (dormitory rules, parking rules, electricity/water regulations, plus one file per functional area), ingested into MongoDB by `scripts/run-ingest.ts`.
+The knowledge base is a set of Markdown documents under the backend repository's `src/chatbot/docs/` directory (dormitory rules, parking rules, electricity/water regulations, plus one file per functional area), ingested into MongoDB by `scripts/run-ingest.ts`.
+
+`@google/generative-ai` remains declared in `package.json`, but it is not installed in the current dependency tree and no backend source imports it. It is therefore not part of the implemented runtime architecture; the chatbot uses Ollama exclusively.
 
 ### 1.7. Development, Testing and Process Tooling
 
 | Area | Tooling |
 | --- | --- |
 | Language / build | TypeScript 5.9.3; `nest build` (backend), `next build` (frontend) |
-| Package manager | npm 10.9.2 on Node.js v22.13.1 |
+| Package manager | npm 10.9.4 on Node.js v22.21.0 |
 | Linting / formatting | ESLint 9 with `typescript-eslint` and `eslint-config-next`; Prettier 3 |
 | Unit testing | Jest 30.4.2 + ts-jest; `*.spec.ts` files colocated with the backend source |
 | End-to-end testing | Jest with `test/jest-e2e.json` + Supertest, driven by `scripts/e2e-seed.js`, `e2e-run.js` and `e2e-cleanup.js` |
@@ -134,7 +136,7 @@ The knowledge base is a set of Markdown documents under `src/backend/src/chatbot
 
 Secrets are never committed; both applications read them from environment files.
 
-**Backend — `src/backend/.env`**
+**Backend — `Domitory_Management_Backend/.env`**
 
 | Variable | Purpose |
 | --- | --- |
@@ -146,7 +148,7 @@ Secrets are never committed; both applications read them from environment files.
 | `OLLAMA_URL`, `CHAT_MODEL`, `EMBED_MODEL` | Ollama endpoint and model names |
 | `CHATBOT_SCORE_THRESHOLD`, `CHATBOT_SEARCH_LIMIT`, `CHATBOT_KEYWORD_MIN_SCORE`, `CHATBOT_KEYWORD_SLOTS`, `CHATBOT_HISTORY_TURNS` | Tunable RAG retrieval parameters |
 
-**Frontend — `src/frontend/.env.local`**
+**Frontend — `Domitory_Management_Frontend/.env.local`**
 
 | Variable | Purpose |
 | --- | --- |

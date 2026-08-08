@@ -2,7 +2,7 @@
 
 **Performed by:** `<member>` | **Reviewed by:** `<member>` | **Edited by:** `<member>`
 
-> Verified against the codebase on 2026-08-07. Sources: backend `src/app.module.ts`, `src/auth/auth.controller.ts`, `src/auth/auth.service.ts`, `src/auth/mail.service.ts`, `src/invoices/invoices.controller.ts`, `src/maintenance/maintenance.service.ts`, `src/chatbot/chatbot.service.ts`, `src/users/schemas/user.schema.ts`, all `@Roles(...)` declarations; frontend `proxy.ts`, `app/layout.tsx`. Consistent with `use-case-model.md` §1 (actors) and `c4-container-diagram.md` (Level 2).
+> Verified against the codebase on 2026-08-08. Sources: backend `src/app.module.ts`, `src/auth/auth.controller.ts`, `src/auth/auth.service.ts`, `src/auth/mail.service.ts`, `src/invoices/invoices.controller.ts`, `src/maintenance/maintenance.service.ts`, `src/chatbot/chatbot.service.ts`, `src/users/schemas/user.schema.ts`, all `@Roles(...)` declarations; frontend `proxy.ts`, `app/layout.tsx`. Consistent with `use-case-model.md` §1 (actors) and `c4-level2.md` (Level 2).
 
 This is the highest level of the C4 model. Dormify is drawn as **a single black box**: the diagram deliberately says nothing about Next.js, NestJS or MongoDB. Its only job is to answer three questions for someone seeing the project for the first time — *who uses this system, what does it do for them, and what other systems does it depend on?* The technology lives one level down, in the Container diagram.
 
