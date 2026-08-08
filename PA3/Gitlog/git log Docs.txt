@@ -1,0 +1,35 @@
+commit 25e524979d83fde35caf7a80ced342dc68bb0d56 (HEAD -> main, origin/main, origin/HEAD)
+Author: HueoBee <thmdat2407@clc.fitus.edu.vn>
+Date:   Sat Jul 25 21:47:06 2026 +0700
+
+    Update for PA3
+
+commit 8cbb8ffceacc7a309e698a3fef382f0ab9c60ea3
+Author: HueoBee <thmdat2407@clc.fitus.edu.vn>
+Date:   Sat Jul 25 17:04:35 2026 +0700
+
+    Update SDP and VD, Add Changes.md for PA3
+
+commit dc6b9e4c9b1c8e98a39cc221092b408c29e354df
+Author: Đào Duy Anh <131458303+Daoduyanh2412@users.noreply.github.com>
+Date:   Fri Jul 24 22:27:40 2026 +0700
+
+    Rewrite use case specification for pa3
+
+commit 192cd843dac7035b64230dbf46056a04294b5bed
+Author: HueoBee <thmdat2407@clc.fitus.edu.vn>
+Date:   Fri Jul 24 16:14:15 2026 +0700
+
+    Update Use-Case Model
+
+commit 2b7e0327f36b1dd2fd6818b8d498a8033fab56b2
+Author: Đào Duy Anh <131458303+Daoduyanh2412@users.noreply.github.com>
+Date:   Tue Jul 21 08:29:48 2026 +0700
+
+    Add docs for PA3
+
+commit d30629d20e5f1dd4d210b52c5a192bca9235107d
+Author: Đào Duy Anh <131458303+Daoduyanh2412@users.noreply.github.com>
+Date:   Mon Jul 20 22:30:40 2026 +0700
+
+    Spec kit init for Claude and using Spec

@@ -1,0 +1,130 @@
+NHỮNG TÍNH NĂNG CHÍNH CỦA HỆ THỐNG QUẢN LÝ KTX
+
+
+I.	Quản lý tài khoản và xác thực:
+•	FR01: Khách hàng mới kê khai hồ sơ lưu trú KTX. Cụ thể: Sinh viên/ khách thuê được yêu cầu phải nhập các thông tin cá nhân sơ bộ để có thể tiến hành đăng ký chỗ ở, cũng như được lựa chọn các loại hình dịch vụ khác nhau. Sau đó sẽ được gửi một thông báo về Email/SĐT để được liên hệ trực tiếp.
+•	FR02: Login/Logout cho khách hàng đang ở KTX. Đăng nhập bằng Google Authentication/Đăng nhập bằng thông tin thông thường, khách hàng có thể đăng nhập vào hệ thống bằng Email hoặc bằng CCCD. Thông tin đăng nhập được lưu vào một thư mục riêng trong Database. Tính năng quên mật khẩu (Gửi mã OTP thông qua Google Authentication), nếu đủ thời gian thêm tính năng OTP để tăng tính bảo mật.
+•	FR03: Quản lý hồ sơ cá nhân(THÔNG TIN SINH VIÊN). Trong mục thông tin này, sinh viên được phép kiểm tra, xem các thông tin cá nhân của mình như: Họ tên, ngày sinh, mã định danh, địa chỉ thường trú, v.v Ngoài ra còn được phép truy cập vào XEM(Quyền chỉnh sửa thuộc về admin, người xây dựng hệ thống hợp đồng của mình và các thông tin cư trú tại KTX.
+II.	System administrator(Người quản lý hệ thống): Quản lý tài khoản, phân quyền và vận hành hệ thống.
+•	FR04: Quản lý tài khoản người dùng. Có khả năng xóa các tài khoản hiện hữu, cũng như là khóa/mở khóa các tài khoản.
+•	FR05: Quản lý vai trò và phân quyền. Các chức năng bao gồm: Tạo role mới, gán quyền cho role, gán Role cho người dùng và thu hồi quyền truy cập.
+•	FR06: Theo dõi nhật ký hệ thống. Hệ thống sẽ ghi nhận các hoạt động được thực hiện với các dữ liệu như: Người thực hiện, thời gian thao tác, dữ liệu bị thay đổi, chức năng đã sử dụng. 
+•	FR07: Dashboard quản trị. 
+•	FR08: Sao lưu và phục hồi dữ liệu. Thực tế sẽ tồn tại nhiều tai nạn dẫn đến nguy cơ đánh mất dữ liệu nên tính năng này là cần thiết. (Backup thủ công, tự động và Restore dữ liệu). 
+III.	DORMITORY MANAGER(QUẢN SINH/GIÁM ĐỐC): Thực hiện toàn bộ nghiệp vụ quản lý KTX.
+•	FR09: Quản lý phòng. Thêm phòng, cập nhật thông tin phòng, xóa phòng và đánh dấu những phòng đang được bảo trì. 
+QUẢN LÝ SINH VIÊN
+•	FR10: Quản lý hồ sơ sinh viên. Xem hồ sơ, chỉnh sửa hồ sơ, theo dõi lịch sử thuê phòng. 
+•	FR11: Duyệt yêu cầu thuê phòng. Kiểm tra hồ sơ, đưa vào database, phê duyệt/từ chối. 
+•	FR12: Phân phòng tự động. (Tính năng dự kiến sẽ được sử dụng khi vào cùng một thời điểm cần phải thêm quá nhiều sinh viên vào ở ktx) Dựa trên nhu cầu đã được chọn của sinh viên, giới tính, hệ thống sẽ tiến hành xếp chỗ vào từng phòng. 
+•	FR13: Chuyển phòng. Thực hiện chuyển phòng, lưu lịch sử chuyển phòng. 
+QUẢN LÝ HỢP ĐỒNG
+•	FR14: Quản lý hợp đồng thuê. Thêm hợp đồng vào CSDL, gia hạn hợp đồng, thanh lý hợp đồng và xuất hợp đồng thành File PDF.
+•	FR15:  Gia hạn hợp đồng.
+•	FR16: Thanh lý hợp đồng. 
+•	FR17: Xuất PDF.
+QUẢN LÝ TRẢ PHÒNG. 
+•	FR18: Tiếp nhận yêu cầu trả phòng. (Khi sinh viên gửi một yêu cầu trả phòng thì tiếp nhận)
+•	FR19: Kiểm tra tài sản. Đánh giá mức độ hư hại của tài sản đã được bàn giao cho sinh viên
+•	FR20: Tính phí bồi thường. Dựa theo các món đồ đã bị hư hại hay mất đi mà tính phí. Ví dụ như hư bàn -200 tiền cọc, v.v.
+•	FR21: Hoàn tiền cọc.
+QUẢN LÝ TÀI CHÍNH
+•	FR22: Theo dõi hóa đơn. Các hóa đơn bao gồm hóa đơn điện, nước, hóa đơn sửa chữa(nếu có)
+•	FR23: Theo dõi công nợ. (Role này t cũng ko rõ sẽ như thế nào, có thể sẽ liên quan đến kiểm soát chung tình hình tài chính).
+•	FR24: Xuất báo cáo doanh thu. Báo cáo doanh thu 1 tháng, 1 quý, 1 năm của ktx lên cấp trên (Cái này có thể bỏ qua bởi vì nó khá là rắc rối khi làm chi tiết về nội dung của tính năng này)
+QUẢN LÝ CƯ TRÚ
+•	FR25: Theo dõi báo vắng qua đêm. (Để quản lý tạm trú tạm vắng ở KTX thì tính năng này bắt buộc phải có, hình thức nói chung là sinh viên sẽ tự mình báo vắng trên hệ thống, sau đó lịch sử báo vắng được lưu vào DB, công việc theo dõi sẽ được xem như là quản sinh được cấp quyền truy cập vào dữ liệu đó, phần này cũng cần phải thiết kế giao diện cho tính năng theo dõi)
+QUẢN LÝ SỰ CỐ
+•	FR26: Tiếp nhận yêu cầu sửa chữa. Thiết kế UI.
+•	FR27: Phân công nhân viên bảo trì. Cái này coi như là làm một cái nút ấn rồi gọi cho bên thứ 3 điều đến để sửa chữa thôi.
+•	FR28: Theo dõi tiến độ sửa chữa. Đánh dấu là đã xong/đang tiến hành/chưa làm.
+QUẢN LÝ NỘI QUY
+•	FR29: Quản lý vi phạm. Lưu lịch sử vi phạm của sinh viên, cái tính năng này có thể lưu lại giống như cái web KTXBK.
+•	FR30: Quản lý đánh giá sinh viên. Trừ điểm theo nội quy ktx, cái này cũng chỉ là set Rules để trừ thôi chứ cũng không quá phức tạp.
+IV.	FLOOR MANAGER (QUẢN LÝ TẦNG): 
+QUẢN LÝ SINH VIÊN THEO TẦNG.
+•	FM01. Xem danh sách sinh viên thuộc tầng phụ trách
+•	FM02. Xem thông tin lưu trú
+•	FM03. Theo dõi tình trạng phòng
+QUẢN LÝ CHỈ SỐ ĐIỆN NƯỚC.
+•	FM04. Nhập chỉ số điện đầu kỳ
+•	FM05. Nhập chỉ số điện cuối kỳ
+•	FM06. Nhập chỉ số nước đầu kỳ
+•	FM07. Nhập chỉ số nước cuối kỳ
+•	FM08. Upload ảnh công tơ
+•	FM09. Theo dõi lịch sử tiêu thụ điện nước
+QUẢN LÝ CƯ TRÚ
+•	FM10. Theo dõi báo vắng qua đêm
+•	FM11. Theo dõi tạm trú
+•	FM12. Theo dõi tạm vắng
+QUẢN LÝ NỘI QUY
+•	FM13. Lập biên bản vi phạm
+•	FM14. Đánh giá sinh viên định kỳ
+QUẢN LÝ PHẢN ÁNH
+•	FM15. Tiếp nhận phản ánh
+•	FM16. Theo dõi yêu cầu sửa chữa
+V.	STUDENT (Sinh viên)
+HỒ SƠ CÁ NHÂN
+•	ST01. Xem thông tin cá nhân
+•	ST02. Cập nhật thông tin liên hệ
+•	ST03. Đổi mật khẩu
+	THÔNG TIN LƯU TRÚ
+•	ST04. Xem thông tin lưu trú hiện tại
+•	Khu nhà.
+•	Tầng.
+•	Phòng.
+•	Giường.
+•	ST05. Xem danh sách bạn cùng phòng
+•	ST06. Xem lịch sử lưu trú
+THUÊ PHÒNG
+•	ST07. Tìm kiếm phòng trống
+Bộ lọc:
+•	Loại phòng.
+•	Khu nhà.
+•	Giá.
+•	Số giường trống.
+•	ST08. Xem chi tiết phòng
+•	ST09. Đăng ký thuê phòng
+•	ST10. Theo dõi trạng thái đăng ký
+HỢP ĐỒNG
+•	ST11. Xem hợp đồng
+•	ST12. Tải hợp đồng PDF
+HÓA ĐƠN
+•	ST13. Xem hóa đơn
+•	ST14. Thanh toán hóa đơn
+Thanh toán qua:
+•	Ngân hàng.
+•	VNPay.
+•	MoMo.
+•	ZaloPay.
+•	ST15. Xem lịch sử thanh toán
+•	ST16. Tải hóa đơn PDF
+YÊU CẦU
+•	ST17. Gửi yêu cầu sửa chữa
+•	ST18. Theo dõi yêu cầu sửa chữa
+•	ST19. Gửi phản ánh
+•	ST20. Gửi góp ý
+CƯ TRÚ
+•	ST21. Báo vắng qua đêm
+•	ST22. Đăng ký tạm trú
+•	ST23. Đăng ký tạm vắng dài ngày
+•	ST24. Đăng ký khách thăm
+THÔNG BÁO
+•	ST25. Xem thông báo
+•	ST26. Trung tâm tin nhắn
+ĐÁNH GIÁ
+•	ST27. Xem lịch sử đánh giá
+•	ST28. Xem lịch sử vi phạm
+VI.	MAINTENANCE STAFF (Nhân viên)
+•	MT01. Xem danh sách công việc được giao
+•	MT02. Xem chi tiết yêu cầu sửa chữa
+•	MT03. Cập nhật trạng thái
+•	Chờ xử lý.
+•	Đang xử lý.
+•	Hoàn thành.
+•	MT04. Ghi nhận kết quả sửa chữa
+•	MT05. Upload ảnh trước sửa chữa
+•	MT06. Upload ảnh sau sửa chữa
+•	MT07. Lịch sử bảo trì
+•	MT08. Dashboard bảo trì
+

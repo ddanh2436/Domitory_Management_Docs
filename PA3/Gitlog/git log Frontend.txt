@@ -1,0 +1,34 @@
+commit 983bd911fec4adc65be8c0f00309f7913517823f (HEAD -> TranHuynhManhDat, origin/main, origin/HEAD)
+Merge: d1f7e4e 4a68c9f
+Author: Dao Duy Anh <ddanh2436@clc.fitus.edu.vn>
+Date:   Thu Jul 23 12:29:46 2026 +0700
+
+    Merge pull request #59 from ddanh2436/DaoDuyAnh
+    
+    Add auth guard for chatbot model
+
+commit 4a68c9fa810100566cd86adb75cd5a3c2f80deb2 (origin/DaoDuyAnh)
+Author: ddanh2436 <ddanh2436@clc.fitus.edu.vn>
+Date:   Thu Jul 23 12:26:52 2026 +0700
+
+    Add auth guard for chatbot model
+
+commit d1f7e4eaf8476202cad51271cb2f964d1fe47f71
+Merge: 5454072 a0ca2a7
+Author: Trần Hoàng Quốc Khánh <quockhanh2006hkn@gmail.com>
+Date:   Thu Jul 23 11:18:06 2026 +0700
+
+    Merge pull request #58 from ddanh2436/QuocKhanh
+    
+    UI of AI chatbot feature
+
+commit a0ca2a7b4466f6d4cf4af5808e1e1637ab359d44 (origin/QuocKhanh)
+Author: KHÁNH TRẦN HOÀNG QUỐC <quockhanh2006hkn@gmail.com>
+Date:   Thu Jul 23 11:18:06 2026 +0700
+
+     the UI of AI chatbot feature
+
+commit 54540720c11eff8da2b6035c905e2ee008ea0efa
+Merge: 94a3f64 f2da74f
+Author: Dao Duy Anh <ddanh2436@clc.fitus.edu.vn>
+Date:   Tue Jul 21 17:10:32 2026 +0700

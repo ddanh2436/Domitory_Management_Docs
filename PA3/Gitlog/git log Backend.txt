@@ -1,0 +1,34 @@
+commit f1d5cded048fed85561ec2a9dd833e0ca3cfd37e (HEAD -> TranHuynhManhDat)
+Merge: f3236d8 76755c3
+Author: HueoBee <thmdat2407@clc.fitus.edu.vn>
+Date:   Thu Jul 23 12:41:56 2026 +0700
+
+    Merge branch 'main' of https://github.com/ddanh2436/Domitory_Management_Backend into TranHuynhManhDat
+
+commit 76755c35ae8475b2da669538d71b4fe181eb3716
+Merge: 752e377 56c0a4f
+Author: Dao Duy Anh <ddanh2436@clc.fitus.edu.vn>
+Date:   Thu Jul 23 12:31:05 2026 +0700
+
+    Merge pull request #35 from ddanh2436/DaoDuyAnh
+    
+    Add threadshore score and change model to gwen 2.5:3b
+
+commit 56c0a4f8c95a0e5de9985304a513ae23a1961c47 (origin/DaoDuyAnh)
+Author: ddanh2436 <ddanh2436@clc.fitus.edu.vn>
+Date:   Thu Jul 23 12:25:50 2026 +0700
+
+    Add threadshore score and change model to gwen 2.5:3b
+
+commit 752e3773ce0185ac4cc8e620bc37ad73b49836e2
+Merge: e06d3d8 25edab9
+Author: Trần Hoàng Quốc Khánh <quockhanh2006hkn@gmail.com>
+Date:   Thu Jul 23 11:18:48 2026 +0700
+
+    Merge pull request #34 from ddanh2436/QuocKhanh
+    
+    Implement AI chatbot feature
+
+commit 25edab98b88740692c93d3b64450b7de14804052
+Author: KHÁNH TRẦN HOÀNG QUỐC <quockhanh2006hkn@gmail.com>
+Date:   Thu Jul 23 11:17:31 2026 +0700
