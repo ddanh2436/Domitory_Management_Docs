@@ -17,7 +17,7 @@
 **Objectives**
 - Verify that the core student-lifecycle features of Dormify — login, room application review, automatic room allocation, invoice generation, and checkout/deposit refund — work correctly end‑to‑end against the specifications in `docs/analysis-and-design/use-case-specs/`.
 - Confirm that state transitions that touch multiple collections in the same transaction (`Booking` → `Contract` → `Room.currentOccupancy` → `User.room`, and the reverse on checkout) remain consistent (atomicity), including under guarded/concurrent conditions.
-- Confirm that role-based access control (`ADMIN` / `DORMITORY_MANAGER` / `FLOOR_MANAGER` / `STUDENT`) is enforced on every endpoint exercised by the selected use cases.
+- Confirm that role-based access control (`ADMIN` /  `FLOOR_MANAGER` / `STUDENT`) is enforced on every endpoint exercised by the selected use cases.
 - Validate boundary and negative inputs (invalid credentials, duplicate invoices, over-capacity rooms, compensation exceeding deposit, etc.) produce the documented error behavior instead of silent failure.
 
 **Scope**
@@ -38,7 +38,7 @@
 
 - **Backend:** NestJS (Node.js), MongoDB (local instance or Dockerized replica set — required for multi-document transactions used by UC-ROOM-06/07 and UC-CHK-04), run via `npm run start:dev` in `Domitory_Management_Backend`.
 - **Frontend:** Next.js App Router, run via `npm run dev` in `Domitory_Management_Frontend`, `NEXT_PUBLIC_API_URL=http://localhost:3001/api`.
-- **Test accounts:** at least one seeded account per role (`STUDENT`, `DORMITORY_MANAGER`/`FLOOR_MANAGER`, `ADMIN`) with known credentials, plus disposable student accounts created per test case so bookings/contracts/invoices/checkouts do not collide between test runs.
+- **Test accounts:** at least one seeded account per role (`STUDENT`, ``/`FLOOR_MANAGER`, `ADMIN`) with known credentials, plus disposable student accounts created per test case so bookings/contracts/invoices/checkouts do not collide between test runs.
 - **Tools:**
   - Postman / `curl` (or the provided `scripts/e2e-run.js`, `scripts/e2e-seed.js`, `scripts/e2e-cleanup.js`) for direct API-level test execution and setup/teardown.
   - Browser (Chrome) for UI-driven test steps (`/admin/bookings`, `/admin/auto-assign`, `/admin/invoices`, `/admin/checkouts`, `/login`).
@@ -46,20 +46,7 @@
   - Browser DevTools / a WebSocket inspector to verify realtime notifications where specified.
 - **Test data reset:** each test case that mutates state (booking approval, auto-assignment, invoice generation, checkout completion) must start from a known, isolated data set (a dedicated test room and test student per case) so results do not depend on execution order.
 
-### 4. Test Schedule and Responsibilities
-
-| Week | Activity | Responsible |
-|---|---|---|
-| Week 1 | Finalize test plan and this test case document; set up seed/test data scripts | Whole team, coordinated by [name] |
-| Week 1–2 | Execute test cases for UC-AUTH-02 and UC-ROOM-06 | [name] |
-| Week 2 | Execute test cases for UC-ROOM-07 and UC-FIN-02 | [name] |
-| Week 2 | Execute test cases for UC-CHK-04 | [name] |
-| Week 2–3 | Record execution results (pass/fail, actual result), file bug reports for failures, retest after fixes | Whole team |
-| Week 3 | Finalize test summary and Bug Report section, freeze document for submission | [name] |
-
-*(Names/dates to be filled in by the team; roles above are placeholders pending assignment.)*
-
-### 5. Entry and Exit Criteria
+### 4. Entry and Exit Criteria
 
 **Entry criteria**
 - The 5 selected use cases are implemented and deployable locally (backend + frontend running together).
@@ -101,7 +88,7 @@ The following 5 use cases were selected from `docs/analysis-and-design/use-case-
 | **Use case ID** | UC-AUTH-02 |
 | **Use Case Name** | Log In |
 | **Description** | A user authenticates with an email or MSSV plus a password (or via Google), and is routed to the area matching their role (`/admin`, `/staff`, or `/student`). |
-| **Actor(s)** | Applicant/Guest, Student, Dormitory Manager, Floor Manager, Admin (every role) |
+| **Actor(s)** | Applicant/Guest, Student, Maintenance Staff, Floor Manager, Admin (every role) |
 | **Preconditions** | The account exists and `accessStatus = ACTIVE`. |
 | **Main Flow** | 1. User submits an identifier (email or MSSV) and password on `/login`.<br>2. Frontend calls `POST /api/auth/login`.<br>3. Backend finds the user by `email` or `mssv`, verifies the password hash, and checks `accessStatus`.<br>4. Backend issues a JWT containing `sub`, `email`, and `role`.<br>5. Frontend persists the token (`localStorage` + cookie) and redirects the user to `/admin`, `/staff`, or `/student` based on role. |
 | **Alternative / Exception Flows** | **AF1 — Wrong password:** system returns HTTP `401` with message "Sai mật khẩu"; user remains on `/login`.<br>**AF2 — Identifier not found:** HTTP `401` with message "Sai thông tin đăng nhập".<br>**AF3 — Account locked:** HTTP `401` with the recorded block reason; user cannot proceed.<br>**AF4 — Log in with Google:** `POST /api/auth/google` verifies the Google ID token and auto-creates an account on first login if none exists for that email. |
@@ -118,9 +105,9 @@ The following 5 use cases were selected from `docs/analysis-and-design/use-case-
 | Test case name | Login successfully with valid email and password (Student) |
 | Description | Verify that a student with correct email + password credentials can log in and is redirected to `/student`. |
 | Related Use case | UC-AUTH-02 — Log In |
-| Input Data | Account: `student1@example.com` / password `Passw0rd!` (role = STUDENT, accessStatus = ACTIVE) |
+| Input Data | Account: `e2e.student@test.local` / password `E2Etest123` (role = STUDENT, accessStatus = ACTIVE) |
 | Expected Output | - HTTP `200 OK` with a JWT in the response body.<br>- `localStorage` and the `token` cookie both contain the token.<br>- Browser is redirected to `/student`. |
-| Test steps | 1. Open `/login`.<br>2. Enter `student1@example.com` as identifier and `Passw0rd!` as password.<br>3. Click "Đăng nhập".<br>4. Observe the redirect and check `localStorage`/cookie for the token. |
+| Test steps | 1. Open `/login`.<br>2. Enter `e2e.student@test.local` as identifier and `E2Etest123` as password.<br>3. Click "Đăng nhập".<br>4. Observe the redirect and check `localStorage`/cookie for the token. |
 
 **Test case 2**
 
@@ -130,9 +117,9 @@ The following 5 use cases were selected from `docs/analysis-and-design/use-case-
 | Test case name | Login successfully with valid MSSV instead of email |
 | Description | Verify the identifier field accepts a valid MSSV in place of an email and still authenticates the same account. |
 | Related Use case | UC-AUTH-02 — Log In |
-| Input Data | Account with `mssv = 21120001`, password `Passw0rd!` |
+| Input Data | Account with `mssv = E2E0001`, password `E2Etest123` |
 | Expected Output | - HTTP `200 OK`, JWT returned.<br>- Redirect to the role's area (`/student`). |
-| Test steps | 1. Open `/login`.<br>2. Enter `21120001` as identifier and `Passw0rd!` as password.<br>3. Click "Đăng nhập".<br>4. Confirm successful redirect. |
+| Test steps | 1. Open `/login`.<br>2. Enter `E2E0001` as identifier and `Passw0rd!` as password.<br>3. Click "Đăng nhập".<br>4. Confirm successful redirect. |
 
 **Test case 3**
 
@@ -142,9 +129,9 @@ The following 5 use cases were selected from `docs/analysis-and-design/use-case-
 | Test case name | Login fails with wrong password |
 | Description | Verify that an incorrect password for an existing identifier is rejected with the documented error message. |
 | Related Use case | UC-AUTH-02 — Log In |
-| Input Data | Identifier: `student1@example.com`, password: `WrongPass1` |
+| Input Data | Identifier: `e2e.student@test.local`, password: `WrongPass1` |
 | Expected Output | - HTTP `401 Unauthorized`.<br>- Error message "Sai mật khẩu" shown on the login form.<br>- No token stored, no redirect. |
-| Test steps | 1. Open `/login`.<br>2. Enter `student1@example.com` / `WrongPass1`.<br>3. Click "Đăng nhập".<br>4. Observe the error message and confirm the user stays on `/login`. |
+| Test steps | 1. Open `/login`.<br>2. Enter `e2e.student@test.local` / `WrongPass1`.<br>3. Click "Đăng nhập".<br>4. Observe the error message and confirm the user stays on `/login`. |
 
 **Test case 4**
 
@@ -166,9 +153,9 @@ The following 5 use cases were selected from `docs/analysis-and-design/use-case-
 | Test case name | Login rejected for a locked account |
 | Description | Verify a user whose `accessStatus` is not `ACTIVE` (locked by an admin) cannot log in even with correct credentials, and sees the recorded block reason. |
 | Related Use case | UC-AUTH-02 — Log In |
-| Input Data | Account `locked1@example.com` / `Passw0rd!` with `accessStatus = LOCKED`, `blockReason = "Vi phạm nội quy"` |
+| Input Data | Account `e2e.student@test.local` / `E2Etest123` with `accessStatus = LOCKED`, `blockReason = "Vi phạm nội quy"` |
 | Expected Output | - HTTP `401 Unauthorized`.<br>- Error message includes the recorded block reason "Vi phạm nội quy".<br>- No token stored. |
-| Test steps | 1. As Admin, lock the target account via `/admin` with reason "Vi phạm nội quy".<br>2. Open `/login` in a separate/incognito session.<br>3. Enter `locked1@example.com` / `Passw0rd!`.<br>4. Observe the error message. |
+| Test steps | 1. As Admin, lock the target account via `/admin` with reason "Vi phạm nội quy".<br>2. Open `/login` in a separate/incognito session.<br>3. Enter `e2e.student@test.local` / `E2Etest123`.<br>4. Observe the error message. |
 
 **Test case 6**
 
@@ -178,7 +165,7 @@ The following 5 use cases were selected from `docs/analysis-and-design/use-case-
 | Test case name | Login as Admin redirects to /admin |
 | Description | Verify that a user with role `ADMIN` is redirected to the admin area after successful login. |
 | Related Use case | UC-AUTH-02 — Log In |
-| Input Data | Account `admin@example.com` / `AdminPass1` (role = ADMIN) |
+| Input Data | Account `example@gmail.com` / `123456` (role = ADMIN) |
 | Expected Output | - HTTP `200 OK`.<br>- Browser redirected to `/admin`. |
 | Test steps | 1. Open `/login`.<br>2. Enter admin credentials.<br>3. Click "Đăng nhập".<br>4. Confirm redirect target is `/admin`. |
 
@@ -187,10 +174,10 @@ The following 5 use cases were selected from `docs/analysis-and-design/use-case-
 | Field | Detail |
 |---|---|
 | Test case ID | TC-AUTH-02-07 |
-| Test case name | Login as Dormitory Manager / Floor Manager redirects to /staff |
+| Test case name | Login as Maintenance Staff / Floor Manager redirects to /staff |
 | Description | Verify that manager/staff roles are redirected to `/staff`, not `/admin` or `/student`. |
 | Related Use case | UC-AUTH-02 — Log In |
-| Input Data | Account `manager1@example.com` / `ManagerPass1` (role = DORMITORY_MANAGER) |
+| Input Data | Account `norway@example.com` / `norway1234` (role = FLOOR_MANAGER) | Account `example4@gmail.com` / `123456789` (role: MAINTENANCE_STAFF)
 | Expected Output | - HTTP `200 OK`.<br>- Browser redirected to `/staff`. |
 | Test steps | 1. Open `/login`.<br>2. Enter manager credentials.<br>3. Click "Đăng nhập".<br>4. Confirm redirect target is `/staff`. |
 
@@ -251,7 +238,7 @@ The following 5 use cases were selected from `docs/analysis-and-design/use-case-
 | **Use case ID** | UC-ROOM-06 |
 | **Use Case Name** | Review Room Application |
 | **Description** | A manager approves or rejects a pending room application. Approval atomically creates the student's first rental contract (UC-CON-01), increments room occupancy, and assigns the room to the student. |
-| **Actor(s)** | Dormitory Manager |
+| **Actor(s)** | Admin |
 | **Preconditions** | A `Booking(PENDING)` exists. |
 | **Main Flow** | 1. Manager opens `/admin/bookings` and clicks "Duyệt" on a pending application.<br>2. Backend, inside a MongoDB transaction: increments `Room.currentOccupancy`, sets `Booking.status = APPROVED`, generates a unique `contractNumber` (e.g. `HD-2026-...`), creates a `Contract(ACTIVE)` with `startDate = now`, `endDate = now + 5 months`, `rentalFee = room.price`, and sets `User.room`.<br>3. The student is notified in real time. |
 | **Alternative / Exception Flows** | **AF1 — Reject:** `Booking.status = REJECTED`; student notified; no room/contract changes.<br>**AF2 — Room fills concurrently:** the guarded occupancy update fails; the whole transaction aborts and the manager must retry. |
@@ -270,7 +257,7 @@ The following 5 use cases were selected from `docs/analysis-and-design/use-case-
 | Related Use case | UC-ROOM-06 — Review Room Application |
 | Input Data | `Booking B-01` (`status = PENDING`) for student `S1` on `Room R-101` (`currentOccupancy = 1`, `capacity = 4`) |
 | Expected Output | - HTTP `200 OK`, message "Duyệt đơn thành công".<br>- `Booking B-01.status = APPROVED` in DB.<br>- `Room R-101.currentOccupancy = 2`.<br>- A new `Contract(ACTIVE)` exists, linked to `S1`, `R-101`, and `B-01`.<br>- `User S1.room = R-101`. |
-| Test steps | 1. Log in as Dormitory Manager.<br>2. Open `/admin/bookings`, locate `B-01`.<br>3. Click "Duyệt" and confirm.<br>4. Query the DB (or `/admin/bookings` UI) to check `Booking`, `Room`, `Contract`, and `User` state. |
+| Test steps | 1. Log in as Admin.<br>2. Open `/admin/bookings`, locate `B-01`.<br>3. Click "Duyệt" and confirm.<br>4. Query the DB (or `/admin/bookings` UI) to check `Booking`, `Room`, `Contract`, and `User` state. |
 
 **Test case 2**
 
@@ -282,7 +269,7 @@ The following 5 use cases were selected from `docs/analysis-and-design/use-case-
 | Related Use case | UC-ROOM-06 — Review Room Application (AF1) |
 | Input Data | `Booking B-02` (`status = PENDING`) for student `S2` on `Room R-102` (`currentOccupancy = 1`) |
 | Expected Output | - HTTP `200 OK`.<br>- `Booking B-02.status = REJECTED`.<br>- `Room R-102.currentOccupancy` remains `1` (unchanged).<br>- No `Contract` created for `S2`.<br>- `User S2.room` remains unset. |
-| Test steps | 1. Log in as Dormitory Manager.<br>2. Open `/admin/bookings`, locate `B-02`.<br>3. Click "Từ chối" and confirm.<br>4. Verify DB state for `Booking`, `Room`, `Contract`, `User`. |
+| Test steps | 1. Log in as Admin.<br>2. Open `/admin/bookings`, locate `B-02`.<br>3. Click "Từ chối" and confirm.<br>4. Verify DB state for `Booking`, `Room`, `Contract`, `User`. |
 
 **Test case 3**
 
@@ -294,7 +281,7 @@ The following 5 use cases were selected from `docs/analysis-and-design/use-case-
 | Related Use case | UC-ROOM-06 — Review Room Application → UC-CON-01 — Create Rental Contract |
 | Input Data | `Booking B-03` for student `S3` on `Room R-103` with `price = 1,500,000 VND` |
 | Expected Output | - `Contract.contractNumber` matches pattern `HD-2026-...` and is unique.<br>- `Contract.startDate` ≈ approval timestamp.<br>- `Contract.endDate` = `startDate + 5 months` (calendar-correct, e.g. accounting for month length).<br>- `Contract.rentalFee = 1,500,000`.<br>- `Contract.status = ACTIVE`. |
-| Test steps | 1. Approve `B-03` as Dormitory Manager.<br>2. Open the resulting contract in `/admin/contracts` or the DB.<br>3. Verify each field listed in Expected Output. |
+| Test steps | 1. Approve `B-03` as Admin.<br>2. Open the resulting contract in `/admin/contracts` or the DB.<br>3. Verify each field listed in Expected Output. |
 
 **Test case 4**
 
@@ -326,11 +313,11 @@ The following 5 use cases were selected from `docs/analysis-and-design/use-case-
 |---|---|
 | Test case ID | TC-ROOM-06-06 |
 | Test case name | Non-manager role cannot approve/reject a booking |
-| Description | Verify that a user without `ADMIN`/`DORMITORY_MANAGER`/`FLOOR_MANAGER` role cannot call the approve/reject endpoint directly. |
+| Description | Verify that a user without `ADMIN`/ `FLOOR_MANAGER` role cannot call the approve/reject endpoint directly. |
 | Related Use case | UC-ROOM-06 — Review Room Application |
 | Input Data | Student `S6`'s JWT used to call `PATCH /api/bookings/B-06/approve` |
-| Expected Output | - HTTP `403 Forbidden`.<br>- `Booking B-06` remains `PENDING`; no room/contract/user changes. |
-| Test steps | 1. Log in as a student and capture the JWT.<br>2. Using Postman/curl, call `PATCH /api/bookings/B-06/approve` with the student's token.<br>3. Confirm `403` and that no state changed. |
+| Expected Output | - HTTP `400 / 409`.<br>- `Booking B-06` remains `PENDING`; no room/contract/user changes. |
+| Test steps | 1. Log in as a student and capture the JWT.<br>2. Using Postman/curl, call `PATCH /api/bookings/B-06/approve` with the student's token.<br>3. Confirm `401` and that no state changed. |
 
 **Test case 7**
 
@@ -401,8 +388,8 @@ The following 5 use cases were selected from `docs/analysis-and-design/use-case-
 | **Use case ID** | UC-ROOM-07 |
 | **Use Case Name** | Run Automatic Room Allocation |
 | **Description** | A manager bulk-assigns every student who currently has no room into available rooms, matching gender where the room type requires it. |
-| **Actor(s)** | Dormitory Manager |
-| **Preconditions** | At least one student has no room; actor holds `ADMIN` or `DORMITORY_MANAGER`. |
+| **Actor(s)** | Admin |
+| **Preconditions** | At least one student has no room; actor holds `ADMIN` or ``. |
 | **Main Flow** | 1. Manager opens `/admin/auto-assign`; `GET /api/assignments/preview` shows counts of unassigned students and free slots.<br>2. Manager confirms "Chạy phân phòng tự động"; `POST /api/assignments/auto` runs.<br>3. For each unassigned student (processed in name order), the system picks the first room whose `genderType` is `MIXED` or matches the student's `gender` and that has remaining capacity; it increments occupancy (guarded), creates a `Booking(APPROVED)` + `Contract`, sets `User.room`, and notifies the student.<br>4. A per-student results table is returned (assigned room, or skipped with a reason). |
 | **Alternative / Exception Flows** | **AF1 — No compatible room:** student listed `SKIPPED` with a reason.<br>**AF2 — A room fills mid-run from a concurrent process:** that assignment is skipped; the run continues with the next student.<br>**AF3 — Zero unassigned students or zero free slots:** the run button is disabled. |
 | **Postconditions** | Zero or more students newly assigned rooms with bookings/contracts. |
@@ -500,7 +487,7 @@ The following 5 use cases were selected from `docs/analysis-and-design/use-case-
 |---|---|
 | Test case ID | TC-ROOM-07-08 |
 | Test case name | Non-manager role cannot trigger automatic allocation |
-| Description | Verify a user without `ADMIN`/`DORMITORY_MANAGER` role cannot call `POST /api/assignments/auto` directly. |
+| Description | Verify a user without `ADMIN`/`` role cannot call `POST /api/assignments/auto` directly. |
 | Related Use case | UC-ROOM-07 — Run Automatic Room Allocation |
 | Input Data | Student's JWT used to call `POST /api/assignments/auto` |
 | Expected Output | - HTTP `403 Forbidden`.<br>- No students assigned; no state changes. |
@@ -551,8 +538,8 @@ The following 5 use cases were selected from `docs/analysis-and-design/use-case-
 | **Use case ID** | UC-FIN-02 |
 | **Use Case Name** | Create or Bulk-Generate Invoices |
 | **Description** | A manager creates a single invoice, or bulk-generates invoices for many rooms at once, computing `totalAmount` from room rent plus electricity/water fees. |
-| **Actor(s)** | Dormitory Manager |
-| **Preconditions** | Actor holds `ADMIN` or `DORMITORY_MANAGER`. |
+| **Actor(s)** | Admin |
+| **Preconditions** | Actor holds `ADMIN`. |
 | **Main Flow** | 1. Manager opens `/admin/invoices` and starts bulk invoice generation for a billing period (month/year).<br>2. For each room, the manager enters `electricityKwh` and `waterM3` (or pre-computed fees) alongside a unit price.<br>3. `POST /api/invoices/generate-bulk` (or `POST /api/invoices` for a single room) computes each room's electricity/water fee and creates one `Invoice(PENDING)` per room, with `totalAmount = rentalFee + electricityFee + waterFee`. |
 | **Alternative / Exception Flows** | **AF1 — Single-invoice path:** manager enters pre-computed `electricityFee`/`waterFee` directly via `POST /api/invoices` instead of raw kWh/m³ readings.<br>**AF2 — Duplicate invoice for the same room/period:** rejected by the unique index on `(room, month, year)`. |
 | **Postconditions** | One or more `Invoice(PENDING)` documents created with `totalAmount` computed from room/electricity/water fees. |
@@ -701,7 +688,7 @@ The following 5 use cases were selected from `docs/analysis-and-design/use-case-
 | **Use case ID** | UC-CHK-04 |
 | **Use Case Name** | Refund Deposit and Complete Checkout |
 | **Description** | The manager finalizes a checkout: the damage list and deposit from the review step are persisted, compensation and refund are computed, the contract is terminated, and the room slot is released — all atomically. |
-| **Actor(s)** | Dormitory Manager |
+| **Actor(s)** | Admin |
 | **Preconditions** | A `Checkout(PENDING)` exists with the damage list (if any) already prepared during review. |
 | **Main Flow** | 1. Manager reviews the computed refund amount in a confirmation dialog and confirms.<br>2. Backend, in a transaction: persists the damage-item list and final deposit amount on the `Checkout`, computes `compensation = sum(item fees)` and `refund = max(0, deposit − compensation)`, sets `Checkout.status = COMPLETED`, terminates the linked `Contract` (`status = TERMINATED`/`LIQUIDATED`, per UC-CON-03), decrements `Room.currentOccupancy`, and clears `User.room`.<br>3. Student is notified in real time with the final refund amount. |
 | **Alternative / Exception Flows** | **AF1 — Reject instead of completing:** `PATCH /api/checkouts/:id/reject`, optionally with an `adminNote`; `Checkout.status = REJECTED`; student notified; no contract/room changes.<br>**AF2 — No damage found:** manager adds zero items; compensation is `0` and the full deposit is refunded. |
@@ -848,8 +835,8 @@ The following 5 use cases were selected from `docs/analysis-and-design/use-case-
 
 | Feature / Use case | # Test cases | # Passed | # Failed | Notes |
 |---|---|---|---|---|
-| UC-AUTH-02 — Log In | 11 | — | — | Pending execution |
-| UC-ROOM-06 — Review Room Application | 11 | — | — | Pending execution |
+| UC-AUTH-02 — Log In | 11 | 10 | 1 | Tests completed, test TC-AUTH-02-07 failed at FLOOR_MANAGER role |
+| UC-ROOM-06 — Review Room Application | 11 | 11 | 0 | Tests completed with no tests failed |
 | UC-ROOM-07 — Run Automatic Room Allocation | 11 | — | — | Pending execution |
 | UC-FIN-02 — Create or Bulk-Generate Invoices | 11 | — | — | Pending execution |
 | UC-CHK-04 — Refund Deposit and Complete Checkout | 11 | — | — | Pending execution |
@@ -857,4 +844,27 @@ The following 5 use cases were selected from `docs/analysis-and-design/use-case-
 
 ## E. Bug Report
 
-*To be added after test execution. Each failed test case will be linked to at least one entry here, including bug ID, description, steps to reproduce, expected vs. actual result, severity, and status, per the PA5-2026 requirements.*
+**Bug 1**
+| Field | Detail |
+|---|---|
+| Bug ID | BUG-01-TC-AUTH-02-07
+| Linked Test Case | TC-AUTH-02-07
+| Description | Infinite redirect loop when logging in with a Floor Manager account. The UI gets stuck at the "checking access permissions" state, while the frontend continuously calls the GET /admin API uncontrollably.
+| Steps to Reproduce | Open the browser and navigate to /login --> Enter the Floor Manager credentials (norway@example.com / norway1234) --> Click "Login" --> Observe the UI and monitor the logs on the terminal running npm run dev for the frontend.
+| Expected Result | The system returns HTTP 200 OK, and the browser correctly redirects the user to the /staff page.
+| Actual Result | The browser fails to redirect to /staff. The UI is stuck on the "checking access permissions" loading screen. The frontend terminal continuously outputs an infinite loop of GET /admin 200 requests.
+| Severity | Low - Although this error completely blocks the user flow for the FLOOR_MANAGER role, the team has no intention of implementing or supporting this role within the current project scope. As a result, the core functionalities of the entire system and other roles (STUDENT, ADMIN, MAINTENANCE_STAFF) are completely unaffected.
+| Status | Closed
+
+**Bug 2**
+| Field | Detail |
+|---|---|
+| Bug ID | BUG-R-01-ROOM-06
+
+| Linked Test Case | TC-ROOM-06-01, TC-ROOM-06-02, TC-ROOM-06-07, TC-ROOM-06-11
+| Description | When a student liquidates their contract or completes the checkout process and attempts to re-apply for a room, the system blocks the action with the error message: "There is a pending application or you are currently a resident." Meanwhile, the student's previous application status on the Admin dashboard still incorrectly displays as "Approved".
+| Steps to Reproduce | Log in as a Student who has recently checked out or liquidated their rental contract --> Navigate to the room booking page and attempt to submit a new room application --> Observe the error message blocking the submission --> Log in as an Admin and open the Bookings management page --> Locate the student's previous application and observe its status.
+| Expected Result | The previous booking status should be properly archived or reset upon contract liquidation, allowing the student to successfully submit a new room application.
+| Actual Result | The system blocks the new application with a state conflict error, as the old booking remains stuck in the "APPROVED" state.
+| Severity | High — After checking out or liquidating a contract, the student is permanently blocked from registering again. This entirely deprives the student of the opportunity to book a new room for a second time.
+| Status | Pending
