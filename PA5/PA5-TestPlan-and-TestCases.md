@@ -17,7 +17,7 @@
 **Objectives**
 - Verify that the core student-lifecycle features of Dormify — login, room application review, automatic room allocation, invoice generation, and checkout/deposit refund — work correctly end‑to‑end against the specifications in `docs/analysis-and-design/use-case-specs/`.
 - Confirm that state transitions that touch multiple collections in the same transaction (`Booking` → `Contract` → `Room.currentOccupancy` → `User.room`, and the reverse on checkout) remain consistent (atomicity), including under guarded/concurrent conditions.
-- Confirm that role-based access control (`ADMIN` /  `FLOOR_MANAGER` / `STUDENT`) is enforced on every endpoint exercised by the selected use cases.
+- Confirm that role-based access control (`ADMIN` / `FLOOR_MANAGER` / `MAINTENANCE_STAFF` / `STUDENT`) is enforced on every endpoint exercised by the selected use cases.
 - Validate boundary and negative inputs (invalid credentials, duplicate invoices, over-capacity rooms, compensation exceeding deposit, etc.) produce the documented error behavior instead of silent failure.
 
 **Scope**
@@ -38,7 +38,7 @@
 
 - **Backend:** NestJS (Node.js), MongoDB (local instance or Dockerized replica set — required for multi-document transactions used by UC-ROOM-06/07 and UC-CHK-04), run via `npm run start:dev` in `Domitory_Management_Backend`.
 - **Frontend:** Next.js App Router, run via `npm run dev` in `Domitory_Management_Frontend`, `NEXT_PUBLIC_API_URL=http://localhost:3001/api`.
-- **Test accounts:** at least one seeded account per role (`STUDENT`, ``/`FLOOR_MANAGER`, `ADMIN`) with known credentials, plus disposable student accounts created per test case so bookings/contracts/invoices/checkouts do not collide between test runs.
+- **Test accounts:** at least one seeded account per role (`STUDENT`, `FLOOR_MANAGER`, `MAINTENANCE_STAFF`, `ADMIN`) with known credentials, plus disposable student accounts created per test case so bookings/contracts/invoices/checkouts do not collide between test runs.
 - **Tools:**
   - Postman / `curl` (or the provided `scripts/e2e-run.js`, `scripts/e2e-seed.js`, `scripts/e2e-cleanup.js`) for direct API-level test execution and setup/teardown.
   - Browser (Chrome) for UI-driven test steps (`/admin/bookings`, `/admin/auto-assign`, `/admin/invoices`, `/admin/checkouts`, `/login`).
@@ -177,7 +177,7 @@ The following 5 use cases were selected from `docs/analysis-and-design/use-case-
 | Test case name | Login as Maintenance Staff / Floor Manager redirects to /staff |
 | Description | Verify that manager/staff roles are redirected to `/staff`, not `/admin` or `/student`. |
 | Related Use case | UC-AUTH-02 — Log In |
-| Input Data | Account `norway@example.com` / `norway1234` (role = FLOOR_MANAGER) | Account `example4@gmail.com` / `123456789` (role: MAINTENANCE_STAFF)
+| Input Data | Account `norway@example.com` / `norway1234` (role = FLOOR_MANAGER); Account `example4@gmail.com` / `123456789` (role = MAINTENANCE_STAFF) |
 | Expected Output | - HTTP `200 OK`.<br>- Browser redirected to `/staff`. |
 | Test steps | 1. Open `/login`.<br>2. Enter manager credentials.<br>3. Click "Đăng nhập".<br>4. Confirm redirect target is `/staff`. |
 
@@ -313,7 +313,7 @@ The following 5 use cases were selected from `docs/analysis-and-design/use-case-
 |---|---|
 | Test case ID | TC-ROOM-06-06 |
 | Test case name | Non-manager role cannot approve/reject a booking |
-| Description | Verify that a user without `ADMIN`/ `FLOOR_MANAGER` role cannot call the approve/reject endpoint directly. |
+| Description | Verify that a user without `ADMIN`/`FLOOR_MANAGER` role cannot call the approve/reject endpoint directly. |
 | Related Use case | UC-ROOM-06 — Review Room Application |
 | Input Data | Student `S6`'s JWT used to call `PATCH /api/bookings/B-06/approve` |
 | Expected Output | - HTTP `400 / 409`.<br>- `Booking B-06` remains `PENDING`; no room/contract/user changes. |
@@ -389,7 +389,7 @@ The following 5 use cases were selected from `docs/analysis-and-design/use-case-
 | **Use Case Name** | Run Automatic Room Allocation |
 | **Description** | A manager bulk-assigns every student who currently has no room into available rooms, matching gender where the room type requires it. |
 | **Actor(s)** | Admin |
-| **Preconditions** | At least one student has no room; actor holds `ADMIN` or ``. |
+| **Preconditions** | At least one student has no room; actor holds `ADMIN`. |
 | **Main Flow** | 1. Manager opens `/admin/auto-assign`; `GET /api/assignments/preview` shows counts of unassigned students and free slots.<br>2. Manager confirms "Chạy phân phòng tự động"; `POST /api/assignments/auto` runs.<br>3. For each unassigned student (processed in name order), the system picks the first room whose `genderType` is `MIXED` or matches the student's `gender` and that has remaining capacity; it increments occupancy (guarded), creates a `Booking(APPROVED)` + `Contract`, sets `User.room`, and notifies the student.<br>4. A per-student results table is returned (assigned room, or skipped with a reason). |
 | **Alternative / Exception Flows** | **AF1 — No compatible room:** student listed `SKIPPED` with a reason.<br>**AF2 — A room fills mid-run from a concurrent process:** that assignment is skipped; the run continues with the next student.<br>**AF3 — Zero unassigned students or zero free slots:** the run button is disabled. |
 | **Postconditions** | Zero or more students newly assigned rooms with bookings/contracts. |
@@ -487,7 +487,7 @@ The following 5 use cases were selected from `docs/analysis-and-design/use-case-
 |---|---|
 | Test case ID | TC-ROOM-07-08 |
 | Test case name | Non-manager role cannot trigger automatic allocation |
-| Description | Verify a user without `ADMIN`/`` role cannot call `POST /api/assignments/auto` directly. |
+| Description | Verify a user without `ADMIN` role cannot call `POST /api/assignments/auto` directly. |
 | Related Use case | UC-ROOM-07 — Run Automatic Room Allocation |
 | Input Data | Student's JWT used to call `POST /api/assignments/auto` |
 | Expected Output | - HTTP `403 Forbidden`.<br>- No students assigned; no state changes. |
@@ -831,40 +831,98 @@ The following 5 use cases were selected from `docs/analysis-and-design/use-case-
 
 ---
 
-## D. Test Summary (to be completed after execution)
+## D. Automated Test Code
+
+*Performed by: [name] · Reviewed by: [name] · Edited by: [name]*
+
+To make the 55 test cases above repeatable instead of run by hand every time, the team wrote a small automated test suite in plain Node.js, located in `e2e-tests/` at the root of `Domitory_Management_Backend`. It exercises the real backend API and MongoDB directly — no additional package needs to be installed, since it reuses the `mongodb` driver that already ships as a dependency of Mongoose, and Node's built-in `fetch` (Node ≥ 18).
+
+### 1. What the code covers
+
+| File | Use case | Test cases automated | Test cases left as MANUAL |
+|---|---|---|---|
+| `uc-auth-02.js` | UC-AUTH-02 — Log In | 10 | 1 (Google OAuth — needs a real Google ID token) |
+| `uc-room-06.js` | UC-ROOM-06 — Review Room Application | 10 | 1 (UI badge updates instantly, no page reload) |
+| `uc-room-07.js` | UC-ROOM-07 — Run Automatic Room Allocation | 9 | 2 (run button disabled — depends on the *global* state of the whole system, not something the script should force by mutating other students'/rooms' real data) |
+| `uc-fin-02.js` | UC-FIN-02 — Create or Bulk-Generate Invoices | 11 | 0 |
+| `uc-chk-04.js` | UC-CHK-04 — Refund Deposit and Complete Checkout | 10 | 1 (mid-transaction fault injection — cannot be safely simulated from an external script without a dedicated MongoDB fail point) |
+| `helpers.js` | shared utilities used by all 5 files above | — | — |
+| `run-all.js` | runs all 5 suites back-to-back and prints one consolidated report | — | — |
+
+A case marked `MANUAL` still prints a clear instruction for how to verify it by hand (which screen to open, what to click, what to look for) — it is not skipped silently.
+
+### 2. How each test is structured
+
+Every test case in every file follows the same three steps, mirroring the "Input Data / Test steps / Expected Output" columns of the test case tables above:
+
+1. **Arrange** — create the exact data the test case needs (a fresh room via `POST /rooms`, a fresh student via `POST /auth/register`, a booking, a checkout, etc.), using **new, randomly-named records every run** (via a `rnd()` helper) so re-running the suite never collides with data from a previous run or with data you are editing by hand on `/admin` at the same time.
+2. **Act** — call the real API endpoint(s) under test with `fetch`, exactly as the frontend would (same routes, same JSON body shape, same JWT in the `Authorization` header).
+3. **Assert** — check the HTTP response *and*, where the test case specifies it, the actual state written to MongoDB (via the `mongodb` driver) — e.g. that `Room.currentOccupancy` really increased by 1, that a `Contract` document was really created with the right `contractNumber` pattern, that a `Notification` document exists. An `assert()` helper throws a descriptive error the moment something doesn't match, which the runner catches and reports as `FAIL` with that exact message.
+
+Two test cases per file that involve pure UI behavior (an instantly-updating status badge, a real-time toast notification's on-screen appearance) additionally verify what *can* be checked at the data layer (e.g. that a `Notification` document was created in the right shape) even though they are still listed as needing a final manual look at the browser, since a plain Node script has no browser/socket client to observe the UI itself.
+
+### 3. How to run it
+
+```bash
+cd Domitory_Management_Backend
+# make sure the backend (npm run start:dev) and MongoDB are already running
+
+node e2e-tests/run-all.js        # runs all 5 suites, 55 test cases total
+# or run one use case at a time:
+node e2e-tests/uc-auth-02.js
+node e2e-tests/uc-room-06.js
+node e2e-tests/uc-room-07.js
+node e2e-tests/uc-fin-02.js
+node e2e-tests/uc-chk-04.js
+```
+
+Each run prints `PASS` / `FAIL` / `MANUAL` per test case as it goes, and `run-all.js` finishes by printing a Markdown table (Test case ID / date / status / actual result) that can be copied directly into Section E below, plus a plain list of every `FAIL` with its error message to make writing the Bug Report faster.
+
+If your local `.env` uses a different database name/URI or a different backend port, override the defaults with environment variables instead of editing the code:
+```bash
+MONGO_URI="mongodb://127.0.0.1:27017/your_db_name" BASE_URL="http://localhost:3001/api" node e2e-tests/run-all.js
+```
+The 3 seeded accounts (`e2e.admin@test.local`, `e2e.staff@test.local`, both password `E2Etest123`) are assumed to already exist (created by `scripts/e2e-seed.js`); if your seed data uses different credentials, update the `SEEDED_ADMIN` / `SEEDED_STAFF` constants at the top of `uc-auth-02.js`, `uc-room-06.js`, `uc-room-07.js`, `uc-fin-02.js`, and `uc-chk-04.js` to match.
+
+### 4. Known limitations, honestly stated
+
+- **UC-ROOM-07 processes every unassigned student in the whole database, not just the ones a test creates.** Tests that need to check a *specific* student's outcome filter the API response down to just their own `studentId`s rather than trusting global counts like `assignedCount`. A few tests (gender-matching, ordering, concurrency) additionally assume there is no *other* compatible room quietly absorbing the test's students first — true on a clean/dedicated test database, but potentially flaky on a shared dev database with a lot of pre-existing rooms/students. This tradeoff, and which specific tests it affects, is documented in a comment at the top of `uc-room-07.js`.
+- **Three code comments flag places where the actual backend behavior differs from what the first draft of this document assumed** (before the team read the real `invoices.service.ts`): bulk invoice generation uses a `readings: [...]` array, not a `rooms: [...]` array; an invalid electricity/water reading is silently skipped (HTTP 200 with `skipped: 1`) rather than rejected with HTTP 400; and an invoice can currently be generated for a completely empty room, since the code has no occupancy check. These are called out inline in `uc-fin-02.js` rather than silently "fixed" to make the test pass, since whether the last one is a bug or intended behavior is a product decision for the team, not something a test script should decide unilaterally.
+- **TC-CHK-04-11 (transaction atomicity under a mid-operation failure) is not run automatically.** Reliably forcing MongoDB to fail *in the middle* of a transaction from outside the process requires a dedicated MongoDB fail point, which risks affecting other work happening on the same database at the same time. It is left as a documented manual/code-review check instead of a real fault-injection test.
+
+## E. Test Summary (to be completed after execution)
 
 | Feature / Use case | # Test cases | # Passed | # Failed | Notes |
 |---|---|---|---|---|
 | UC-AUTH-02 — Log In | 11 | 10 | 1 | Tests completed, test TC-AUTH-02-07 failed at FLOOR_MANAGER role |
-| UC-ROOM-06 — Review Room Application | 11 | 11 | 0 | Tests completed with no tests failed |
-| UC-ROOM-07 — Run Automatic Room Allocation | 11 | — | — | Pending execution |
-| UC-FIN-02 — Create or Bulk-Generate Invoices | 11 | — | — | Pending execution |
-| UC-CHK-04 — Refund Deposit and Complete Checkout | 11 | — | — | Pending execution |
+| UC-ROOM-06 — Review Room Application | 11 | 3 | 8 | Tests completed |
+| UC-ROOM-07 — Run Automatic Room Allocation | 11 | 2 | 9 | Tests completed |
+| UC-FIN-02 — Create or Bulk-Generate Invoices | 11 | 5 | 6 | Tests completed |
+| UC-CHK-04 — Refund Deposit and Complete Checkout | 11 | 1 | 10 | Tests completed |
 | **Total** | **55** | — | — | |
 
-## E. Bug Report
+## F. Bug Report
 
 **Bug 1**
 | Field | Detail |
 |---|---|
-| Bug ID | BUG-01-TC-AUTH-02-07
-| Linked Test Case | TC-AUTH-02-07
-| Description | Infinite redirect loop when logging in with a Floor Manager account. The UI gets stuck at the "checking access permissions" state, while the frontend continuously calls the GET /admin API uncontrollably.
-| Steps to Reproduce | Open the browser and navigate to /login --> Enter the Floor Manager credentials (norway@example.com / norway1234) --> Click "Login" --> Observe the UI and monitor the logs on the terminal running npm run dev for the frontend.
-| Expected Result | The system returns HTTP 200 OK, and the browser correctly redirects the user to the /staff page.
-| Actual Result | The browser fails to redirect to /staff. The UI is stuck on the "checking access permissions" loading screen. The frontend terminal continuously outputs an infinite loop of GET /admin 200 requests.
-| Severity | Low - Although this error completely blocks the user flow for the FLOOR_MANAGER role, the team has no intention of implementing or supporting this role within the current project scope. As a result, the core functionalities of the entire system and other roles (STUDENT, ADMIN, MAINTENANCE_STAFF) are completely unaffected.
-| Status | Closed
+| Bug ID | BUG-01-TC-AUTH-02-07 |
+| Linked Test Case | TC-AUTH-02-07 |
+| Description | Infinite redirect loop when logging in with a Floor Manager account. The UI gets stuck at the "checking access permissions" state, while the frontend continuously calls the GET /admin API uncontrollably. |
+| Steps to Reproduce | Open the browser and navigate to /login --> Enter the Floor Manager credentials (norway@example.com / norway1234) --> Click "Login" --> Observe the UI and monitor the logs on the terminal running npm run dev for the frontend. |
+| Expected Result | The system returns HTTP 200 OK, and the browser correctly redirects the user to the /staff page. |
+| Actual Result | The browser fails to redirect to /staff. The UI is stuck on the "checking access permissions" loading screen. The frontend terminal continuously outputs an infinite loop of GET /admin 200 requests. |
+| Severity | Low - Although this error completely blocks the user flow for the FLOOR_MANAGER role, the team has no intention of implementing or supporting this role within the current project scope. As a result, the core functionalities of the entire system and other roles (STUDENT, ADMIN, MAINTENANCE_STAFF) are completely unaffected. |
+| Status | Closed |
 
 **Bug 2**
 | Field | Detail |
 |---|---|
-| Bug ID | BUG-R-01-ROOM-06
-
-| Linked Test Case | TC-ROOM-06-01, TC-ROOM-06-02, TC-ROOM-06-07, TC-ROOM-06-11
-| Description | When a student liquidates their contract or completes the checkout process and attempts to re-apply for a room, the system blocks the action with the error message: "There is a pending application or you are currently a resident." Meanwhile, the student's previous application status on the Admin dashboard still incorrectly displays as "Approved".
-| Steps to Reproduce | Log in as a Student who has recently checked out or liquidated their rental contract --> Navigate to the room booking page and attempt to submit a new room application --> Observe the error message blocking the submission --> Log in as an Admin and open the Bookings management page --> Locate the student's previous application and observe its status.
-| Expected Result | The previous booking status should be properly archived or reset upon contract liquidation, allowing the student to successfully submit a new room application.
-| Actual Result | The system blocks the new application with a state conflict error, as the old booking remains stuck in the "APPROVED" state.
-| Severity | High — After checking out or liquidating a contract, the student is permanently blocked from registering again. This entirely deprives the student of the opportunity to book a new room for a second time.
-| Status | Pending
+| Bug ID | BUG-R-01-ROOM-06 |
+| Linked Test Case | TC-ROOM-06-01, TC-ROOM-06-02, TC-ROOM-06-07, TC-ROOM-06-11,... |
+| Description | When a student liquidates their contract or completes the checkout process and attempts to re-apply for a room, the system blocks the action with the error message: "There is a pending application or you are currently a resident." Meanwhile, the student's previous application status on the Admin dashboard still incorrectly displays as "Approved". |
+| Steps to Reproduce | Log in as a Student who has recently checked out or liquidated their rental contract --> Navigate to the room booking page and attempt to submit a new room application --> Observe the error message blocking the submission --> Log in as an Admin and open the Bookings management page --> Locate the student's previous application and observe its status. |
+| Expected Result | The previous booking status should be properly archived or reset upon contract liquidation, allowing the student to successfully submit a new room application. |
+| Actual Result | The system blocks the new application with a state conflict error, as the old booking remains stuck in the "APPROVED" state. |
+| Severity | High — After checking out or liquidating a contract, the student is permanently blocked from registering again. This entirely deprives the student of the opportunity to book a new room for a second time. |
+| Status | Closed |
