@@ -5,8 +5,8 @@
 | Field | Details |
 | --- | --- |
 | Document type | Use-Case Specification |
-| Version | 1.1 — PA4 AI update |
-| Date | 08 August 2026 |
+| Version | 1.2 — PA4 AI and conduct-appeal update |
+| Date | 26 August 2026 |
 | Performed by | Trần Huỳnh Mạnh Đạt |
 | Reviewed by | Đào Duy Anh |
 | Edited by | Trần Huỳnh Mạnh Đạt |
@@ -19,13 +19,13 @@
 | --- | --- |
 | Product | Dormify |
 | Scope | Functional behavior for the PA4 Dormitory Management System |
-| Use-case count | 76 use cases |
+| Use-case count | 79 use cases |
 | Functional groups | 12 functional groups plus traceability appendices |
 | Selected PA3 focus | Maintenance Management |
-| Selected PA4 addition | Dormify AI chatbot assistance |
+| Selected PA4 additions | Dormify AI chatbot assistance; violation appeal and revocation |
 | Related use-case model | [use-case-model.md](use-case-model.md) and [use-case-model.pdf](use-case-model.pdf) |
 | Main readers | Development team, reviewers, testers, and PA4 evaluators |
-| Modeling status | Intended system behavior with repository-based PA4 AI additions |
+| Modeling status | Intended system behavior with repository-based PA4 additions |
 
 ## PA4 Structure Checklist
 
@@ -83,7 +83,7 @@
 | 8 | Residence Management | 5 |
 | 9 | Maintenance Management | 10 |
 | 10 | Feedback and Suggestions | 3 |
-| 11 | Conduct and Student Evaluation | 5 |
+| 11 | Conduct and Student Evaluation | 8 |
 | 12 | Notifications and Message Center | 3 |
 | 13 | AI Chatbot Assistance | 4 |
 
@@ -209,7 +209,7 @@ Account registration, authentication, profile self-service, and student residenc
 - Sensitive identity data must be protected in transit and at rest.
 
 **Prototype Screens:**
-- ![UC-AUTH-01 PA3 prototype screen - signup](../assets/common/UC-AUTH-01.png)
+- ![UC-AUTH-01 PA3 prototype screen - signup](../../PA3/assets/common/UC-AUTH-01.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-AUTH-01.
 
 **Relationships:**
@@ -255,7 +255,7 @@ Account registration, authentication, profile self-service, and student residenc
 - Session data must not expose passwords or sensitive credentials.
 
 **Prototype Screens:**
-- ![UC-AUTH-02 PA3 prototype screen - login](../assets/common/UC-AUTH-02.png)
+- ![UC-AUTH-02 PA3 prototype screen - login](../../PA3/assets/common/UC-AUTH-02.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-AUTH-02.
 
 **Relationships:**
@@ -296,9 +296,9 @@ Account registration, authentication, profile self-service, and student residenc
 - Protected pages must require re-authentication after logout.
 
 **Prototype Screens:**
-- ![UC-AUTH-03 PA3 prototype screen - homepage](../assets/common/homepage.png)
-- ![UC-AUTH-03 PA3 prototype screen - login](../assets/common/UC-AUTH-02.png)
-- ![UC-AUTH-03 PA3 prototype screen - footer](../assets/common/UC-AUTH-03.png)
+- ![UC-AUTH-03 PA3 prototype screen - homepage](../../PA3/assets/common/homepage.png)
+- ![UC-AUTH-03 PA3 prototype screen - login](../../PA3/assets/common/UC-AUTH-02.png)
+- ![UC-AUTH-03 PA3 prototype screen - footer](../../PA3/assets/common/UC-AUTH-03.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-AUTH-03.
 
 **Relationships:**
@@ -343,7 +343,7 @@ Account registration, authentication, profile self-service, and student residenc
 - OTP/token lifetime and retry limits must be enforced.
 
 **Prototype Screens:**
-- ![UC-AUTH-04 PA3 prototype screen - login](../assets/common/UC-AUTH-04.png)
+- ![UC-AUTH-04 PA3 prototype screen - login](../../PA3/assets/common/UC-AUTH-04.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-AUTH-04.
 
 **Relationships:**
@@ -384,7 +384,7 @@ Account registration, authentication, profile self-service, and student residenc
 - Only the profile owner and authorized management roles may view the complete record.
 
 **Prototype Screens:**
-- ![UC-PRO-01 PA3 prototype screen - studentprofile](../assets/student/UC-PRO-01.png)
+- ![UC-PRO-01 PA3 prototype screen - studentprofile](../../PA3/assets/student/studentprofile.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-PRO-01.
 
 **Relationships:**
@@ -427,7 +427,7 @@ Account registration, authentication, profile self-service, and student residenc
 - Full name, date of birth, citizen identification number, and other identity fields require an authorized manager.
 
 **Prototype Screens:**
-- ![UC-PRO-02 PA3 prototype screen - studentprofile](../assets/student/studentprofile.png)
+- ![UC-PRO-02 PA3 prototype screen - studentprofile](../../PA3/assets/student/studentprofile.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-PRO-02.
 
 **Relationships:**
@@ -471,7 +471,7 @@ Account registration, authentication, profile self-service, and student residenc
 - Password values must never be logged or returned.
 
 **Prototype Screens:**
-- ![UC-PRO-03 PA3 prototype screen - studentprofile](../assets/student/studentprofile.png)
+- ![UC-PRO-03 PA3 prototype screen - studentprofile](../../PA3/assets/student/studentprofile.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-PRO-03.
 
 **Relationships:**
@@ -511,7 +511,7 @@ Account registration, authentication, profile self-service, and student residenc
 - None.
 
 **Prototype Screens:**
-- ![UC-STAY-01 PA3 prototype screen - dashboard_student](../assets/student/UC-STAY-01.png)
+- ![UC-STAY-01 PA3 prototype screen - dashboard_student](../../PA3/assets/student/UC-STAY-01.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-STAY-01.
 
 **Relationships:**
@@ -551,7 +551,7 @@ Account registration, authentication, profile self-service, and student residenc
 - Sensitive personal information must not be exposed to roommates.
 
 **Prototype Screens:**
-- ![UC-STAY-02 PA3 prototype screen - dashboard_student](../assets/student/UC-STAY-02.png)
+- ![UC-STAY-02 PA3 prototype screen - dashboard_student](../../PA3/assets/student/UC-STAY-02.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-STAY-02.
 
 **Relationships:**
@@ -592,7 +592,7 @@ Account registration, authentication, profile self-service, and student residenc
 - None.
 
 **Prototype Screens:**
-- ![UC-STAY-03 PA3 prototype screen - dashboard_student](../assets/student/UC-STAY-01.png)
+- ![UC-STAY-03 PA3 prototype screen - dashboard_student](../../PA3/assets/student/UC-STAY-01.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-STAY-03.
 
 **Relationships:**
@@ -652,7 +652,7 @@ System account control, authorization, auditability, and administrative monitori
 - Referential integrity with contracts, invoices, and history must be preserved.
 
 **Prototype Screens:**
-- ![UC-ADM-01 PA3 prototype screen - accessControl](../assets/admin/UC-ADM-01.png)
+- ![UC-ADM-01 PA3 prototype screen - accessControl](../../PA3/assets/admin/UC-ADM-01.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-ADM-01.
 
 **Relationships:**
@@ -696,7 +696,7 @@ System account control, authorization, auditability, and administrative monitori
 - Authorization must follow least-privilege principles.
 
 **Prototype Screens:**
-- ![UC-ADM-02 PA3 prototype screen - accessControl](../assets/admin/UC-ADM-01.png)
+- ![UC-ADM-02 PA3 prototype screen - accessControl](../../PA3/assets/admin/UC-ADM-01.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-ADM-02.
 
 **Relationships:**
@@ -738,7 +738,7 @@ System account control, authorization, auditability, and administrative monitori
 - Audit logs should be tamper-resistant and retained according to project policy.
 
 **Prototype Screens:**
-- ![UC-ADM-03 PA3 prototype screen - systemDiary_admin](../assets/admin/UC-ADM-03.png)
+- ![UC-ADM-03 PA3 prototype screen - systemDiary_admin](../../PA3/assets/admin/UC-ADM-03.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-ADM-03.
 
 **Relationships:**
@@ -778,7 +778,7 @@ System account control, authorization, auditability, and administrative monitori
 - Dashboard values should identify their update time and reporting period.
 
 **Prototype Screens:**
-- ![UC-ADM-04 PA3 prototype screen - dashboard_admin](../assets/admin/UC-ADM-04.png)
+- ![UC-ADM-04 PA3 prototype screen - dashboard_admin](../../PA3/assets/admin/UC-ADM-04.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-ADM-04.
 
 **Relationships:**
@@ -841,10 +841,10 @@ Room inventory, student records, applications, automatic allocation, and transfe
 - Room lists should support building and floor filters.
 
 **Prototype Screens:**
-- ![UC-ROOM-01 PA3 prototype screen - roomManagement](../assets/admin/roomManagement.png)
-- ![UC-ROOM-01 PA3 prototype screen - addRoom_admin](../assets/admin/addRoom_admin.png)
-- ![UC-ROOM-01 PA3 prototype screen - deleteRoom_admin](../assets/admin/deleteRoom_admin.png)
-- ![UC-ROOM-01 PA3 prototype screen - room_management](../assets/floor_manager/room_management.png)
+- ![UC-ROOM-01 PA3 prototype screen - roomManagement](../../PA3/assets/admin/roomManagement.png)
+- ![UC-ROOM-01 PA3 prototype screen - addRoom_admin](../../PA3/assets/admin/addRoom_admin.png)
+- ![UC-ROOM-01 PA3 prototype screen - deleteRoom_admin](../../PA3/assets/admin/deleteRoom_admin.png)
+- ![UC-ROOM-01 PA3 prototype screen - room_management](../../PA3/assets/floor_manager/room_management.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-ROOM-01.
 
 **Relationships:**
@@ -887,9 +887,9 @@ Room inventory, student records, applications, automatic allocation, and transfe
 - None.
 
 **Prototype Screens:**
-- ![UC-STU-01 PA3 prototype screen - studentManagement](../assets/admin/studentManagement.png)
-- ![UC-STU-01 PA3 prototype screen - studentProfileManagement](../assets/admin/studentProfileManagement.png)
-- ![UC-STU-01 PA3 prototype screen - student_floor_manager](../assets/floor_manager/student_floor_manager.png)
+- ![UC-STU-01 PA3 prototype screen - studentManagement](../../PA3/assets/admin/studentManagement.png)
+- ![UC-STU-01 PA3 prototype screen - studentProfileManagement](../../PA3/assets/admin/studentProfileManagement.png)
+- ![UC-STU-01 PA3 prototype screen - student_floor_manager](../../PA3/assets/floor_manager/student_floor_manager.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-STU-01.
 
 **Relationships:**
@@ -929,7 +929,7 @@ Room inventory, student records, applications, automatic allocation, and transfe
 - None.
 
 **Prototype Screens:**
-- ![UC-ROOM-02 PA3 prototype screen - roomRetrieval](../assets/student/UC-ROOM-02.png)
+- ![UC-ROOM-02 PA3 prototype screen - roomRetrieval](../../PA3/assets/student/UC-ROOM-02.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-ROOM-02.
 
 **Relationships:**
@@ -969,7 +969,7 @@ Room inventory, student records, applications, automatic allocation, and transfe
 - None.
 
 **Prototype Screens:**
-- ![UC-ROOM-03 PA3 prototype screen - reservation](../assets/student/UC-STAY-02.png)
+- ![UC-ROOM-03 PA3 prototype screen - reservation](../../PA3/assets/student/UC-STAY-02.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-ROOM-03.
 
 **Relationships:**
@@ -1014,7 +1014,7 @@ Room inventory, student records, applications, automatic allocation, and transfe
 - None.
 
 **Prototype Screens:**
-- ![UC-ROOM-04 PA3 prototype screen - reservation](../assets/student/UC-ROOM-04.png)
+- ![UC-ROOM-04 PA3 prototype screen - reservation](../../PA3/assets/student/UC-ROOM-04.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-ROOM-04.
 
 **Relationships:**
@@ -1054,7 +1054,7 @@ Room inventory, student records, applications, automatic allocation, and transfe
 - None.
 
 **Prototype Screens:**
-- ![UC-ROOM-05 PA3 prototype screen - reservation](../assets/student/UC-ROOM-05.png)
+- ![UC-ROOM-05 PA3 prototype screen - reservation](../../PA3/assets/student/UC-ROOM-05.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-ROOM-05.
 
 **Relationships:**
@@ -1099,7 +1099,7 @@ Room inventory, student records, applications, automatic allocation, and transfe
 - Approval must prevent over-capacity under concurrent requests.
 
 **Prototype Screens:**
-- ![UC-ROOM-06 PA3 prototype screen - dormApproval_admin](../assets/admin/dormApproval_admin.png)
+- ![UC-ROOM-06 PA3 prototype screen - dormApproval_admin](../../PA3/assets/admin/dormApproval_admin.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-ROOM-06.
 
 **Relationships:**
@@ -1145,7 +1145,7 @@ Room inventory, student records, applications, automatic allocation, and transfe
 - Allocation must be deterministic or auditable for the same inputs and rule set.
 
 **Prototype Screens:**
-- ![UC-ROOM-07 PA3 prototype screen - roomPlacement](../assets/admin/roomPlacement.png)
+- ![UC-ROOM-07 PA3 prototype screen - roomPlacement](../../PA3/assets/admin/roomPlacement.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-ROOM-07.
 
 **Relationships:**
@@ -1189,7 +1189,7 @@ Room inventory, student records, applications, automatic allocation, and transfe
 - None.
 
 **Prototype Screens:**
-- ![UC-ROOM-08 PA3 prototype screen - RoomChange](../assets/student/RoomChange.png)
+- ![UC-ROOM-08 PA3 prototype screen - RoomChange](../../PA3/assets/student/RoomChange.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-ROOM-08.
 
 **Relationships:**
@@ -1228,7 +1228,7 @@ Room inventory, student records, applications, automatic allocation, and transfe
 - None.
 
 **Prototype Screens:**
-- ![UC-ROOM-09 PA3 prototype screen - RoomChange](../assets/student/RoomChange.png)
+- ![UC-ROOM-09 PA3 prototype screen - RoomChange](../../PA3/assets/student/RoomChange.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-ROOM-09.
 
 **Relationships:**
@@ -1273,7 +1273,7 @@ Room inventory, student records, applications, automatic allocation, and transfe
 - None.
 
 **Prototype Screens:**
-- ![UC-ROOM-10 PA3 prototype screen - ChangeRoomApproval](../assets/admin/ChangeRoomApproval.png)
+- ![UC-ROOM-10 PA3 prototype screen - ChangeRoomApproval](../../PA3/assets/admin/ChangeRoomApproval.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-ROOM-10.
 
 **Relationships:**
@@ -1333,7 +1333,7 @@ Creation, extension, liquidation, viewing, and PDF export of rental contracts.
 - Contract number must be unique and immutable.
 
 **Prototype Screens:**
-- ![UC-CON-01 PA3 prototype screen - contractManagement_admin](../assets/admin/contractManagement_admin.png)
+- ![UC-CON-01 PA3 prototype screen - contractManagement_admin](../../PA3/assets/admin/contractManagement_admin.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-CON-01.
 
 **Relationships:**
@@ -1378,7 +1378,7 @@ Creation, extension, liquidation, viewing, and PDF export of rental contracts.
 - None.
 
 **Prototype Screens:**
-- ![UC-CON-02 PA3 prototype screen - contractManagement_admin](../assets/admin/contractManagement_admin.png)
+- ![UC-CON-02 PA3 prototype screen - contractManagement_admin](../../PA3/assets/admin/contractManagement_admin.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-CON-02.
 
 **Relationships:**
@@ -1422,7 +1422,7 @@ Creation, extension, liquidation, viewing, and PDF export of rental contracts.
 - None.
 
 **Prototype Screens:**
-- ![UC-CON-03 PA3 prototype screen - contractManagement_admin](../assets/admin/contractManagement_admin.png)
+- ![UC-CON-03 PA3 prototype screen - contractManagement_admin](../../PA3/assets/admin/contractManagement_admin.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-CON-03.
 
 **Relationships:**
@@ -1463,8 +1463,8 @@ Creation, extension, liquidation, viewing, and PDF export of rental contracts.
 - The PDF must preserve Vietnamese characters and display a contract number/version.
 
 **Prototype Screens:**
-- ![UC-CON-04 PA3 prototype screen - contractManagement_admin](../assets/admin/contractManagement_admin.png)
-- ![UC-CON-04 PA3 prototype screen - contract_Print](../assets/student/contract_Print.png)
+- ![UC-CON-04 PA3 prototype screen - contractManagement_admin](../../PA3/assets/admin/contractManagement_admin.png)
+- ![UC-CON-04 PA3 prototype screen - contract_Print](../../PA3/assets/student/contract_Print.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-CON-04.
 
 **Relationships:**
@@ -1505,7 +1505,7 @@ Creation, extension, liquidation, viewing, and PDF export of rental contracts.
 - None.
 
 **Prototype Screens:**
-- ![UC-CON-05 PA3 prototype screen - contract](../assets/student/contract.png)
+- ![UC-CON-05 PA3 prototype screen - contract](../../PA3/assets/student/contract.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-CON-05.
 
 **Relationships:**
@@ -1546,8 +1546,8 @@ Creation, extension, liquidation, viewing, and PDF export of rental contracts.
 - None.
 
 **Prototype Screens:**
-- ![UC-CON-06 PA3 prototype screen - contract](../assets/student/contract.png)
-- ![UC-CON-06 PA3 prototype screen - contract_Print](../assets/student/contract_Print.png)
+- ![UC-CON-06 PA3 prototype screen - contract](../../PA3/assets/student/contract.png)
+- ![UC-CON-06 PA3 prototype screen - contract_Print](../../PA3/assets/student/contract_Print.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-CON-06.
 
 **Relationships:**
@@ -1605,7 +1605,7 @@ Student checkout requests, inspection, compensation calculation, deposit refund,
 - None.
 
 **Prototype Screens:**
-- ![UC-CHK-01 PA3 prototype screen - checking](../assets/student/checking.png)
+- ![UC-CHK-01 PA3 prototype screen - checking](../../PA3/assets/student/checking.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-CHK-01.
 
 **Relationships:**
@@ -1649,8 +1649,8 @@ Student checkout requests, inspection, compensation calculation, deposit refund,
 - None.
 
 **Prototype Screens:**
-- ![UC-CHK-02 PA3 prototype screen - checking_Admin](../assets/admin/checking_Admin.png)
-- ![UC-CHK-02 PA3 prototype screen - retrieveroomApproval](../assets/admin/retrieveroomApproval.png)
+- ![UC-CHK-02 PA3 prototype screen - checking_Admin](../../PA3/assets/admin/checking_Admin.png)
+- ![UC-CHK-02 PA3 prototype screen - retrieveroomApproval](../../PA3/assets/admin/retrieveroomApproval.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-CHK-02.
 
 **Relationships:**
@@ -1693,7 +1693,7 @@ Student checkout requests, inspection, compensation calculation, deposit refund,
 - None.
 
 **Prototype Screens:**
-- ![UC-CHK-03 PA3 prototype screen - checking_Admin](../assets/admin/checking_Admin.png)
+- ![UC-CHK-03 PA3 prototype screen - checking_Admin](../../PA3/assets/admin/checking_Admin.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-CHK-03.
 
 **Relationships:**
@@ -1740,7 +1740,7 @@ Student checkout requests, inspection, compensation calculation, deposit refund,
 - None.
 
 **Prototype Screens:**
-- ![UC-CHK-04 PA3 prototype screen - checking_Admin](../assets/admin/checking_Admin.png)
+- ![UC-CHK-04 PA3 prototype screen - checking_Admin](../../PA3/assets/admin/checking_Admin.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-CHK-04.
 
 **Relationships:**
@@ -1805,7 +1805,7 @@ Meter readings, invoices, payments, debts, reminders, overdue processing, and re
 - Photo files must be restricted by type and size.
 
 **Prototype Screens:**
-- ![UC-FIN-01 PA3 prototype screen - debt](../assets/admin/debt.png)
+- ![UC-FIN-01 PA3 prototype screen - debt](../../PA3/assets/admin/debt.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-FIN-01.
 
 **Relationships:**
@@ -1850,7 +1850,7 @@ Meter readings, invoices, payments, debts, reminders, overdue processing, and re
 - Currency amounts must use integer VND or a defined decimal policy.
 
 **Prototype Screens:**
-- ![UC-FIN-02 PA3 prototype screen - debt](../assets/admin/debt.png)
+- ![UC-FIN-02 PA3 prototype screen - debt](../../PA3/assets/admin/debt.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-FIN-02.
 
 **Relationships:**
@@ -1894,7 +1894,7 @@ Meter readings, invoices, payments, debts, reminders, overdue processing, and re
 - None.
 
 **Prototype Screens:**
-- ![UC-FIN-03 PA3 prototype screen - debt](../assets/admin/debt.png)
+- ![UC-FIN-03 PA3 prototype screen - debt](../../PA3/assets/admin/debt.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-FIN-03.
 
 **Relationships:**
@@ -1934,7 +1934,7 @@ Meter readings, invoices, payments, debts, reminders, overdue processing, and re
 - None.
 
 **Prototype Screens:**
-- ![UC-FIN-04 PA3 prototype screen - debt](../assets/admin/debt.png)
+- ![UC-FIN-04 PA3 prototype screen - debt](../../PA3/assets/admin/debt.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-FIN-04.
 
 **Relationships:**
@@ -1976,8 +1976,8 @@ Meter readings, invoices, payments, debts, reminders, overdue processing, and re
 - Scheduled reminders must avoid excessive or duplicate messaging.
 
 **Prototype Screens:**
-- ![UC-FIN-05 PA3 prototype screen - debt](../assets/admin/debt.png)
-- ![UC-FIN-05 PA3 prototype screen - sendNotification_Admin](../assets/admin/sendNotification_Admin.png)
+- ![UC-FIN-05 PA3 prototype screen - debt](../../PA3/assets/admin/debt.png)
+- ![UC-FIN-05 PA3 prototype screen - sendNotification_Admin](../../PA3/assets/admin/sendNotification_Admin.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-FIN-05.
 
 **Relationships:**
@@ -2019,8 +2019,8 @@ Meter readings, invoices, payments, debts, reminders, overdue processing, and re
 - The report must clearly state whether figures are gross or net of refunds.
 
 **Prototype Screens:**
-- ![UC-FIN-06 PA3 prototype screen - dashboard_admin](../assets/admin/UC-ADM-04.png)
-- ![UC-FIN-06 PA3 prototype screen - debt](../assets/admin/debt.png)
+- ![UC-FIN-06 PA3 prototype screen - dashboard_admin](../../PA3/assets/admin/UC-ADM-04.png)
+- ![UC-FIN-06 PA3 prototype screen - debt](../../PA3/assets/admin/debt.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-FIN-06.
 
 **Relationships:**
@@ -2062,7 +2062,7 @@ Meter readings, invoices, payments, debts, reminders, overdue processing, and re
 - None.
 
 **Prototype Screens:**
-- ![UC-FIN-07 PA3 prototype screen - debt](../assets/admin/debt.png)
+- ![UC-FIN-07 PA3 prototype screen - debt](../../PA3/assets/admin/debt.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-FIN-07.
 
 **Relationships:**
@@ -2102,7 +2102,7 @@ Meter readings, invoices, payments, debts, reminders, overdue processing, and re
 - None.
 
 **Prototype Screens:**
-- ![UC-FIN-08 PA3 prototype screen - dashboard_student](../assets/student/UC-STAY-01.png)
+- ![UC-FIN-08 PA3 prototype screen - dashboard_student](../../PA3/assets/student/UC-STAY-01.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-FIN-08.
 
 **Relationships:**
@@ -2147,7 +2147,7 @@ Meter readings, invoices, payments, debts, reminders, overdue processing, and re
 - Gateway signatures and transaction identifiers must be verified.
 
 **Prototype Screens:**
-- ![UC-FIN-09 PA3 prototype screen - dashboard_student](../assets/student/UC-FIN-09.png)
+- ![UC-FIN-09 PA3 prototype screen - dashboard_student](../../PA3/assets/student/UC-FIN-09.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-FIN-09.
 
 **Relationships:**
@@ -2188,7 +2188,7 @@ Meter readings, invoices, payments, debts, reminders, overdue processing, and re
 - None.
 
 **Prototype Screens:**
-- ![UC-FIN-10 PA3 prototype screen - dashboard_student](../assets/student/UC-FIN-09.png)
+- ![UC-FIN-10 PA3 prototype screen - dashboard_student](../../PA3/assets/student/UC-FIN-09.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-FIN-10.
 
 **Relationships:**
@@ -2229,7 +2229,7 @@ Meter readings, invoices, payments, debts, reminders, overdue processing, and re
 - None.
 
 **Prototype Screens:**
-- ![UC-FIN-11 PA3 prototype screen - contract_Print](../assets/student/contract_Print.png)
+- ![UC-FIN-11 PA3 prototype screen - contract_Print](../../PA3/assets/student/contract_Print.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-FIN-11.
 
 **Relationships:**
@@ -2286,7 +2286,7 @@ Overnight absence, temporary residence, long-term absence, visitor registration,
 - None.
 
 **Prototype Screens:**
-- ![UC-RES-01 PA3 prototype screen - temporary](../assets/student/temporary.png)
+- ![UC-RES-01 PA3 prototype screen - temporary](../../PA3/assets/student/temporary.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-RES-01.
 
 **Relationships:**
@@ -2329,7 +2329,7 @@ Overnight absence, temporary residence, long-term absence, visitor registration,
 - None.
 
 **Prototype Screens:**
-- ![UC-RES-02 PA3 prototype screen - temporary](../assets/student/temporary.png)
+- ![UC-RES-02 PA3 prototype screen - temporary](../../PA3/assets/student/temporary.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-RES-02.
 
 **Relationships:**
@@ -2372,7 +2372,7 @@ Overnight absence, temporary residence, long-term absence, visitor registration,
 - None.
 
 **Prototype Screens:**
-- ![UC-RES-03 PA3 prototype screen - temporary](../assets/student/temporary.png)
+- ![UC-RES-03 PA3 prototype screen - temporary](../../PA3/assets/student/temporary.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-RES-03.
 
 **Relationships:**
@@ -2415,7 +2415,7 @@ Overnight absence, temporary residence, long-term absence, visitor registration,
 - None.
 
 **Prototype Screens:**
-- ![UC-RES-04 PA3 prototype screen - temporary](../assets/student/UC-RES-04.png)
+- ![UC-RES-04 PA3 prototype screen - temporary](../../PA3/assets/student/UC-RES-04.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-RES-04.
 
 **Relationships:**
@@ -2458,7 +2458,7 @@ Overnight absence, temporary residence, long-term absence, visitor registration,
 - None.
 
 **Prototype Screens:**
-- ![UC-RES-05 PA3 prototype screen - temporary_Approval_admin](../assets/admin/temporary_Approval_admin.png)
+- ![UC-RES-05 PA3 prototype screen - temporary_Approval_admin](../../PA3/assets/admin/temporary_Approval_admin.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-RES-05.
 
 **Relationships:**
@@ -2528,8 +2528,8 @@ Repair reporting, assignment, progress tracking, evidence, staff history, and da
 - None.
 
 **Prototype Screens:**
-- ![UC-MNT-01 PA3 prototype screen - ProblemReport](../assets/student/ProblemReport.png)
-- ![UC-MNT-01 PA3 prototype screen - maintenanceRequest](../assets/student/maintenanceRequest.png)
+- ![UC-MNT-01 PA3 prototype screen - ProblemReport](../../PA3/assets/student/ProblemReport.png)
+- ![UC-MNT-01 PA3 prototype screen - maintenanceRequest](../../PA3/assets/student/maintenanceRequest.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-MNT-01.
 
 **Relationships:**
@@ -2569,7 +2569,7 @@ Repair reporting, assignment, progress tracking, evidence, staff history, and da
 - None.
 
 **Prototype Screens:**
-- ![UC-MNT-02 PA3 prototype screen - maintenanceRequest](../assets/student/maintenanceRequest.png)
+- ![UC-MNT-02 PA3 prototype screen - maintenanceRequest](../../PA3/assets/student/maintenanceRequest.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-MNT-02.
 
 **Relationships:**
@@ -2611,7 +2611,7 @@ Repair reporting, assignment, progress tracking, evidence, staff history, and da
 - None.
 
 **Prototype Screens:**
-- ![UC-MNT-03 PA3 prototype screen - maintenance_admin](../assets/admin/maintenance_admin.png)
+- ![UC-MNT-03 PA3 prototype screen - maintenance_admin](../../PA3/assets/admin/maintenance_admin.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-MNT-03.
 
 **Relationships:**
@@ -2652,7 +2652,7 @@ Repair reporting, assignment, progress tracking, evidence, staff history, and da
 - None.
 
 **Prototype Screens:**
-- ![UC-MNT-04 PA3 prototype screen - maintenance_admin](../assets/admin/maintenance_admin.png)
+- ![UC-MNT-04 PA3 prototype screen - maintenance_admin](../../PA3/assets/admin/maintenance_admin.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-MNT-04.
 
 **Relationships:**
@@ -2692,7 +2692,7 @@ Repair reporting, assignment, progress tracking, evidence, staff history, and da
 - None.
 
 **Prototype Screens:**
-- ![UC-MNT-05 PA3 prototype screen - jobDashboard](../assets/maintenance_Staff/jobDashboard.png)
+- ![UC-MNT-05 PA3 prototype screen - jobDashboard](../../PA3/assets/maintenance_Staff/jobDashboard.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-MNT-05.
 
 **Relationships:**
@@ -2732,8 +2732,8 @@ Repair reporting, assignment, progress tracking, evidence, staff history, and da
 - None.
 
 **Prototype Screens:**
-- ![UC-MNT-06 PA3 prototype screen - jobDashboard](../assets/maintenance_Staff/jobDashboard.png)
-- ![UC-MNT-06 PA3 prototype screen - Maintenance_Diary](../assets/maintenance_Staff/Maintenance_Diary.png)
+- ![UC-MNT-06 PA3 prototype screen - jobDashboard](../../PA3/assets/maintenance_Staff/jobDashboard.png)
+- ![UC-MNT-06 PA3 prototype screen - Maintenance_Diary](../../PA3/assets/maintenance_Staff/Maintenance_Diary.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-MNT-06.
 
 **Relationships:**
@@ -2777,8 +2777,8 @@ Repair reporting, assignment, progress tracking, evidence, staff history, and da
 - None.
 
 **Prototype Screens:**
-- ![UC-MNT-07 PA3 prototype screen - maintenance_completion](../assets/maintenance_Staff/maintenance_completion.png)
-- ![UC-MNT-07 PA3 prototype screen - maintenance_refusal](../assets/maintenance_Staff/maintenance_refusal.png)
+- ![UC-MNT-07 PA3 prototype screen - maintenance_completion](../../PA3/assets/maintenance_Staff/maintenance_completion.png)
+- ![UC-MNT-07 PA3 prototype screen - maintenance_refusal](../../PA3/assets/maintenance_Staff/maintenance_refusal.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-MNT-07.
 
 **Relationships:**
@@ -2820,8 +2820,8 @@ Repair reporting, assignment, progress tracking, evidence, staff history, and da
 - None.
 
 **Prototype Screens:**
-- ![UC-MNT-08 PA3 prototype screen - maintenance_completion](../assets/maintenance_Staff/maintenance_completion.png)
-- ![UC-MNT-08 PA3 prototype screen - ProblemReport](../assets/student/ProblemReport.png)
+- ![UC-MNT-08 PA3 prototype screen - maintenance_completion](../../PA3/assets/maintenance_Staff/maintenance_completion.png)
+- ![UC-MNT-08 PA3 prototype screen - ProblemReport](../../PA3/assets/student/ProblemReport.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-MNT-08.
 
 **Relationships:**
@@ -2862,7 +2862,7 @@ Repair reporting, assignment, progress tracking, evidence, staff history, and da
 - None.
 
 **Prototype Screens:**
-- ![UC-MNT-09 PA3 prototype screen - Maintenance_Diary](../assets/maintenance_Staff/Maintenance_Diary.png)
+- ![UC-MNT-09 PA3 prototype screen - Maintenance_Diary](../../PA3/assets/maintenance_Staff/Maintenance_Diary.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-MNT-09.
 
 **Relationships:**
@@ -2902,8 +2902,8 @@ Repair reporting, assignment, progress tracking, evidence, staff history, and da
 - None.
 
 **Prototype Screens:**
-- ![UC-MNT-10 PA3 prototype screen - jobDashboard](../assets/maintenance_Staff/jobDashboard.png)
-- ![UC-MNT-10 PA3 prototype screen - maintenance_admin](../assets/admin/maintenance_admin.png)
+- ![UC-MNT-10 PA3 prototype screen - jobDashboard](../../PA3/assets/maintenance_Staff/jobDashboard.png)
+- ![UC-MNT-10 PA3 prototype screen - maintenance_admin](../../PA3/assets/admin/maintenance_admin.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-MNT-10.
 
 **Relationships:**
@@ -2957,7 +2957,7 @@ Student-initiated complaints, feedback, suggestions, and management responses.
 - None.
 
 **Prototype Screens:**
-- ![UC-FBK-01 PA3 prototype screen - ProblemReport](../assets/student/ProblemReport.png)
+- ![UC-FBK-01 PA3 prototype screen - ProblemReport](../../PA3/assets/student/ProblemReport.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-FBK-01.
 
 **Relationships:**
@@ -2997,7 +2997,7 @@ Student-initiated complaints, feedback, suggestions, and management responses.
 - None.
 
 **Prototype Screens:**
-- ![UC-FBK-02 PA3 prototype screen - ProblemReport](../assets/student/ProblemReport.png)
+- ![UC-FBK-02 PA3 prototype screen - ProblemReport](../../PA3/assets/student/ProblemReport.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-FBK-02.
 
 **Relationships:**
@@ -3040,7 +3040,7 @@ Student-initiated complaints, feedback, suggestions, and management responses.
 - None.
 
 **Prototype Screens:**
-- ![UC-FBK-03 PA3 prototype screen - sendNotification_Admin](../assets/admin/sendNotification_Admin.png)
+- ![UC-FBK-03 PA3 prototype screen - sendNotification_Admin](../../PA3/assets/admin/sendNotification_Admin.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-FBK-03.
 
 **Relationships:**
@@ -3054,7 +3054,7 @@ Student-initiated complaints, feedback, suggestions, and management responses.
 
 > _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
-Violation records, conditional conduct-score deductions, periodic evaluations, and student history views.
+Violation records, conditional conduct-score deductions, periodic evaluations, student history views, and the appeal and revocation flow that can reverse a deduction.
 
 | ID | Use case | Primary actor |
 | --- | --- | --- |
@@ -3063,6 +3063,9 @@ Violation records, conditional conduct-score deductions, periodic evaluations, a
 | UC-COND-03 | Perform Periodic Student Evaluation | Dormitory Manager |
 | UC-COND-04 | View Evaluation History | Student |
 | UC-COND-05 | View Violation History | Student |
+| UC-COND-06 | Appeal Recorded Violation | Student |
+| UC-COND-07 | Review Violation Appeal | Dormitory Manager |
+| UC-COND-08 | Revoke Recorded Violation | Dormitory Manager |
 
 ### UC-COND-01 — Record Student Violation
 
@@ -3098,8 +3101,8 @@ Violation records, conditional conduct-score deductions, periodic evaluations, a
 - None.
 
 **Prototype Screens:**
-- ![UC-COND-01 PA3 prototype screen - studentProfileManagement](../assets/admin/studentProfileManagement.png)
-- ![UC-COND-01 PA3 prototype screen - rules](../assets/student/rules.png)
+- ![UC-COND-01 PA3 prototype screen - studentProfileManagement](../../PA3/assets/admin/studentProfileManagement.png)
+- ![UC-COND-01 PA3 prototype screen - rules](../../PA3/assets/student/rules.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-COND-01.
 
 **Relationships:**
@@ -3143,7 +3146,7 @@ Violation records, conditional conduct-score deductions, periodic evaluations, a
 - None.
 
 **Prototype Screens:**
-- ![UC-COND-02 PA3 prototype screen - studentProfileManagement](../assets/admin/studentProfileManagement.png)
+- ![UC-COND-02 PA3 prototype screen - studentProfileManagement](../../PA3/assets/admin/studentProfileManagement.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-COND-02.
 
 **Relationships:**
@@ -3187,7 +3190,7 @@ Violation records, conditional conduct-score deductions, periodic evaluations, a
 - None.
 
 **Prototype Screens:**
-- ![UC-COND-03 PA3 prototype screen - studentProfileManagement](../assets/admin/studentProfileManagement.png)
+- ![UC-COND-03 PA3 prototype screen - studentProfileManagement](../../PA3/assets/admin/studentProfileManagement.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-COND-03.
 
 **Relationships:**
@@ -3227,7 +3230,7 @@ Violation records, conditional conduct-score deductions, periodic evaluations, a
 - None.
 
 **Prototype Screens:**
-- ![UC-COND-04 PA3 prototype screen - rules](../assets/student/rules.png)
+- ![UC-COND-04 PA3 prototype screen - rules](../../PA3/assets/student/rules.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-COND-04.
 
 **Relationships:**
@@ -3267,13 +3270,175 @@ Violation records, conditional conduct-score deductions, periodic evaluations, a
 - None.
 
 **Prototype Screens:**
-- ![UC-COND-05 PA3 prototype screen - rules](../assets/student/rules.png)
+- ![UC-COND-05 PA3 prototype screen - rules](../../PA3/assets/student/rules.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-COND-05.
 
 **Relationships:**
 - None.
 
 **Traceability:** FR29, ST28
+
+---
+
+### UC-COND-06 — Appeal Recorded Violation
+
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
+
+**Use-case ID:** UC-COND-06  
+**Use-case name:** Appeal Recorded Violation  
+**Actor(s):** Student  
+**Supporting Actor(s):** Dormitory Manager (notified)  
+**Description:** A student who believes a recorded violation is wrong submits an appeal with a written reason so the management board can re-examine it instead of leaving the conduct-score deduction in place.  
+**Trigger:** The student selects Appeal on one of their own violation records.
+
+**Preconditions:**
+1. The actor is authenticated as Student.
+2. The violation belongs to the authenticated student.
+3. The violation is in the `ACTIVE` state.
+
+**Basic Flow (Main Success Scenario):**
+1. The student opens their violation history and selects a violation that is still in effect.
+2. The student enters the reason for the appeal.
+3. The system validates that the violation identifier is well formed and that the reason is not blank.
+4. The system verifies that the violation belongs to the authenticated student.
+5. The system verifies that the violation is still `ACTIVE`.
+6. The system moves the violation to `APPEAL_PENDING` and stores the appeal reason and the appeal timestamp.
+7. The system notifies every System Admin and Dormitory Manager that a new appeal is waiting for review.
+8. The system confirms to the student that the appeal was submitted and is awaiting review.
+
+**Alternative Flows:**
+- A1. Blank reason: the system rejects the request and asks for a reason; the violation state is unchanged.
+- A2. Malformed violation identifier: the system rejects the request.
+- A3. Violation belongs to another student: the system rejects the request as forbidden.
+- A4. Violation is already `APPEAL_PENDING`, `REVOKED`, or `APPEAL_REJECTED`: the system rejects the request, because only a violation still in effect can be appealed.
+- A5. Notification delivery fails: the appeal is still stored and the failure is logged without failing the request.
+
+**Postconditions:**
+- The violation is in `APPEAL_PENDING` with the appeal reason and appeal timestamp recorded.
+- The conduct score is unchanged at this stage.
+- The management board has been notified of the pending appeal.
+
+**Special Requirements:**
+- The endpoint requires JWT authentication and the `STUDENT` role.
+- A student may only appeal their own violation.
+- The appeal reason is limited to 500 characters.
+
+**Prototype Screens:**
+- No PA3 prototype screenshot exists for this PA4 conduct-appeal addition.
+- Implementation evidence: `Domitory_Management_Backend/src/violations/violations.controller.ts` (`POST /api/violations/:id/appeal`), `ViolationsService.appealViolation`, `AppealViolationDto`, and `ViolationStatus`.
+
+**Relationships:**
+- Extends UC-COND-05 View Violation History.
+- Precedes UC-COND-07 Review Violation Appeal.
+
+**Traceability:** FR32, ST31
+
+---
+
+### UC-COND-07 — Review Violation Appeal
+
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
+
+**Use-case ID:** UC-COND-07  
+**Use-case name:** Review Violation Appeal  
+**Actor(s):** Dormitory Manager  
+**Supporting Actor(s):** System Admin, Student (notified)  
+**Description:** The management board works through the queue of pending appeals and either accepts an appeal — which revokes the violation and restores the deducted conduct score — or rejects it with a note.  
+**Trigger:** The manager opens the appeal queue and decides on a pending appeal.
+
+**Preconditions:**
+1. The actor is authenticated as System Admin or Dormitory Manager.
+2. The violation is in the `APPEAL_PENDING` state.
+
+**Basic Flow (Main Success Scenario):**
+1. The manager lists violations filtered by the `APPEAL_PENDING` state to see the review queue.
+2. The manager opens an appeal and reads the student's reason together with the original violation record.
+3. The manager chooses Accept or Reject and may add a review note.
+4. The system validates the violation identifier and confirms that the violation is still `APPEAL_PENDING`.
+5. The system records the review note, the reviewing account, and the review timestamp.
+6. If the decision is Accept, the system moves the violation to `REVOKED` and restores the deducted points to the student's conduct score, capped at 100.
+7. If the decision is Reject, the system moves the violation to `APPEAL_REJECTED` and leaves the conduct score unchanged.
+8. The system notifies the student of the outcome, including the review note when the appeal was rejected.
+9. The system returns the decision result together with the resulting conduct score when points were restored.
+
+**Alternative Flows:**
+- A1. Violation is not in `APPEAL_PENDING`: the system rejects the request, because only a pending appeal can be reviewed.
+- A2. Malformed violation identifier: the system rejects the request.
+- A3. Restoring points would exceed the maximum: the conduct score is capped at 100.
+- A4. Student account no longer exists: the decision is still recorded and no score is restored.
+- A5. Notification delivery fails: the decision is still stored and the failure is logged without failing the request.
+
+**Postconditions:**
+- The violation is in `REVOKED` or `APPEAL_REJECTED` with the reviewer, review timestamp, and review note recorded.
+- On acceptance the deducted conduct points have been restored exactly once.
+- The student has been notified of the outcome.
+
+**Special Requirements:**
+- The endpoint requires JWT authentication and the `ADMIN` or `DORMITORY_MANAGER` role.
+- The decision value is restricted to `ACCEPT` or `REJECT`.
+- The review note is limited to 500 characters.
+- Conduct-score restoration must be idempotent: points are restored only on the transition into `REVOKED`.
+
+**Prototype Screens:**
+- No PA3 prototype screenshot exists for this PA4 conduct-appeal addition.
+- Implementation evidence: `Domitory_Management_Backend/src/violations/violations.controller.ts` (`PATCH /api/violations/:id/review`), `ViolationsService.reviewAppeal`, `ReviewAppealDto`, and `ViolationsService.restoreScore`.
+
+**Relationships:**
+- Follows UC-COND-06 Appeal Recorded Violation.
+- Reverses UC-COND-02 Apply Conduct-Score Deduction when the appeal is accepted.
+
+**Traceability:** FR32, FM13
+
+---
+
+### UC-COND-08 — Revoke Recorded Violation
+
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
+
+**Use-case ID:** UC-COND-08  
+**Use-case name:** Revoke Recorded Violation  
+**Actor(s):** Dormitory Manager  
+**Supporting Actor(s):** Student (notified)  
+**Description:** When the management board discovers that a violation was recorded by mistake, it revokes the record directly — without waiting for the student to appeal — and the deducted conduct points are restored.  
+**Trigger:** The manager selects Revoke on a violation record.
+
+**Preconditions:**
+1. The actor is authenticated as System Admin or Dormitory Manager.
+2. The violation has not already been revoked.
+
+**Basic Flow (Main Success Scenario):**
+1. The manager opens the violation list and selects the record that was entered by mistake.
+2. The system validates the violation identifier and confirms that the violation is not already `REVOKED`.
+3. The system moves the violation to `REVOKED` and records the reviewing account and the review timestamp.
+4. The system restores the deducted points to the student's conduct score, capped at 100.
+5. The system notifies the student that the violation was revoked and the points returned.
+6. The system returns the resulting conduct score.
+
+**Alternative Flows:**
+- A1. Violation is already `REVOKED`: the system rejects the request so that points are never restored twice.
+- A2. Malformed violation identifier: the system rejects the request.
+- A3. Violation is currently `APPEAL_PENDING` or `APPEAL_REJECTED`: direct revocation is still allowed and closes the appeal.
+- A4. Restoring points would exceed the maximum: the conduct score is capped at 100.
+- A5. Notification delivery fails: the revocation is still stored and the failure is logged without failing the request.
+
+**Postconditions:**
+- The violation is in `REVOKED` with the reviewer and review timestamp recorded.
+- The deducted conduct points have been restored exactly once.
+- The student has been notified.
+
+**Special Requirements:**
+- The endpoint requires JWT authentication and the `ADMIN` or `DORMITORY_MANAGER` role.
+- Revocation must be idempotent with respect to the conduct score.
+
+**Prototype Screens:**
+- No PA3 prototype screenshot exists for this PA4 conduct-appeal addition.
+- Implementation evidence: `Domitory_Management_Backend/src/violations/violations.controller.ts` (`DELETE /api/violations/:id`) and `ViolationsService.revokeViolation`.
+
+**Relationships:**
+- Alternative to UC-COND-07 Review Violation Appeal when no appeal was filed.
+- Reverses UC-COND-02 Apply Conduct-Score Deduction.
+
+**Traceability:** FR32, FM13
 
 ---
 
@@ -3320,8 +3485,8 @@ Notifications, communication history, and targeted management announcements.
 - Automatic notifications are postconditions of related business use cases.
 
 **Prototype Screens:**
-- ![UC-NOT-01 PA3 prototype screen - notiBell](../assets/common/notiBell.png)
-- ![UC-NOT-01 PA3 prototype screen - StudentNoti](../assets/student/StudentNoti.png)
+- ![UC-NOT-01 PA3 prototype screen - notiBell](../../PA3/assets/common/notiBell.png)
+- ![UC-NOT-01 PA3 prototype screen - StudentNoti](../../PA3/assets/student/StudentNoti.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-NOT-01.
 
 **Relationships:**
@@ -3363,7 +3528,7 @@ Notifications, communication history, and targeted management announcements.
 - None.
 
 **Prototype Screens:**
-- ![UC-NOT-02 PA3 prototype screen - StudentNoti](../assets/student/StudentNoti.png)
+- ![UC-NOT-02 PA3 prototype screen - StudentNoti](../../PA3/assets/student/StudentNoti.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-NOT-02.
 
 **Relationships:**
@@ -3406,8 +3571,8 @@ Notifications, communication history, and targeted management announcements.
 - Access to broadcast targeting must be restricted and audited.
 
 **Prototype Screens:**
-- ![UC-NOT-03 PA3 prototype screen - sendNotification_Admin](../assets/admin/sendNotification_Admin.png)
-- ![UC-NOT-03 PA3 prototype screen - notiBell](../assets/common/notiBell.png)
+- ![UC-NOT-03 PA3 prototype screen - sendNotification_Admin](../../PA3/assets/admin/sendNotification_Admin.png)
+- ![UC-NOT-03 PA3 prototype screen - notiBell](../../PA3/assets/common/notiBell.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-NOT-03.
 
 **Relationships:**
@@ -3684,6 +3849,7 @@ Authenticated Dormify AI assistance, source-backed chatbot answers, personalized
 | FR29 | UC-COND-01, UC-COND-05 | Covered |
 | FR30 | UC-COND-02, UC-COND-03, UC-COND-04 | Covered |
 | FR31 | UC-AI-01, UC-AI-02, UC-AI-03, UC-AI-04 | Covered |
+| FR32 | UC-COND-06, UC-COND-07, UC-COND-08 | Covered |
 
 ## 15. Student Feature Traceability
 
@@ -3702,6 +3868,7 @@ Authenticated Dormify AI assistance, source-backed chatbot answers, personalized
 | ST25–ST26 Notifications | UC-NOT-01, UC-NOT-02 |
 | ST27–ST28 Evaluation and violations | UC-COND-04, UC-COND-05 |
 | ST29–ST30 Dormify AI assistance | UC-AI-01, UC-AI-02 |
+| ST31 Violation appeal | UC-COND-06 |
 
 ## 16. Maintenance Staff Feature Traceability
 
@@ -3727,9 +3894,9 @@ Authenticated Dormify AI assistance, source-backed chatbot answers, personalized
 | FM03 Track room conditions | Dormitory Manager — UC-ROOM-01 |
 | FM04–FM09 Manage meter readings | Dormitory Manager — UC-FIN-01 |
 | FM10–FM12 Track residence declarations | Dormitory Manager — UC-RES-05 |
-| FM13 Record violations | Dormitory Manager — UC-COND-01 |
+| FM13 Record violations | Dormitory Manager — UC-COND-01, UC-COND-07, UC-COND-08 |
 | FM14 Perform periodic evaluations | Dormitory Manager — UC-COND-03 |
 | FM15 Receive feedback | Dormitory Manager — UC-FBK-03 |
 | FM16 Track repair requests | Dormitory Manager — UC-MNT-04 |
 
-*End of Use-Case Specification — Version 1.1 / PA4*
+*End of Use-Case Specification — Version 1.2 / PA4*

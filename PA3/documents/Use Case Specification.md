@@ -5,32 +5,41 @@
 | Field | Details |
 | --- | --- |
 | Document type | Use-Case Specification |
-| Version | 1.0 — PA3 |
-| Date | 25 July 2026 |
+| Version | 1.2 — PA3 document synchronised with PA4 |
+| Date | 26 August 2026 |
 | Performed by | Trần Huỳnh Mạnh Đạt |
 | Reviewed by | Đào Duy Anh |
-| Edited by | Đào Duy Anh |
+| Edited by | Trần Huỳnh Mạnh Đạt |
 
 ## Specification Snapshot
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 | Review item | Summary |
 | --- | --- |
 | Product | Dormify |
-| Scope | Functional behavior for the PA3 Dormitory Management System |
-| Use-case count | 72 use cases |
-| Functional groups | 11 functional groups plus traceability appendices |
+| Scope | Functional behavior for the PA4 Dormitory Management System |
+| Use-case count | 79 use cases |
+| Functional groups | 12 functional groups plus traceability appendices |
 | Selected PA3 focus | Maintenance Management |
+| Selected PA4 additions | Dormify AI chatbot assistance; violation appeal and revocation |
 | Related use-case model | [use-case-model.md](use-case-model.md) and [use-case-model.pdf](use-case-model.pdf) |
-| Main readers | Development team, reviewers, testers, and PA3 evaluators |
-| Modeling status | Intended system behavior; implementation status is not claimed by this document |
+| Main readers | Development team, reviewers, testers, and PA3/PA4 evaluators |
+| Modeling status | Intended system behavior with repository-based PA4 additions |
 
-## PA3 Structure Checklist
+> **Synchronisation note.** This file is the PA3 copy of the Use-Case Specification and is kept
+> content-identical to `PA4/Part A - Revised Use-Case Specification/Use Case Specification.md`.
+> The `AI Chatbot Assistance` group (section 13, `UC-AI-01`–`UC-AI-04`) and the conduct appeal and
+> revocation use cases (`UC-COND-06`–`UC-COND-08`) were introduced during PA4 and back-ported here
+> so that the PA3 and PA4 documentation sets no longer contradict each other. Everything the
+> document states about PA4 additions applies to both copies; only the relative screenshot paths
+> differ, because the two files sit at different depths in the repository.
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+## PA4 Structure Checklist
 
-| PA3 requirement | How this document addresses it |
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
+
+| PA4 requirement | How this document addresses it |
 | --- | --- |
 | Clear use-case ordering | Use cases are grouped by workflow and functional area, with a functional group index before the detailed specifications. |
 | Use-case model alignment | The detailed specifications are linked to the separate Mermaid use-case model and PDF export. |
@@ -40,14 +49,14 @@
 | Basic flow | The normal successful path is written as numbered, step-by-step behavior. |
 | Alternative flows | Recoverable alternatives and exception paths are listed under a dedicated field. |
 | Postconditions and special requirements | Outcome state, constraints, business rules, validation, and security notes are captured per use case. |
-| Prototype screenshots | Screenshots from `PA3/assets` are included under every use case so PA3 prototype evidence appears beside the relevant specification. |
+| Prototype or implementation evidence | Legacy PA3 use cases include prototype screenshots from `PA3/assets`; PA4 AI use cases cite repository evidence because no PA3 AI screenshot exists. |
 
 ## Table of Contents
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 - [Specification Snapshot](#specification-snapshot)
-- [PA3 Structure Checklist](#pa3-structure-checklist)
+- [PA4 Structure Checklist](#pa4-structure-checklist)
 - [Functional Group Index](#functional-group-index)
 - [1. Introduction](#1-introduction)
 - [2. Authentication and Personal Profile](#2-authentication-and-personal-profile)
@@ -61,14 +70,15 @@
 - [10. Feedback and Suggestions](#10-feedback-and-suggestions)
 - [11. Conduct and Student Evaluation](#11-conduct-and-student-evaluation)
 - [12. Notifications and Message Center](#12-notifications-and-message-center)
-- [13. Functional Requirement Traceability](#13-functional-requirement-traceability)
-- [14. Student Feature Traceability](#14-student-feature-traceability)
-- [15. Maintenance Staff Feature Traceability](#15-maintenance-staff-feature-traceability)
-- [16. Floor Manager Function Reassignment](#16-floor-manager-function-reassignment)
+- [13. AI Chatbot Assistance](#13-ai-chatbot-assistance)
+- [14. Functional Requirement Traceability](#14-functional-requirement-traceability)
+- [15. Student Feature Traceability](#15-student-feature-traceability)
+- [16. Maintenance Staff Feature Traceability](#16-maintenance-staff-feature-traceability)
+- [17. Floor Manager Function Reassignment](#17-floor-manager-function-reassignment)
 
 ## Functional Group Index
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 | Section | Functional group | Use-case count |
 | --- | --- | ---: |
@@ -81,38 +91,40 @@
 | 8 | Residence Management | 5 |
 | 9 | Maintenance Management | 10 |
 | 10 | Feedback and Suggestions | 3 |
-| 11 | Conduct and Student Evaluation | 5 |
+| 11 | Conduct and Student Evaluation | 8 |
 | 12 | Notifications and Message Center | 3 |
+| 13 | AI Chatbot Assistance | 4 |
 
 ---
 
 ## 1. Introduction
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 ### 1.1 Purpose
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
-This document specifies the functional behavior of the Dormify Dormitory Management System. It expands the approved use-case model into complete use-case descriptions that can be used for design, implementation, testing, and PA3 evaluation.
+This document specifies the functional behavior of the Dormify Dormitory Management System. It expands the approved use-case model into complete use-case descriptions that can be used for design, implementation, testing, and PA4 evaluation.
 
 ### 1.2 Scope and Modeling Decisions
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
-- The document contains **72 use cases** across 11 functional groups.
+- The document contains **76 use cases** across 12 functional groups.
 - The related use-case model is maintained in `use-case-model.md`, with a PDF export in `use-case-model.pdf`.
 - System Admin and Dormitory Manager remain separate actors.
 - Floor Manager responsibilities are represented under Dormitory Manager in the diagrams and specifications, while the implementation may retain a separate role.
 - FR08 (Back up and restore data) is outside the current scope.
 - Payment methods are alternative flows of UC-FIN-09, not separate use cases.
 - Automatic notifications are treated as postconditions of their originating use cases.
+- Dormify AI is treated as an active PA4 feature because `ChatbotModule` is registered in the backend root module and exposes authenticated chatbot, feedback, and knowledge-ingestion endpoints.
 - The specification describes the intended system behavior and does not claim implementation status.
-- Each use case includes a **Prototype Screens:** field with one or more embedded screenshots from `PA3/assets` beside the relevant behavior.
+- Each use case includes a **Prototype Screens:** field. Legacy use cases reference PA3 prototype assets; the PA4 AI use cases reference repository implementation evidence where prototype screenshots are not available.
 
 ### 1.3 Use-Case Template
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 Each use-case specification follows the same structure so design, implementation, testing, and review work can trace behavior consistently.
 
@@ -132,25 +144,27 @@ Each use-case specification follows the same structure so design, implementation
 
 ### 1.4 Actors
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 | Actor | Responsibility |
 | --- | --- |
 | Applicant / Guest | Submits a preliminary residence profile and authenticates before becoming a resident. |
-| Student | Uses residence, room, contract, invoice, maintenance, feedback, conduct, and communication functions. |
-| System Admin | Controls accounts, roles, permissions, logs, and administration monitoring. |
+| Authenticated User | Any logged-in Dormify user who can access cross-role functions such as Dormify AI. |
+| Student | Uses residence, room, contract, invoice, maintenance, feedback, conduct, communication, and Dormify AI functions. |
+| System Admin | Controls accounts, roles, permissions, logs, administration monitoring, and AI knowledge/feedback maintenance. |
 | Dormitory Manager | Performs dormitory operations across rooms, students, contracts, finance, residence, maintenance, feedback, and conduct. |
 | Maintenance Staff | Receives and processes assigned repair work. |
 | Google OAuth Provider | Provides external Google authentication. |
 | Email / SMS Service | Delivers confirmation and password-recovery messages. |
 | Payment Gateway | Processes electronic invoice payments. |
 | Scheduled Trigger | Starts time-based debt reminder and overdue processes. |
+| Ollama AI Runtime | Generates embeddings and Vietnamese chatbot responses for Dormify AI through local HTTP/JSON APIs. |
 
 ---
 
 ## 2. Authentication and Personal Profile
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 Account registration, authentication, profile self-service, and student residence information.
 
@@ -169,7 +183,7 @@ Account registration, authentication, profile self-service, and student residenc
 
 ### UC-AUTH-01 — Submit Preliminary Residence Profile
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-AUTH-01  
 **Use-case name:** Submit Preliminary Residence Profile  
@@ -215,7 +229,7 @@ Account registration, authentication, profile self-service, and student residenc
 
 ### UC-AUTH-02 — Log In
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-AUTH-02  
 **Use-case name:** Log In  
@@ -261,7 +275,7 @@ Account registration, authentication, profile self-service, and student residenc
 
 ### UC-AUTH-03 — Log Out
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-AUTH-03  
 **Use-case name:** Log Out  
@@ -304,7 +318,7 @@ Account registration, authentication, profile self-service, and student residenc
 
 ### UC-AUTH-04 — Reset Forgotten Password
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-AUTH-04  
 **Use-case name:** Reset Forgotten Password  
@@ -349,7 +363,7 @@ Account registration, authentication, profile self-service, and student residenc
 
 ### UC-PRO-01 — View Personal Profile
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-PRO-01  
 **Use-case name:** View Personal Profile  
@@ -378,7 +392,7 @@ Account registration, authentication, profile self-service, and student residenc
 - Only the profile owner and authorized management roles may view the complete record.
 
 **Prototype Screens:**
-- ![UC-PRO-01 PA3 prototype screen - studentprofile](../assets/student/UC-PRO-01.png)
+- ![UC-PRO-01 PA3 prototype screen - studentprofile](../assets/student/studentprofile.png)
 - PA3 asset screenshot evidence covering the basic flow and alternative flows for UC-PRO-01.
 
 **Relationships:**
@@ -390,7 +404,7 @@ Account registration, authentication, profile self-service, and student residenc
 
 ### UC-PRO-02 — Update Contact Information
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-PRO-02  
 **Use-case name:** Update Contact Information  
@@ -433,7 +447,7 @@ Account registration, authentication, profile self-service, and student residenc
 
 ### UC-PRO-03 — Change Password
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-PRO-03  
 **Use-case name:** Change Password  
@@ -477,7 +491,7 @@ Account registration, authentication, profile self-service, and student residenc
 
 ### UC-STAY-01 — View Current Residence Information
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-STAY-01  
 **Use-case name:** View Current Residence Information  
@@ -517,7 +531,7 @@ Account registration, authentication, profile self-service, and student residenc
 
 ### UC-STAY-02 — View Roommates
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-STAY-02  
 **Use-case name:** View Roommates  
@@ -557,7 +571,7 @@ Account registration, authentication, profile self-service, and student residenc
 
 ### UC-STAY-03 — View Residence History
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-STAY-03  
 **Use-case name:** View Residence History  
@@ -598,7 +612,7 @@ Account registration, authentication, profile self-service, and student residenc
 
 ## 3. System Administration
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 System account control, authorization, auditability, and administrative monitoring.
 
@@ -611,7 +625,7 @@ System account control, authorization, auditability, and administrative monitori
 
 ### UC-ADM-01 — Manage User Accounts
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-ADM-01  
 **Use-case name:** Manage User Accounts  
@@ -658,7 +672,7 @@ System account control, authorization, auditability, and administrative monitori
 
 ### UC-ADM-02 — Manage Roles and Permissions
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-ADM-02  
 **Use-case name:** Manage Roles and Permissions  
@@ -702,7 +716,7 @@ System account control, authorization, auditability, and administrative monitori
 
 ### UC-ADM-03 — View and Filter Audit Logs
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-ADM-03  
 **Use-case name:** View and Filter Audit Logs  
@@ -744,7 +758,7 @@ System account control, authorization, auditability, and administrative monitori
 
 ### UC-ADM-04 — View Administration Dashboard
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-ADM-04  
 **Use-case name:** View Administration Dashboard  
@@ -784,7 +798,7 @@ System account control, authorization, auditability, and administrative monitori
 
 ## 4. Room and Student Management
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 Room inventory, student records, applications, automatic allocation, and transfers.
 
@@ -804,7 +818,7 @@ Room inventory, student records, applications, automatic allocation, and transfe
 
 ### UC-ROOM-01 — Manage Rooms
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-ROOM-01  
 **Use-case name:** Manage Rooms  
@@ -850,7 +864,7 @@ Room inventory, student records, applications, automatic allocation, and transfe
 
 ### UC-STU-01 — Manage Student Records
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-STU-01  
 **Use-case name:** Manage Student Records  
@@ -895,7 +909,7 @@ Room inventory, student records, applications, automatic allocation, and transfe
 
 ### UC-ROOM-02 — Search Available Rooms
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-ROOM-02  
 **Use-case name:** Search Available Rooms  
@@ -935,7 +949,7 @@ Room inventory, student records, applications, automatic allocation, and transfe
 
 ### UC-ROOM-03 — View Room Details
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-ROOM-03  
 **Use-case name:** View Room Details  
@@ -975,7 +989,7 @@ Room inventory, student records, applications, automatic allocation, and transfe
 
 ### UC-ROOM-04 — Submit Room Application
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-ROOM-04  
 **Use-case name:** Submit Room Application  
@@ -1020,7 +1034,7 @@ Room inventory, student records, applications, automatic allocation, and transfe
 
 ### UC-ROOM-05 — Track Room Application Status
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-ROOM-05  
 **Use-case name:** Track Room Application Status  
@@ -1060,7 +1074,7 @@ Room inventory, student records, applications, automatic allocation, and transfe
 
 ### UC-ROOM-06 — Review Room Application
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-ROOM-06  
 **Use-case name:** Review Room Application  
@@ -1105,7 +1119,7 @@ Room inventory, student records, applications, automatic allocation, and transfe
 
 ### UC-ROOM-07 — Run Automatic Room Allocation
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-ROOM-07  
 **Use-case name:** Run Automatic Room Allocation  
@@ -1151,7 +1165,7 @@ Room inventory, student records, applications, automatic allocation, and transfe
 
 ### UC-ROOM-08 — Submit Room Transfer Request
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-ROOM-08  
 **Use-case name:** Submit Room Transfer Request  
@@ -1195,7 +1209,7 @@ Room inventory, student records, applications, automatic allocation, and transfe
 
 ### UC-ROOM-09 — Track Room Transfer Status
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-ROOM-09  
 **Use-case name:** Track Room Transfer Status  
@@ -1234,7 +1248,7 @@ Room inventory, student records, applications, automatic allocation, and transfe
 
 ### UC-ROOM-10 — Review Room Transfer Request
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-ROOM-10  
 **Use-case name:** Review Room Transfer Request  
@@ -1279,7 +1293,7 @@ Room inventory, student records, applications, automatic allocation, and transfe
 
 ## 5. Contract Management
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 Creation, extension, liquidation, viewing, and PDF export of rental contracts.
 
@@ -1294,7 +1308,7 @@ Creation, extension, liquidation, viewing, and PDF export of rental contracts.
 
 ### UC-CON-01 — Create Rental Contract
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-CON-01  
 **Use-case name:** Create Rental Contract  
@@ -1339,7 +1353,7 @@ Creation, extension, liquidation, viewing, and PDF export of rental contracts.
 
 ### UC-CON-02 — Extend Rental Contract
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-CON-02  
 **Use-case name:** Extend Rental Contract  
@@ -1384,7 +1398,7 @@ Creation, extension, liquidation, viewing, and PDF export of rental contracts.
 
 ### UC-CON-03 — Liquidate Rental Contract
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-CON-03  
 **Use-case name:** Liquidate Rental Contract  
@@ -1428,7 +1442,7 @@ Creation, extension, liquidation, viewing, and PDF export of rental contracts.
 
 ### UC-CON-04 — Export Contract PDF
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-CON-04  
 **Use-case name:** Export Contract PDF  
@@ -1470,7 +1484,7 @@ Creation, extension, liquidation, viewing, and PDF export of rental contracts.
 
 ### UC-CON-05 — View Rental Contract
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-CON-05  
 **Use-case name:** View Rental Contract  
@@ -1511,7 +1525,7 @@ Creation, extension, liquidation, viewing, and PDF export of rental contracts.
 
 ### UC-CON-06 — Download Contract PDF
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-CON-06  
 **Use-case name:** Download Contract PDF  
@@ -1553,7 +1567,7 @@ Creation, extension, liquidation, viewing, and PDF export of rental contracts.
 
 ## 6. Checkout and Deposit Refund
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 Student checkout requests, inspection, compensation calculation, deposit refund, and stay closure.
 
@@ -1566,7 +1580,7 @@ Student checkout requests, inspection, compensation calculation, deposit refund,
 
 ### UC-CHK-01 — Submit Checkout Request
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-CHK-01  
 **Use-case name:** Submit Checkout Request  
@@ -1611,7 +1625,7 @@ Student checkout requests, inspection, compensation calculation, deposit refund,
 
 ### UC-CHK-02 — Review Checkout Request
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-CHK-02  
 **Use-case name:** Review Checkout Request  
@@ -1656,7 +1670,7 @@ Student checkout requests, inspection, compensation calculation, deposit refund,
 
 ### UC-CHK-03 — Calculate Compensation Fee
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-CHK-03  
 **Use-case name:** Calculate Compensation Fee  
@@ -1699,7 +1713,7 @@ Student checkout requests, inspection, compensation calculation, deposit refund,
 
 ### UC-CHK-04 — Refund Deposit and Complete Checkout
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-CHK-04  
 **Use-case name:** Refund Deposit and Complete Checkout  
@@ -1746,7 +1760,7 @@ Student checkout requests, inspection, compensation calculation, deposit refund,
 
 ## 7. Finance and Meter Management
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 Meter readings, invoices, payments, debts, reminders, overdue processing, and revenue reporting.
 
@@ -1766,7 +1780,7 @@ Meter readings, invoices, payments, debts, reminders, overdue processing, and re
 
 ### UC-FIN-01 — Manage Electricity and Water Meter Readings
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-FIN-01  
 **Use-case name:** Manage Electricity and Water Meter Readings  
@@ -1811,7 +1825,7 @@ Meter readings, invoices, payments, debts, reminders, overdue processing, and re
 
 ### UC-FIN-02 — Create or Bulk-Generate Invoices
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-FIN-02  
 **Use-case name:** Create or Bulk-Generate Invoices  
@@ -1856,7 +1870,7 @@ Meter readings, invoices, payments, debts, reminders, overdue processing, and re
 
 ### UC-FIN-03 — Mark Invoice as Paid Manually
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-FIN-03  
 **Use-case name:** Mark Invoice as Paid Manually  
@@ -1900,7 +1914,7 @@ Meter readings, invoices, payments, debts, reminders, overdue processing, and re
 
 ### UC-FIN-04 — View Debt Summary
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-FIN-04  
 **Use-case name:** View Debt Summary  
@@ -1940,7 +1954,7 @@ Meter readings, invoices, payments, debts, reminders, overdue processing, and re
 
 ### UC-FIN-05 — Send Debt Reminders
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-FIN-05  
 **Use-case name:** Send Debt Reminders  
@@ -1983,7 +1997,7 @@ Meter readings, invoices, payments, debts, reminders, overdue processing, and re
 
 ### UC-FIN-06 — Generate Revenue Report
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-FIN-06  
 **Use-case name:** Generate Revenue Report  
@@ -2026,7 +2040,7 @@ Meter readings, invoices, payments, debts, reminders, overdue processing, and re
 
 ### UC-FIN-07 — Mark Overdue Invoices
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-FIN-07  
 **Use-case name:** Mark Overdue Invoices  
@@ -2068,7 +2082,7 @@ Meter readings, invoices, payments, debts, reminders, overdue processing, and re
 
 ### UC-FIN-08 — View Invoices
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-FIN-08  
 **Use-case name:** View Invoices  
@@ -2108,7 +2122,7 @@ Meter readings, invoices, payments, debts, reminders, overdue processing, and re
 
 ### UC-FIN-09 — Pay Invoice
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-FIN-09  
 **Use-case name:** Pay Invoice  
@@ -2153,7 +2167,7 @@ Meter readings, invoices, payments, debts, reminders, overdue processing, and re
 
 ### UC-FIN-10 — View Payment History
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-FIN-10  
 **Use-case name:** View Payment History  
@@ -2194,7 +2208,7 @@ Meter readings, invoices, payments, debts, reminders, overdue processing, and re
 
 ### UC-FIN-11 — Download Invoice PDF
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-FIN-11  
 **Use-case name:** Download Invoice PDF  
@@ -2235,7 +2249,7 @@ Meter readings, invoices, payments, debts, reminders, overdue processing, and re
 
 ## 8. Residence Management
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 Overnight absence, temporary residence, long-term absence, visitor registration, and management review.
 
@@ -2249,7 +2263,7 @@ Overnight absence, temporary residence, long-term absence, visitor registration,
 
 ### UC-RES-01 — Submit Overnight Absence Declaration
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-RES-01  
 **Use-case name:** Submit Overnight Absence Declaration  
@@ -2292,7 +2306,7 @@ Overnight absence, temporary residence, long-term absence, visitor registration,
 
 ### UC-RES-02 — Register Temporary Residence
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-RES-02  
 **Use-case name:** Register Temporary Residence  
@@ -2335,7 +2349,7 @@ Overnight absence, temporary residence, long-term absence, visitor registration,
 
 ### UC-RES-03 — Register Long-Term Temporary Absence
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-RES-03  
 **Use-case name:** Register Long-Term Temporary Absence  
@@ -2378,7 +2392,7 @@ Overnight absence, temporary residence, long-term absence, visitor registration,
 
 ### UC-RES-04 — Register a Visitor
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-RES-04  
 **Use-case name:** Register a Visitor  
@@ -2421,7 +2435,7 @@ Overnight absence, temporary residence, long-term absence, visitor registration,
 
 ### UC-RES-05 — Review and Track Residence Declarations
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-RES-05  
 **Use-case name:** Review and Track Residence Declarations  
@@ -2464,7 +2478,7 @@ Overnight absence, temporary residence, long-term absence, visitor registration,
 
 ## 9. Maintenance Management
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 Repair reporting, assignment, progress tracking, evidence, staff history, and dashboard.
 
@@ -2490,7 +2504,7 @@ Repair reporting, assignment, progress tracking, evidence, staff history, and da
 
 ### UC-MNT-01 — Submit Repair Request
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-MNT-01  
 **Use-case name:** Submit Repair Request  
@@ -2535,7 +2549,7 @@ Repair reporting, assignment, progress tracking, evidence, staff history, and da
 
 ### UC-MNT-02 — Track Repair Request
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-MNT-02  
 **Use-case name:** Track Repair Request  
@@ -2575,7 +2589,7 @@ Repair reporting, assignment, progress tracking, evidence, staff history, and da
 
 ### UC-MNT-03 — Review and Assign Maintenance Request
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-MNT-03  
 **Use-case name:** Review and Assign Maintenance Request  
@@ -2617,7 +2631,7 @@ Repair reporting, assignment, progress tracking, evidence, staff history, and da
 
 ### UC-MNT-04 — Track Maintenance Progress
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-MNT-04  
 **Use-case name:** Track Maintenance Progress  
@@ -2658,7 +2672,7 @@ Repair reporting, assignment, progress tracking, evidence, staff history, and da
 
 ### UC-MNT-05 — View Assigned Maintenance Jobs
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-MNT-05  
 **Use-case name:** View Assigned Maintenance Jobs  
@@ -2698,7 +2712,7 @@ Repair reporting, assignment, progress tracking, evidence, staff history, and da
 
 ### UC-MNT-06 — View Maintenance Job Details
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-MNT-06  
 **Use-case name:** View Maintenance Job Details  
@@ -2739,7 +2753,7 @@ Repair reporting, assignment, progress tracking, evidence, staff history, and da
 
 ### UC-MNT-07 — Update Repair Status and Result
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-MNT-07  
 **Use-case name:** Update Repair Status and Result  
@@ -2784,7 +2798,7 @@ Repair reporting, assignment, progress tracking, evidence, staff history, and da
 
 ### UC-MNT-08 — Upload Before and After Repair Photos
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-MNT-08  
 **Use-case name:** Upload Before and After Repair Photos  
@@ -2827,7 +2841,7 @@ Repair reporting, assignment, progress tracking, evidence, staff history, and da
 
 ### UC-MNT-09 — View Maintenance History
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-MNT-09  
 **Use-case name:** View Maintenance History  
@@ -2868,7 +2882,7 @@ Repair reporting, assignment, progress tracking, evidence, staff history, and da
 
 ### UC-MNT-10 — View Maintenance Dashboard
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-MNT-10  
 **Use-case name:** View Maintenance Dashboard  
@@ -2909,7 +2923,7 @@ Repair reporting, assignment, progress tracking, evidence, staff history, and da
 
 ## 10. Feedback and Suggestions
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 Student-initiated complaints, feedback, suggestions, and management responses.
 
@@ -2921,7 +2935,7 @@ Student-initiated complaints, feedback, suggestions, and management responses.
 
 ### UC-FBK-01 — Submit Complaint or Feedback
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-FBK-01  
 **Use-case name:** Submit Complaint or Feedback  
@@ -2963,7 +2977,7 @@ Student-initiated complaints, feedback, suggestions, and management responses.
 
 ### UC-FBK-02 — Submit Suggestion
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-FBK-02  
 **Use-case name:** Submit Suggestion  
@@ -3003,7 +3017,7 @@ Student-initiated complaints, feedback, suggestions, and management responses.
 
 ### UC-FBK-03 — Review and Respond to Feedback
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-FBK-03  
 **Use-case name:** Review and Respond to Feedback  
@@ -3046,9 +3060,9 @@ Student-initiated complaints, feedback, suggestions, and management responses.
 
 ## 11. Conduct and Student Evaluation
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
-Violation records, conditional conduct-score deductions, periodic evaluations, and student history views.
+Violation records, conditional conduct-score deductions, periodic evaluations, student history views, and the appeal and revocation flow that can reverse a deduction.
 
 | ID | Use case | Primary actor |
 | --- | --- | --- |
@@ -3057,10 +3071,13 @@ Violation records, conditional conduct-score deductions, periodic evaluations, a
 | UC-COND-03 | Perform Periodic Student Evaluation | Dormitory Manager |
 | UC-COND-04 | View Evaluation History | Student |
 | UC-COND-05 | View Violation History | Student |
+| UC-COND-06 | Appeal Recorded Violation | Student |
+| UC-COND-07 | Review Violation Appeal | Dormitory Manager |
+| UC-COND-08 | Revoke Recorded Violation | Dormitory Manager |
 
 ### UC-COND-01 — Record Student Violation
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-COND-01  
 **Use-case name:** Record Student Violation  
@@ -3105,7 +3122,7 @@ Violation records, conditional conduct-score deductions, periodic evaluations, a
 
 ### UC-COND-02 — Apply Conduct-Score Deduction
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-COND-02  
 **Use-case name:** Apply Conduct-Score Deduction  
@@ -3149,7 +3166,7 @@ Violation records, conditional conduct-score deductions, periodic evaluations, a
 
 ### UC-COND-03 — Perform Periodic Student Evaluation
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-COND-03  
 **Use-case name:** Perform Periodic Student Evaluation  
@@ -3193,7 +3210,7 @@ Violation records, conditional conduct-score deductions, periodic evaluations, a
 
 ### UC-COND-04 — View Evaluation History
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-COND-04  
 **Use-case name:** View Evaluation History  
@@ -3233,7 +3250,7 @@ Violation records, conditional conduct-score deductions, periodic evaluations, a
 
 ### UC-COND-05 — View Violation History
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-COND-05  
 **Use-case name:** View Violation History  
@@ -3271,9 +3288,171 @@ Violation records, conditional conduct-score deductions, periodic evaluations, a
 
 ---
 
+### UC-COND-06 — Appeal Recorded Violation
+
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
+
+**Use-case ID:** UC-COND-06  
+**Use-case name:** Appeal Recorded Violation  
+**Actor(s):** Student  
+**Supporting Actor(s):** Dormitory Manager (notified)  
+**Description:** A student who believes a recorded violation is wrong submits an appeal with a written reason so the management board can re-examine it instead of leaving the conduct-score deduction in place.  
+**Trigger:** The student selects Appeal on one of their own violation records.
+
+**Preconditions:**
+1. The actor is authenticated as Student.
+2. The violation belongs to the authenticated student.
+3. The violation is in the `ACTIVE` state.
+
+**Basic Flow (Main Success Scenario):**
+1. The student opens their violation history and selects a violation that is still in effect.
+2. The student enters the reason for the appeal.
+3. The system validates that the violation identifier is well formed and that the reason is not blank.
+4. The system verifies that the violation belongs to the authenticated student.
+5. The system verifies that the violation is still `ACTIVE`.
+6. The system moves the violation to `APPEAL_PENDING` and stores the appeal reason and the appeal timestamp.
+7. The system notifies every System Admin and Dormitory Manager that a new appeal is waiting for review.
+8. The system confirms to the student that the appeal was submitted and is awaiting review.
+
+**Alternative Flows:**
+- A1. Blank reason: the system rejects the request and asks for a reason; the violation state is unchanged.
+- A2. Malformed violation identifier: the system rejects the request.
+- A3. Violation belongs to another student: the system rejects the request as forbidden.
+- A4. Violation is already `APPEAL_PENDING`, `REVOKED`, or `APPEAL_REJECTED`: the system rejects the request, because only a violation still in effect can be appealed.
+- A5. Notification delivery fails: the appeal is still stored and the failure is logged without failing the request.
+
+**Postconditions:**
+- The violation is in `APPEAL_PENDING` with the appeal reason and appeal timestamp recorded.
+- The conduct score is unchanged at this stage.
+- The management board has been notified of the pending appeal.
+
+**Special Requirements:**
+- The endpoint requires JWT authentication and the `STUDENT` role.
+- A student may only appeal their own violation.
+- The appeal reason is limited to 500 characters.
+
+**Prototype Screens:**
+- No PA3 prototype screenshot exists for this PA4 conduct-appeal addition.
+- Implementation evidence: `Domitory_Management_Backend/src/violations/violations.controller.ts` (`POST /api/violations/:id/appeal`), `ViolationsService.appealViolation`, `AppealViolationDto`, and `ViolationStatus`.
+
+**Relationships:**
+- Extends UC-COND-05 View Violation History.
+- Precedes UC-COND-07 Review Violation Appeal.
+
+**Traceability:** FR32, ST31
+
+---
+
+### UC-COND-07 — Review Violation Appeal
+
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
+
+**Use-case ID:** UC-COND-07  
+**Use-case name:** Review Violation Appeal  
+**Actor(s):** Dormitory Manager  
+**Supporting Actor(s):** System Admin, Student (notified)  
+**Description:** The management board works through the queue of pending appeals and either accepts an appeal — which revokes the violation and restores the deducted conduct score — or rejects it with a note.  
+**Trigger:** The manager opens the appeal queue and decides on a pending appeal.
+
+**Preconditions:**
+1. The actor is authenticated as System Admin or Dormitory Manager.
+2. The violation is in the `APPEAL_PENDING` state.
+
+**Basic Flow (Main Success Scenario):**
+1. The manager lists violations filtered by the `APPEAL_PENDING` state to see the review queue.
+2. The manager opens an appeal and reads the student's reason together with the original violation record.
+3. The manager chooses Accept or Reject and may add a review note.
+4. The system validates the violation identifier and confirms that the violation is still `APPEAL_PENDING`.
+5. The system records the review note, the reviewing account, and the review timestamp.
+6. If the decision is Accept, the system moves the violation to `REVOKED` and restores the deducted points to the student's conduct score, capped at 100.
+7. If the decision is Reject, the system moves the violation to `APPEAL_REJECTED` and leaves the conduct score unchanged.
+8. The system notifies the student of the outcome, including the review note when the appeal was rejected.
+9. The system returns the decision result together with the resulting conduct score when points were restored.
+
+**Alternative Flows:**
+- A1. Violation is not in `APPEAL_PENDING`: the system rejects the request, because only a pending appeal can be reviewed.
+- A2. Malformed violation identifier: the system rejects the request.
+- A3. Restoring points would exceed the maximum: the conduct score is capped at 100.
+- A4. Student account no longer exists: the decision is still recorded and no score is restored.
+- A5. Notification delivery fails: the decision is still stored and the failure is logged without failing the request.
+
+**Postconditions:**
+- The violation is in `REVOKED` or `APPEAL_REJECTED` with the reviewer, review timestamp, and review note recorded.
+- On acceptance the deducted conduct points have been restored exactly once.
+- The student has been notified of the outcome.
+
+**Special Requirements:**
+- The endpoint requires JWT authentication and the `ADMIN` or `DORMITORY_MANAGER` role.
+- The decision value is restricted to `ACCEPT` or `REJECT`.
+- The review note is limited to 500 characters.
+- Conduct-score restoration must be idempotent: points are restored only on the transition into `REVOKED`.
+
+**Prototype Screens:**
+- No PA3 prototype screenshot exists for this PA4 conduct-appeal addition.
+- Implementation evidence: `Domitory_Management_Backend/src/violations/violations.controller.ts` (`PATCH /api/violations/:id/review`), `ViolationsService.reviewAppeal`, `ReviewAppealDto`, and `ViolationsService.restoreScore`.
+
+**Relationships:**
+- Follows UC-COND-06 Appeal Recorded Violation.
+- Reverses UC-COND-02 Apply Conduct-Score Deduction when the appeal is accepted.
+
+**Traceability:** FR32, FM13
+
+---
+
+### UC-COND-08 — Revoke Recorded Violation
+
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
+
+**Use-case ID:** UC-COND-08  
+**Use-case name:** Revoke Recorded Violation  
+**Actor(s):** Dormitory Manager  
+**Supporting Actor(s):** Student (notified)  
+**Description:** When the management board discovers that a violation was recorded by mistake, it revokes the record directly — without waiting for the student to appeal — and the deducted conduct points are restored.  
+**Trigger:** The manager selects Revoke on a violation record.
+
+**Preconditions:**
+1. The actor is authenticated as System Admin or Dormitory Manager.
+2. The violation has not already been revoked.
+
+**Basic Flow (Main Success Scenario):**
+1. The manager opens the violation list and selects the record that was entered by mistake.
+2. The system validates the violation identifier and confirms that the violation is not already `REVOKED`.
+3. The system moves the violation to `REVOKED` and records the reviewing account and the review timestamp.
+4. The system restores the deducted points to the student's conduct score, capped at 100.
+5. The system notifies the student that the violation was revoked and the points returned.
+6. The system returns the resulting conduct score.
+
+**Alternative Flows:**
+- A1. Violation is already `REVOKED`: the system rejects the request so that points are never restored twice.
+- A2. Malformed violation identifier: the system rejects the request.
+- A3. Violation is currently `APPEAL_PENDING` or `APPEAL_REJECTED`: direct revocation is still allowed and closes the appeal.
+- A4. Restoring points would exceed the maximum: the conduct score is capped at 100.
+- A5. Notification delivery fails: the revocation is still stored and the failure is logged without failing the request.
+
+**Postconditions:**
+- The violation is in `REVOKED` with the reviewer and review timestamp recorded.
+- The deducted conduct points have been restored exactly once.
+- The student has been notified.
+
+**Special Requirements:**
+- The endpoint requires JWT authentication and the `ADMIN` or `DORMITORY_MANAGER` role.
+- Revocation must be idempotent with respect to the conduct score.
+
+**Prototype Screens:**
+- No PA3 prototype screenshot exists for this PA4 conduct-appeal addition.
+- Implementation evidence: `Domitory_Management_Backend/src/violations/violations.controller.ts` (`DELETE /api/violations/:id`) and `ViolationsService.revokeViolation`.
+
+**Relationships:**
+- Alternative to UC-COND-07 Review Violation Appeal when no appeal was filed.
+- Reverses UC-COND-02 Apply Conduct-Score Deduction.
+
+**Traceability:** FR32, FM13
+
+---
+
 ## 12. Notifications and Message Center
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 Notifications, communication history, and targeted management announcements.
 
@@ -3285,7 +3464,7 @@ Notifications, communication history, and targeted management announcements.
 
 ### UC-NOT-01 — View Notifications
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-NOT-01  
 **Use-case name:** View Notifications  
@@ -3327,7 +3506,7 @@ Notifications, communication history, and targeted management announcements.
 
 ### UC-NOT-02 — Use Message Center
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-NOT-02  
 **Use-case name:** Use Message Center  
@@ -3369,7 +3548,7 @@ Notifications, communication history, and targeted management announcements.
 
 ### UC-NOT-03 — Send Announcement or Message
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 **Use-case ID:** UC-NOT-03  
 **Use-case name:** Send Announcement or Message  
@@ -3411,9 +3590,239 @@ Notifications, communication history, and targeted management announcements.
 
 ---
 
-## 13. Functional Requirement Traceability
+## 13. AI Chatbot Assistance
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
+
+Authenticated Dormify AI assistance, source-backed chatbot answers, personalized invoice/profile responses, answer feedback, and administrator knowledge-base maintenance.
+
+| ID | Use case | Primary actor |
+| --- | --- | --- |
+| UC-AI-01 | Ask Dormify AI Question | Authenticated User |
+| UC-AI-02 | Submit AI Answer Feedback | Authenticated User |
+| UC-AI-03 | Review AI Answer Feedback | System Admin |
+| UC-AI-04 | Rebuild AI Knowledge Base | System Admin |
+
+### UC-AI-01 — Ask Dormify AI Question
+
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
+
+**Use-case ID:** UC-AI-01  
+**Use-case name:** Ask Dormify AI Question  
+**Actor(s):** Authenticated User  
+**Supporting Actor(s):** Ollama AI Runtime  
+**Description:** A logged-in user asks Dormify AI a dormitory-related question and receives a Vietnamese answer based on the chatbot knowledge base and, when relevant, the user's permitted personal dormitory data.  
+**Trigger:** The authenticated user opens the Dormify AI widget and submits a typed question or a suggested starter question.
+
+**Preconditions:**
+1. The user is authenticated with a valid JWT.
+2. The backend `ChatbotModule` is registered and reachable.
+3. The Ollama runtime is available for full generated answers.
+4. The chatbot knowledge base has been ingested for document-backed answers.
+
+**Basic Flow (Main Success Scenario):**
+1. The system displays the floating Dormify AI widget only after a user is logged in.
+2. The user opens the widget and enters a question about dormitory rules, procedures, invoices, room information, contracts, or related residence services.
+3. The frontend sends the message, recent chat history, and JWT to the backend chatbot streaming endpoint.
+4. The backend validates the JWT and sanitizes the recent conversation history.
+5. If the question is a follow-up, the backend combines it with the latest relevant user turn for retrieval while preserving the current question for answer generation.
+6. The backend retrieves related knowledge chunks by combining MongoDB vector search with normalized keyword search.
+7. If the question asks about the user's own room, contract, conduct score, or invoices, the backend retrieves only that authenticated user's permitted profile, room, contract, and recent invoice context.
+8. If the question targets a specific personal invoice, the backend prepares a structured invoice card containing room fee, electricity fee, water fee, total amount, due date, and status.
+9. The backend sends the system prompt, retrieved knowledge, personal context, invoice-card flag, and recent history to the Ollama chat model.
+10. The backend streams status, generated text, source labels, invoice-card data, or not-found events back to the frontend.
+11. The frontend displays the answer as streamed text, shows source chips when document sources are available, renders the invoice card when provided, and stores the short conversation history for the current browser session.
+
+**Alternative Flows:**
+- A1. Empty message: the system asks the user to enter a message and does not run retrieval.
+- A2. Small-talk message: the backend skips knowledge retrieval and returns a short friendly response.
+- A3. No relevant knowledge or personal context found: the system states that the available documents do not contain the requested information and shows suggested questions or navigation options.
+- A4. Ollama unavailable or busy: the backend returns an error indicating that the local chatbot is unavailable.
+- A5. User closes the widget during streaming: the frontend aborts the request and keeps any text already received.
+- A6. Unauthorized or expired token: the request is rejected and no chatbot answer is generated.
+- A7. Personal invoice query has no matching room or invoice: the system answers from available document context without an invoice card.
+
+**Postconditions:**
+- The chatbot answer, sources, invoice card, or not-found guidance is visible in the widget.
+- The current browser session retains recent chat turns unless the user starts a new conversation.
+- No dormitory business records are changed by asking a question.
+
+**Special Requirements:**
+- Chatbot access requires JWT authentication.
+- The answer must be written in Vietnamese and should not invent information outside the provided context.
+- Personal context must be limited to the authenticated user and only used when the question is personal.
+- Invoice amounts must be rendered from structured backend data instead of being regenerated by the language model.
+- The backend uses `CHAT_MODEL`, `EMBED_MODEL`, `OLLAMA_URL`, `CHATBOT_SCORE_THRESHOLD`, `CHATBOT_SEARCH_LIMIT`, and keyword-search settings to control chatbot behavior.
+
+**Prototype Screens:**
+- No PA3 prototype screenshot exists for this PA4 AI addition.
+- Implementation evidence: `Domitory_Management_Frontend/app/components/ChatbotWidget.tsx`, `Domitory_Management_Backend/src/chatbot/chatbot.controller.ts`, and `Domitory_Management_Backend/src/chatbot/chatbot.service.ts`.
+
+**Relationships:**
+- Related to UC-FIN-08 View Invoices and UC-FIN-09 Pay Invoice when an invoice card is returned.
+- Extended by UC-AI-02 Submit AI Answer Feedback.
+
+**Traceability:** FR31, ST29, MT09, PA4-AI-01
+
+---
+
+### UC-AI-02 — Submit AI Answer Feedback
+
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
+
+**Use-case ID:** UC-AI-02  
+**Use-case name:** Submit AI Answer Feedback  
+**Actor(s):** Authenticated User  
+**Supporting Actor(s):** None  
+**Description:** A logged-in user rates a chatbot answer with an up or down verdict so the team can identify helpful answers, weak answers, and missing knowledge.  
+**Trigger:** The user selects the thumbs-up or thumbs-down action under a Dormify AI answer.
+
+**Preconditions:**
+1. The user is authenticated.
+2. A chatbot answer has been generated in the current conversation.
+
+**Basic Flow (Main Success Scenario):**
+1. The user selects thumbs up or thumbs down for a chatbot answer.
+2. The frontend immediately updates the selected feedback state in the widget.
+3. The frontend identifies the user question immediately before the chatbot answer.
+4. The frontend sends the question, answer, source labels, verdict, and not-found flag to the chatbot feedback endpoint.
+5. The backend validates the authenticated user ID, verdict value, and question text.
+6. The backend saves or updates one `ChatFeedback` record for the `(user, question)` pair.
+7. The system confirms that the feedback was stored.
+
+**Alternative Flows:**
+- A1. User selects the same verdict again: the frontend clears the local selected state and does not create a new backend feedback request.
+- A2. Invalid verdict: the backend rejects the request because only `UP` and `DOWN` are accepted.
+- A3. Missing question: the backend rejects the request because feedback must be linked to a question.
+- A4. Feedback request fails: the frontend restores the previous local feedback state.
+
+**Postconditions:**
+- The latest feedback verdict for the user and question is stored.
+- Source labels and the not-found flag are retained for later review when provided.
+
+**Special Requirements:**
+- Only authenticated users may submit chatbot feedback.
+- A user may have only one stored feedback record per question; later feedback overwrites the earlier verdict.
+- Stored question and answer text are length-limited before persistence.
+
+**Prototype Screens:**
+- No PA3 prototype screenshot exists for this PA4 AI addition.
+- Implementation evidence: `ChatbotWidget.tsx` feedback controls, `ChatbotController.submitFeedback`, and `ChatFeedbackSchema`.
+
+**Relationships:**
+- Extends UC-AI-01 Ask Dormify AI Question.
+- Provides records reviewed in UC-AI-03 Review AI Answer Feedback.
+
+**Traceability:** FR31, ST29, MT09, PA4-AI-02
+
+---
+
+### UC-AI-03 — Review AI Answer Feedback
+
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
+
+**Use-case ID:** UC-AI-03  
+**Use-case name:** Review AI Answer Feedback  
+**Actor(s):** System Admin  
+**Supporting Actor(s):** None  
+**Description:** A system administrator reviews stored chatbot feedback to find incorrect answers, missing knowledge, and recurring negative responses.  
+**Trigger:** The administrator requests the chatbot feedback list.
+
+**Preconditions:**
+1. The actor is authenticated as System Admin.
+2. One or more chatbot feedback records may exist.
+
+**Basic Flow (Main Success Scenario):**
+1. The administrator opens or calls the chatbot feedback review function.
+2. The system verifies the `ADMIN` role.
+3. The administrator optionally filters the list to negative feedback only.
+4. The backend retrieves feedback records, prioritizes negative records, sorts recent updates first, and populates the user's full name and student ID where available.
+5. The system displays or returns the question, answer, sources, verdict, not-found flag, user reference, and update time.
+6. The administrator uses the feedback to decide whether chatbot documents, prompts, thresholds, or source data need improvement.
+
+**Alternative Flows:**
+- A1. Non-admin actor attempts access: the system rejects the request with an authorization error.
+- A2. No feedback records exist: the system returns an empty list.
+- A3. Negative-only filter returns no results: the system shows no matching negative feedback.
+
+**Postconditions:**
+- No chatbot feedback records are changed by viewing the list.
+- The administrator has review evidence for chatbot quality improvement.
+
+**Special Requirements:**
+- The feedback review endpoint must remain restricted to `ADMIN`.
+- Returned user information should be limited to identifying fields needed for review, currently full name and student ID.
+
+**Prototype Screens:**
+- No PA3 prototype screenshot exists for this PA4 AI addition.
+- Implementation evidence: `GET /api/chatbot/feedback`, `@Roles('ADMIN')`, and `ChatbotService.listFeedback`.
+
+**Relationships:**
+- Uses records created by UC-AI-02 Submit AI Answer Feedback.
+- May lead to UC-AI-04 Rebuild AI Knowledge Base after documentation improvements.
+
+**Traceability:** FR31, PA4-AI-03
+
+---
+
+### UC-AI-04 — Rebuild AI Knowledge Base
+
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
+
+**Use-case ID:** UC-AI-04  
+**Use-case name:** Rebuild AI Knowledge Base  
+**Actor(s):** System Admin  
+**Supporting Actor(s):** Ollama AI Runtime  
+**Description:** A system administrator rebuilds the Dormify AI knowledge base from Markdown documents so chatbot retrieval reflects the latest dormitory rules, procedures, and use-case knowledge.  
+**Trigger:** The administrator triggers chatbot data ingestion after document changes or during maintenance.
+
+**Preconditions:**
+1. The actor is authenticated as System Admin.
+2. Markdown knowledge files exist under the backend chatbot documents directory.
+3. Ollama is available for embedding generation.
+4. MongoDB is reachable for storing knowledge records.
+
+**Basic Flow (Main Success Scenario):**
+1. The administrator invokes the chatbot ingestion function.
+2. The system verifies the `ADMIN` role.
+3. The backend recursively reads Markdown files from `src/chatbot/docs`.
+4. The backend clears existing knowledge records.
+5. For each Markdown file, the backend identifies the document title and current section headings.
+6. The backend splits content into retrieval chunks and prefixes each stored chunk with a source label containing document and section context.
+7. The backend requests embeddings from Ollama for each chunk.
+8. The backend stores each chunk in MongoDB with title, content, embedding vector, and normalized keyword-search text.
+9. The system returns a completion message with the number of ingested chunks and source files.
+
+**Alternative Flows:**
+- A1. No Markdown files found: the system returns a message explaining that no source files were available.
+- A2. Embedding generation fails for a chunk: the system logs the error and continues processing other chunks where possible.
+- A3. Ollama unavailable: ingestion cannot generate embeddings and the administrator must restore the AI runtime before retrying.
+- A4. Non-admin actor attempts access: the system rejects the request with an authorization error.
+
+**Postconditions:**
+- The chatbot knowledge collection is rebuilt from the current Markdown source files.
+- Future chatbot questions use the updated vector and keyword-search corpus.
+
+**Special Requirements:**
+- Knowledge ingestion is an administrator-only maintenance operation.
+- Stored chunks must keep source labels so chatbot answers can display compact source chips.
+- Keyword-search text must be normalized when chunks are stored so Vietnamese queries without accents can still match relevant documents.
+
+**Prototype Screens:**
+- No PA3 prototype screenshot exists for this PA4 AI addition.
+- Implementation evidence: `POST /api/chatbot/ingest`, `ChatbotService.ingestData`, `KnowledgeSchema`, and `scripts/run-ingest.ts`.
+
+**Relationships:**
+- Supports UC-AI-01 Ask Dormify AI Question by preparing the retrieval corpus.
+- May be triggered after UC-AI-03 Review AI Answer Feedback identifies missing or outdated source material.
+
+**Traceability:** FR31, PA4-AI-04
+
+---
+
+## 14. Functional Requirement Traceability
+
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 | Functional requirement | Related use cases | Coverage |
 | --- | --- | --- |
@@ -3447,10 +3856,12 @@ Notifications, communication history, and targeted management announcements.
 | FR28 | UC-MNT-02, UC-MNT-04, UC-MNT-05, UC-MNT-06, UC-MNT-07, UC-MNT-08, UC-MNT-09, UC-MNT-10 | Covered |
 | FR29 | UC-COND-01, UC-COND-05 | Covered |
 | FR30 | UC-COND-02, UC-COND-03, UC-COND-04 | Covered |
+| FR31 | UC-AI-01, UC-AI-02, UC-AI-03, UC-AI-04 | Covered |
+| FR32 | UC-COND-06, UC-COND-07, UC-COND-08 | Covered |
 
-## 14. Student Feature Traceability
+## 15. Student Feature Traceability
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 | Student features | Related use cases |
 | --- | --- |
@@ -3464,10 +3875,12 @@ Notifications, communication history, and targeted management announcements.
 | ST21–ST24 Residence declarations | UC-RES-01, UC-RES-02, UC-RES-03, UC-RES-04 |
 | ST25–ST26 Notifications | UC-NOT-01, UC-NOT-02 |
 | ST27–ST28 Evaluation and violations | UC-COND-04, UC-COND-05 |
+| ST29–ST30 Dormify AI assistance | UC-AI-01, UC-AI-02 |
+| ST31 Violation appeal | UC-COND-06 |
 
-## 15. Maintenance Staff Feature Traceability
+## 16. Maintenance Staff Feature Traceability
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 | Maintenance features | Related use cases |
 | --- | --- |
@@ -3477,10 +3890,11 @@ Notifications, communication history, and targeted management announcements.
 | MT05–MT06 | UC-MNT-08 |
 | MT07 | UC-MNT-09 |
 | MT08 | UC-MNT-10 |
+| MT09 AI assistant | UC-AI-01, UC-AI-02 |
 
-## 16. Floor Manager Function Reassignment
+## 17. Floor Manager Function Reassignment
 
-> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
+> _Performed by:_ Trần Huỳnh Mạnh Đạt | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
 | Former Floor Manager functions | Responsible role and use cases |
 | --- | --- |
@@ -3488,9 +3902,9 @@ Notifications, communication history, and targeted management announcements.
 | FM03 Track room conditions | Dormitory Manager — UC-ROOM-01 |
 | FM04–FM09 Manage meter readings | Dormitory Manager — UC-FIN-01 |
 | FM10–FM12 Track residence declarations | Dormitory Manager — UC-RES-05 |
-| FM13 Record violations | Dormitory Manager — UC-COND-01 |
+| FM13 Record violations | Dormitory Manager — UC-COND-01, UC-COND-07, UC-COND-08 |
 | FM14 Perform periodic evaluations | Dormitory Manager — UC-COND-03 |
 | FM15 Receive feedback | Dormitory Manager — UC-FBK-03 |
 | FM16 Track repair requests | Dormitory Manager — UC-MNT-04 |
 
-*End of Use-Case Specification — Version 1.0 / PA3*
+*End of Use-Case Specification — Version 1.2 / PA4*

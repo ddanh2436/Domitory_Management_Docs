@@ -15,10 +15,11 @@
 
 | Review item | Summary |
 | --- | --- |
-| Current assignment | PA3 |
+| Current assignment | PA4 (this plan was written for PA3 and synchronised at PA4) |
 | Development model | Scrum with five PA-aligned sprints |
 | PA3 focus | UI improvement, AI research, missing Admin and Student workflows, and one end-to-end functional group |
-| Selected functional group | Maintenance Management (`FR26-FR28`, `ST17-ST18`, `MT01-MT08`) |
+| PA4 focus | Software architecture documentation (C4 levels 1-3 and deployment), spec-kit driven feature delivery, and the Dormify AI assistant |
+| Selected functional group | Maintenance Management (`FR26-FR28`, `ST17-ST18`, `MT01-MT08`) at PA3; Dormify AI assistance (`FR31`) and violation appeal (`FR32`) at PA4 |
 | Formal build target | Build 3 on 25 July 2026 |
 | Operational evidence | Trello board, Git logs, Weekly Report, AI Usage Report, Spec Kit artifacts, Markdown files, and PDF exports |
 
@@ -30,6 +31,7 @@
 | --- | ---: | --- | --- |
 | 08 July 2026 | 1.0 | Initial Software Development Plan. | Trần Huỳnh Mạnh Đạt |
 | 23 July 2026 | 1.1 | Improve Software Development Plan based on TA's comments. | Trần Huỳnh Mạnh Đạt |
+| 26 August 2026 | 1.2 | Synchronised with PA4: added the Dormify AI and violation-appeal scope rows, recorded the delivered Sprint 4 items, and added the spec-kit driven tasks completed during PA4. | Đào Duy Anh |
 
 ## Table of Contents
 
@@ -185,8 +187,9 @@ The previously proposed **Floor Manager** role has been removed. Its necessary r
 | Finance and invoices | FR22-FR24, ST13-ST16 | Planned or partial | Invoice APIs, payment mock, reports |
 | Residence management | FR25, ST21-ST24 | Specified; implementation status must be verified | Residence declarations |
 | Maintenance management | FR26-FR28, MT01-MT08, ST17-ST18 | Selected PA3 end-to-end functional group | Maintenance specification and implementation |
-| Conduct and evaluation | FR29-FR30, ST27-ST28 | Planned or partial | Conduct records and rules |
-| Feedback and notifications | ST19-ST20, ST25-ST26 | Specified; implementation status must be verified | Feedback and notification workflows |
+| Conduct and evaluation | FR29-FR30, FR32, ST27-ST28, ST31 | Implemented, including the PA4 appeal and revocation flow | Conduct records, rules, appeal queue, `violations.service.spec.ts` |
+| Feedback and notifications | ST19-ST20, ST25-ST26 | Implemented, including the PA4 two-way feedback inbox | Feedback inbox with management responses, notification workflows |
+| Dormify AI assistance | FR31, ST29-ST30, MT09 | Selected PA4 end-to-end functional group | Chatbot module, knowledge and feedback schemas, ingestion scripts, chat widget |
 
 ### 3.3 Scope Decisions
 
@@ -401,12 +404,15 @@ Every sprint backlog uses a consistent task schema so reviewers can scan ownersh
 | S4-FIN-01 | FR22-FR24, ST13-ST16 | Implement invoice generation, invoice viewing, payment mock, and payment history. | Duy Anh | Đạt | 10h | Student can view invoices and complete the approved payment flow. | Planned |
 | S4-FIN-02 | FR23-FR24 | Implement debt summary, overdue processing, reminders, and revenue report data. | Duy Anh | Đạt | 8h | Overdue invoices and reminders are generated according to the documented rule. | Planned |
 | S4-RES-01 | FR25, ST21-ST24 | Implement overnight absence, temporary residence, temporary absence, and visitor workflows. | Kiên | Đạt | 8h | Student submissions are stored and visible to the Dormitory Manager. | Planned |
-| S4-COND-01 | FR29-FR30, ST27-ST28 | Implement violation records, conduct-score rules, and evaluation history. | Đạt | Duy Anh | 8h | Rules are applied consistently and history is visible to authorized users. | Planned |
-| S4-NOT-01 | ST25-ST26 | Integrate notifications and message-center updates for important events. | Duy Anh | Khánh | 6h | Relevant status changes create the documented notification. | Planned |
+| S4-COND-01 | FR29-FR30, ST27-ST28 | Implement violation records, conduct-score rules, and evaluation history. | Đạt | Duy Anh | 8h | Rules are applied consistently and history is visible to authorized users. | Done — `violations` module with conduct-score deduction and student history |
+| S4-COND-02 | FR32, ST31 | Implement the violation appeal queue: student appeal with reason, management accept/reject with note, score restoration, and direct revocation of a mistaken record. | Duy Anh | Đạt | 8h | An accepted appeal revokes the violation and restores the deducted points exactly once, capped at the maximum score; a rejected appeal leaves the score unchanged. | Done — spec-kit `002-violation-appeal-revocation`, `UC-COND-06` to `UC-COND-08`, unit tests in `violations.service.spec.ts` |
+| S4-NOT-01 | ST25-ST26 | Integrate notifications and message-center updates for important events. | Duy Anh | Khánh | 6h | Relevant status changes create the documented notification. | Done — Socket.IO gateway with per-user rooms and TTL-managed notification records |
+| S4-FBK-01 | ST19-ST20 | Implement the two-way feedback inbox: student submission plus management response. | Kiên | Đạt | 6h | A student can submit feedback and read the management response on the same record. | Done — spec-kit `003-feedback-inbox`, `feedback` module with the respond endpoint |
 | S4-AI-01 | AI-01 | Build a labeled maintenance-ticket evaluation set and measure category, priority, and routing performance. | Đạt | Khánh | 6h | Evaluation results and known failure cases are documented. | Planned |
 | S4-AI-02 | AI-01 | Integrate Smart Ticketing predictions into the manager maintenance queue with confidence display and manual override. | Duy Anh | Đạt | 8h | Manager can accept or correct AI output, and the correction is auditable. | Planned |
-| S4-AI-03 | AI-02 | Collect and approve rulebooks, FAQs, and procedures for the RAG knowledge base. | Khánh | Đạt | 5h | Every indexed source is approved, versioned, and traceable. | Planned |
-| S4-AI-04 | AI-02 | Prototype retrieval, grounded response, source citation, and fallback behavior for the virtual assistant. | Duy Anh | Kiên | 8h | Test questions receive grounded answers or a safe escalation response. | Planned |
+| S4-AI-03 | AI-02, FR31 | Collect and approve rulebooks, FAQs, and procedures for the RAG knowledge base. | Khánh | Đạt | 5h | Every indexed source is approved, versioned, and traceable. | Done — Markdown knowledge sources with the ingestion pipeline and `KnowledgeSchema` |
+| S4-AI-04 | AI-02, FR31 | Prototype retrieval, grounded response, source citation, and fallback behavior for the virtual assistant. | Duy Anh | Kiên | 8h | Test questions receive grounded answers or a safe escalation response. | Done — vector plus keyword retrieval, streamed answers, source chips, and a not-found response instead of an invented one |
+| S4-AI-05 | FR31, ST29-ST30 | Add answer feedback, administrator feedback review, and knowledge-base rebuild for Dormify AI. | Khánh | Duy Anh | 5h | A user can rate an answer, an administrator can review the negative ratings, and the knowledge base can be rebuilt after the documents change. | Done — `UC-AI-02` to `UC-AI-04` |
 | S4-INT-01 | All operational groups | Integrate finance, residence, conduct, maintenance, and notification workflows. | Duy Anh | Đạt | 8h | Regression smoke tests pass across the integrated modules. | Planned |
 | S4-TEST-01 | All operational groups | Run role, API, database, and regression tests. | Đạt | Duy Anh | 8h | No unresolved critical defect remains before Build 4. | Planned |
 

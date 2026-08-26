@@ -13,6 +13,14 @@
 |---|---:|---|---|
 | 08 July 2026 | 1.0 | Initial Vision Document based on the project proposal. | Trần Huỳnh Mạnh Đạt |
 
+> **Supersession note (26 August 2026).** This file is the PA2 baseline and is kept as the historical
+> v1.0 record. It has been superseded by `PA3/documents/VisionDocument_v1.1.md`, which now carries
+> version 1.2 after being synchronised with PA4. Two statements below were written against the PA2
+> repository baseline and are no longer true of the current product: the RAG rules chatbot and
+> automated activity auditing have since been delivered — see `F-11 Dormify AI Assistant` and the
+> audit-log workspace in the v1.2 Vision Document, and `FR31` / `FR32` in `PA2/spec.md`. Read this
+> file for what the team committed to at PA2, and the v1.2 document for current scope.
+
 
 # 1. Introduction
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
@@ -145,7 +153,7 @@ The PA2 product scope is organized as follows:
 | **Planned** | The feature is part of the target product but is not yet visible as a complete repository capability. |
 | **Future candidate** | The feature is excluded from the committed PA2 baseline until the Product Owner adds it to Trello and the team estimates it. |
 
-Real VNPay, MoMo, ZaloPay, or Internet Banking integration is not treated as completed in this version; the backend currently contains a mock payment path. AI maintenance routing and a RAG chatbot are future candidates because no corresponding module is visible in the reviewed repository baseline.
+Real VNPay, MoMo, ZaloPay, or Internet Banking integration is not treated as completed in this version; the backend currently contains a mock payment path. AI maintenance routing and a RAG chatbot are future candidates because no corresponding module is visible in the reviewed repository baseline. *(PA4 update: the RAG chatbot was delivered as Dormify AI — `FR31`; AI maintenance routing remains a future candidate.)*
 
 ## 4.2 Assumptions and Dependencies
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
@@ -291,7 +299,7 @@ flowchart TD
 ## 5.3 Future Candidates Outside the Committed PA2 Baseline
 **Performed by:** Trần Hoàng Quốc Khánh | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
 
-The following items may be added only after Product Owner approval, Trello estimation, and confirmation that core workflows remain achievable: real payment-gateway integration, a complete visitor-registration module, automated room allocation by preferences, formal activity auditing, backup/restore administration, AI-assisted maintenance classification, and a RAG rules chatbot. These items must be labelled as planned or future work until implementation and test evidence exist.
+The following items may be added only after Product Owner approval, Trello estimation, and confirmation that core workflows remain achievable: real payment-gateway integration, a complete visitor-registration module, automated room allocation by preferences, formal activity auditing, backup/restore administration, AI-assisted maintenance classification, and a RAG rules chatbot. These items must be labelled as planned or future work until implementation and test evidence exist. *(PA4 update: automated room allocation, formal activity auditing, and the RAG rules chatbot have since been delivered; the remaining items are still future candidates.)*
 
 # 6. Non-Functional Requirements
 **Performed by:** Tô Trần Hoàng Triệu | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt
