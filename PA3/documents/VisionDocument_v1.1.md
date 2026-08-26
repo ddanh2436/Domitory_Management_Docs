@@ -19,7 +19,8 @@
 | Product type | Role-based dormitory management and student self-service web application |
 | Target users | Students, System Administrators, Dormitory Managers, Maintenance Staff, and project stakeholders |
 | PA3 focus | Refined scope, clearer role boundaries, measurable quality goals, improved traceability, and polished document presentation |
-| Selected end-to-end functional area | Maintenance Management |
+| PA4 focus | Software architecture (C4 levels 1-3 and deployment), spec-kit driven features, and the Dormify AI assistant |
+| Selected end-to-end functional area | Maintenance Management (PA3); Dormify AI assistance and the violation appeal flow (PA4) |
 | Main evidence | Repositories, Trello backlog, Use-Case Model, use-case specifications, Weekly Report, AI Usage Report, and PDF export |
 
 ## Revision History
@@ -30,6 +31,7 @@
 | --- | ---: | --- | --- |
 | 08 July 2026 | 1.0 | Initial Vision Document based on the project proposal. | Trần Huỳnh Mạnh Đạt |
 | 23 July 2026 | 1.1 | Revised Vision Document for PA3 with clearer scope, role boundaries, measurable requirements, and improved presentation. | Trần Huỳnh Mạnh Đạt |
+| 26 August 2026 | 1.2 | Synchronised with PA4: added F-11 Dormify AI Assistant, promoted the violation appeal flow and the two-way feedback inbox from planned to implemented, and moved the RAG rules chatbot out of the future-candidates list. | Đào Duy Anh |
 
 ## Table of Contents
 
@@ -245,10 +247,11 @@ The Vision describes the intended product outcome, but it does not fix all imple
 | F-04 | Invoice, Debt, and Automated Overdue Management | Implemented / partial |
 | F-05 | Maintenance Requests and Maintenance Staff Workspace | Partial; PA3 highlighted functional area |
 | F-06 | Absence, Temporary Residency, and Visitor Control | Partial |
-| F-07 | Violation Records and Conduct Evaluation | Partial |
+| F-07 | Violation Records, Conduct Evaluation, and Appeals | Implemented / partial |
 | F-08 | Announcements and Real-Time Notification Center | Implemented / partial |
 | F-09 | Transactional Room Transfer Workflow | Implemented / being tested |
 | F-10 | Dashboards and Operational Reporting | Partial |
+| F-11 | Dormify AI Assistant | Implemented; PA4 highlighted functional area |
 
 ### F-01 Identity and Profile Management
 
@@ -298,13 +301,15 @@ Students can submit a maintenance request containing a title, description, prior
 
 Students can submit absence-related information and authorized managers can review absence records. This reduces dependence on paper books and gives managers a searchable history of reported absences. The broader target includes overnight absence, temporary residence, long-term temporary absence, and visitor registration, subject to approved dormitory rules and privacy controls. Visitor registration and complete temporary-residency workflows are planned because no dedicated visitor module is visible in the current backend baseline.
 
-### F-07 Violation Records and Conduct Evaluation
+### F-07 Violation Records, Conduct Evaluation, and Appeals
 
-> _Performed by:_ Trần Hoàng Quốc Khánh | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
+> _Performed by:_ Trần Hoàng Quốc Khánh | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Đào Duy Anh
 
-**Status:** Partial.
+**Status:** Implemented / partial.
 
-Authorized managers can record violations and maintain a history associated with the affected student. The user model includes a behavior score that can support a simple conduct-evaluation process. Students should be able to see the records that directly affect them, while unrelated disciplinary information remains restricted. Rule configuration, appeals, and periodic evaluation reports require explicit business rules and acceptance tests before they are treated as complete.
+Authorized managers can record violations and maintain a history associated with the affected student. The user model includes a behavior score that can support a simple conduct-evaluation process. Students can see the records that directly affect them, while unrelated disciplinary information remains restricted.
+
+Since PA4 the feature also closes the loop on disputed records. A student may appeal a violation that is still in effect, giving a written reason; the record moves to a pending state and the management board is notified. The board works through the pending queue and either accepts the appeal — which revokes the violation and restores the deducted conduct points, capped at the maximum score — or rejects it with a review note that the student receives. A manager can also revoke a mistakenly entered violation directly, without waiting for an appeal, and the guard against revoking twice keeps the score restoration idempotent. Rule configuration and periodic evaluation reports still require explicit business rules and acceptance tests before they are treated as complete.
 
 ### F-08 Announcements and Real-Time Notification Center
 
@@ -312,7 +317,7 @@ Authorized managers can record violations and maintain a history associated with
 
 **Status:** Implemented / partial.
 
-Dormify stores user-specific notifications and sends new events immediately through Socket.IO. Students can view paginated notifications, see an unread count, mark notifications as read, and delete their own notifications, while authorized users can broadcast announcements to active students. Notification records use an expiration field and MongoDB TTL index so old records are removed automatically, reducing uncontrolled data growth. A complete two-way feedback and complaint workflow remains planned and should not be represented as already implemented.
+Dormify stores user-specific notifications and sends new events immediately through Socket.IO. Students can view paginated notifications, see an unread count, mark notifications as read, and delete their own notifications, while authorized users can broadcast announcements to active students. Notification records use an expiration field and MongoDB TTL index so old records are removed automatically, reducing uncontrolled data growth. Since PA4 the two-way channel exists as well: students submit complaints, feedback, and suggestions, and the management board responds to them from a feedback inbox, so the direction of communication is no longer one-way.
 
 ### F-09 Transactional Room Transfer Workflow
 
@@ -329,6 +334,16 @@ A student can request a transfer from the current room to an available target ro
 **Status:** Partial.
 
 Management dashboards summarize operational information such as room status, student records, invoices, maintenance requests, and recent revenue. Charts and summary cards help managers identify overdue invoices, occupancy issues, and workload without opening every record. Student dashboards provide direct navigation to personal room, contract, invoice, maintenance, absence, transfer, and notification information. Final dashboard content must be tied to verified API data and acceptance criteria rather than static demonstration values.
+
+### F-11 Dormify AI Assistant
+
+> _Performed by:_ Đào Duy Anh | _Reviewed by:_ Trần Huỳnh Mạnh Đạt | _Edited by:_ Đào Duy Anh
+
+**Status:** Implemented; PA4 highlighted functional area.
+
+Dormify AI is an in-product assistant that answers dormitory questions in Vietnamese from the project's own documents rather than from open-ended world knowledge. Any authenticated user can open the chat widget and ask a question; the backend retrieves relevant passages by combining MongoDB vector search over generated embeddings with a normalized keyword search, then streams the generated answer back to the browser together with chips naming the source documents. When the question is about the user's own room, contract, conduct score, or invoices, the assistant adds only that authenticated user's permitted context, and an invoice question is answered with a structured invoice card built from backend data instead of numbers regenerated by the language model. If nothing relevant is found, the assistant says so and offers suggested questions instead of inventing an answer.
+
+Users can rate an answer as helpful or unhelpful, and a System Admin reviews the negative ratings and can rebuild the knowledge base after the dormitory documents change. The language and embedding models run on a local Ollama runtime, which is an external dependency: if it is unavailable, the assistant reports that it is offline and every other feature keeps working.
 
 ### 5.1 Important Workflow Diagram — Room Booking and Contract
 
@@ -371,7 +386,9 @@ flowchart TD
 
 > _Performed by:_ Trần Hoàng Quốc Khánh | _Reviewed by:_ Đào Duy Anh | _Edited by:_ Trần Huỳnh Mạnh Đạt
 
-The following items may be added only after Product Owner approval, Trello estimation, and confirmation that core workflows remain achievable: real payment-gateway integration, a complete visitor-registration module, automated room allocation by preferences, formal activity auditing, backup/restore administration, AI-assisted maintenance classification, and a RAG rules chatbot. These items must be labeled as planned or future work until implementation and test evidence exist.
+The following items may be added only after Product Owner approval, Trello estimation, and confirmation that core workflows remain achievable: real payment-gateway integration, a complete visitor-registration module, and AI-assisted maintenance classification. These items must be labeled as planned or future work until implementation and test evidence exist.
+
+Three items that appeared in this list at PA3 have since been delivered and are therefore no longer future candidates: automated room allocation by preferences (the auto-assignment module and the `/admin/auto-assign` workspace), formal activity auditing (the global audit-log interceptor and the `/admin/audit-logs` workspace), and the RAG rules chatbot, which is now described as F-11 Dormify AI Assistant.
 
 ## 6. Non-Functional Requirements
 
@@ -410,9 +427,10 @@ The following items may be added only after Product Owner approval, Trello estim
 | F-04 Invoice and Overdue | invoices, notifications, student payment route | Duplicate invoice, overdue cron, mock payment, notification tests |
 | F-05 Maintenance | maintenance module and student/admin maintenance routes | Request, status, rating, and later staff-assignment tests |
 | F-06 Absences | absences module and routes | Submit/review/history tests |
-| F-07 Violations | violations module and rules routes | Violation and behavior-score tests |
+| F-07 Violations and Appeals | violations module and rules routes | Violation, behavior-score, appeal-review, and revocation tests (`violations.service.spec.ts`) |
 | F-08 Notifications | notifications service/gateway and notification routes | Socket, pagination, unread count, TTL-policy tests |
 | F-09 Transfers | transfers module and student/admin transfer routes | Approval transaction, capacity, contract update, and notification tests |
 | F-10 Dashboards | admin/student pages and Recharts | API-backed dashboard acceptance tests |
+| F-11 Dormify AI Assistant | chatbot module, knowledge/feedback schemas, ingestion scripts, chat widget | Retrieval, streaming, personal-context isolation, answer-feedback, and knowledge-rebuild tests (`chatbot.service.spec.ts`) |
 
-*End of Vision Document — Version 1.1*
+*End of Vision Document — Version 1.2*

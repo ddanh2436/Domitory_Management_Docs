@@ -14,6 +14,12 @@
 |---|---:|---|---|
 | 08 July 2026 | 1.0 | Initial Software Development Plan. | Trần Huỳnh Mạnh Đạt |
 
+> **Supersession note (26 August 2026).** This file is the PA2 baseline and is kept as the historical
+> v1.0 record. It has been superseded by `PA3/documents/SoftwareDevelopmentPlan_v1.1.md`, which now
+> carries version 1.2 after being synchronised with PA4. The functional scope matrix and the Sprint 4
+> backlog in that document record the delivered state, including the Dormify AI assistant (`FR31`),
+> the violation appeal and revocation flow (`FR32`), and the two-way feedback inbox.
+
 
 # 1. Introduction
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Trần Huỳnh Mạnh Đạt

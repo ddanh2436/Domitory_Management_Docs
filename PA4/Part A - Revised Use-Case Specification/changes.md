@@ -35,3 +35,35 @@
 | Functional groups after update | 12 |
 | Traceability sections after renumbering | Sections 14-17 |
 | Backend evidence checked | `ChatbotModule`, `ChatbotController`, `ChatbotService`, `KnowledgeSchema`, `ChatFeedbackSchema`, ingestion scripts |
+
+## 3. Use Case Specification Conduct-Appeal Update
+
+**Performed by:** Đào Duy Anh | **Reviewed by:** Trần Huỳnh Mạnh Đạt | **Edited by:** Đào Duy Anh
+
+**Updated file:** `PA4/Part A - Revised Use-Case Specification/Use Case Specification.md`  
+**Update date:** 26 August 2026  
+**Purpose:** Add the implemented violation appeal and revocation feature, which was specified in `PA4/Part E - Spec kit/002-violation-appeal-revocation` and shipped to the backend, but had no corresponding use cases in the Use Case Specification.
+
+| Change ID | Section updated | Change made | Repository evidence |
+| --- | --- | --- | --- |
+| PA4-UCS-CA-01 | Document metadata and snapshot | Updated version to `1.2 — PA4 AI and conduct-appeal update`, date to `26 August 2026`, use-case count from 76 to 79, and generalised the PA4 addition row to cover both the AI chatbot and the conduct-appeal flow. | `PA4/Part A - Revised Use-Case Specification/Use Case Specification.md` |
+| PA4-UCS-CA-02 | Functional Group Index | Raised the `Conduct and Student Evaluation` count from 5 to 8 use cases; the group total now matches the 79 detailed use-case headings. | `PA4/Part A - Revised Use-Case Specification/Use Case Specification.md` |
+| PA4-UCS-CA-03 | Section 11 group table and description | Added `UC-COND-06`, `UC-COND-07`, and `UC-COND-08` rows and extended the group description to mention the appeal and revocation flow that reverses a deduction. | `Domitory_Management_Backend/src/violations/violations.controller.ts` |
+| PA4-UCS-CA-04 | UC-COND-06 | Defined student-initiated appeal: ownership check, `ACTIVE`-only precondition, mandatory reason capped at 500 characters, transition to `APPEAL_PENDING`, and notification of the management board. | `ViolationsService.appealViolation`, `AppealViolationDto`, `POST /api/violations/:id/appeal` |
+| PA4-UCS-CA-05 | UC-COND-07 | Defined management review of a pending appeal: `APPEAL_PENDING`-only precondition, `ACCEPT` / `REJECT` decision, review note and reviewer audit fields, conduct-score restoration capped at 100 on acceptance, and student notification of the outcome. | `ViolationsService.reviewAppeal`, `ViolationsService.restoreScore`, `ReviewAppealDto`, `PATCH /api/violations/:id/review` |
+| PA4-UCS-CA-06 | UC-COND-08 | Defined direct revocation of a mistakenly recorded violation, including the guard that blocks a second revocation so conduct points are never restored twice. | `ViolationsService.revokeViolation`, `DELETE /api/violations/:id` |
+| PA4-UCS-CA-07 | Traceability appendices | Added `FR32` covering `UC-COND-06` to `UC-COND-08`, added `ST31 Violation appeal`, and extended `FM13` to include the review and revocation use cases. Updated the document end note to `Version 1.2 / PA4`. | `PA4/Part A - Revised Use-Case Specification/Use Case Specification.md` |
+| PA4-UCS-CA-08 | Prototype screen links | Repointed all 92 screenshot links from `../assets/...` to `../../PA3/assets/...`. When the specification was copied from `PA3/documents/` into `PA4/Part A - .../`, the relative paths kept resolving to a non-existent `PA4/assets` folder, so every screenshot was broken. One link that was already broken in PA3 (`UC-PRO-01.png`) was repointed to the file its alt text names, `studentprofile.png`. | `PA3/assets/` |
+
+## 4. Verification
+
+**Performed by:** Đào Duy Anh | **Reviewed by:** Trần Huỳnh Mạnh Đạt | **Edited by:** Đào Duy Anh
+
+| Check | Result |
+| --- | --- |
+| Detailed use-case headings | 79 |
+| Use-case rows in functional group tables | 79 |
+| Sum of the Functional Group Index counts | 79 |
+| New conduct use-case IDs | `UC-COND-06` to `UC-COND-08` |
+| Screenshot links resolving to a real file | 92 of 92 |
+| Backend evidence checked | `ViolationsController`, `ViolationsService`, `AppealViolationDto`, `ReviewAppealDto`, `ViolationSchema`, `ViolationStatus`, `violations.service.spec.ts` |

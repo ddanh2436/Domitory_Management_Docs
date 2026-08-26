@@ -17,6 +17,8 @@
 | **Email / SMS Service** | Sends contact notifications and password-reset OTP codes. |
 | **Payment Gateway** | Processes invoice payments through supported payment methods such as banks, VNPay, MoMo, or ZaloPay. |
 | **Scheduled Trigger** | Initiates time-based automated operations such as marking overdue invoices and sending debt reminders. |
+| **Authenticated User** | Any signed-in account — student, manager, or staff — acting in the role of a Dormify AI questioner, independent of their business role. |
+| **Ollama AI Runtime** | External local AI runtime that generates embeddings and chat completions for the Dormify AI assistant. |
 
 The **System Admin** and **Dormitory Manager** are separate roles. They are not generalized into a common Manager actor because they have different responsibilities and access permissions.
 
@@ -542,16 +544,24 @@ flowchart LR
         UCC03(["UC-COND-03 Perform periodic student evaluation"])
         UCC04(["UC-COND-04 View evaluation history"])
         UCC05(["UC-COND-05 View violation history"])
+        UCC06(["UC-COND-06 Appeal recorded violation"])
+        UCC07(["UC-COND-07 Review violation appeal"])
+        UCC08(["UC-COND-08 Revoke recorded violation"])
     end
 
     DormManager --> UCC01
     DormManager --> UCC02
     DormManager --> UCC03
+    DormManager --> UCC07
+    DormManager --> UCC08
 
     Student --> UCC04
     Student --> UCC05
+    Student --> UCC06
 
     UCC02 -.->|«extend»| UCC01
+    UCC06 -.->|«extend»| UCC05
+    UCC07 -.->|«include»| UCC06
 ```
 
 ### 11.2 Use-Case Summary
@@ -563,8 +573,13 @@ flowchart LR
 | UC-COND-03 | Perform periodic student evaluation | Manager records a periodic conduct evaluation |
 | UC-COND-04 | View evaluation history | Student views previous conduct evaluations |
 | UC-COND-05 | View violation history | Student views recorded violations and related penalties |
+| UC-COND-06 | Appeal recorded violation | Student appeals a violation still in effect, giving a written reason |
+| UC-COND-07 | Review violation appeal | Manager accepts an appeal — revoking the violation and restoring the deducted points — or rejects it with a note |
+| UC-COND-08 | Revoke recorded violation | Manager directly revokes a violation entered by mistake and the deducted points are restored |
 
 `UC-COND-02` extends `UC-COND-01` because not every recorded incident must necessarily result in a conduct-score deduction.
+
+`UC-COND-06` extends `UC-COND-05` because appealing is an optional action a student may take from their violation history, and `UC-COND-07` includes `UC-COND-06` because there is nothing to review until an appeal exists. `UC-COND-08` is the manager-initiated path to the same `REVOKED` outcome when no appeal was filed. Conduct points are restored exactly once, on the transition into `REVOKED`.
 
 ---
 
@@ -613,7 +628,53 @@ Examples include:
 
 ---
 
-## 13. Functional Requirement Traceability
+## 13. AI Chatbot Assistance
+
+**Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Đào Duy Anh
+
+### 13.1 Use-Case Diagram
+
+```mermaid
+flowchart LR
+    AuthUser["👤 Authenticated User"]
+    SysAdmin["👤 System Admin"]
+    Ollama["🤖 Ollama AI Runtime"]
+
+    subgraph Dormify["Dormify System"]
+        UCAI01(["UC-AI-01 Ask Dormify AI question"])
+        UCAI02(["UC-AI-02 Submit AI answer feedback"])
+        UCAI03(["UC-AI-03 Review AI answer feedback"])
+        UCAI04(["UC-AI-04 Rebuild AI knowledge base"])
+    end
+
+    AuthUser --> UCAI01
+    AuthUser --> UCAI02
+
+    SysAdmin --> UCAI03
+    SysAdmin --> UCAI04
+
+    UCAI01 --> Ollama
+    UCAI04 --> Ollama
+
+    UCAI02 -.->|«extend»| UCAI01
+```
+
+### 13.2 Use-Case Summary
+
+| ID | Use case | Description |
+| --- | --- | --- |
+| UC-AI-01 | Ask Dormify AI question | Authenticated user asks the assistant a question and receives a streamed answer built from dormitory documents and, where relevant, their own permitted profile, contract, and invoice context |
+| UC-AI-02 | Submit AI answer feedback | Authenticated user rates an answer as helpful or unhelpful |
+| UC-AI-03 | Review AI answer feedback | System Admin reviews collected answer feedback, filtered to the negative ratings |
+| UC-AI-04 | Rebuild AI knowledge base | System Admin re-ingests the dormitory Markdown documents, regenerates embeddings, and refreshes the knowledge collection |
+
+`UC-AI-02` extends `UC-AI-01` because rating an answer is optional and only possible once an answer exists.
+
+**Ollama AI Runtime** is drawn as an external system: it runs outside the Dormify containers and is reached over HTTP, so a runtime outage disables `UC-AI-01` and `UC-AI-04` without affecting any other functional group.
+
+---
+
+## 14. Functional Requirement Traceability
 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Đào Duy Anh
 
@@ -649,10 +710,12 @@ Examples include:
 | FR28 | UC-MNT-02, UC-MNT-04, UC-MNT-05, UC-MNT-06, UC-MNT-07, UC-MNT-08, UC-MNT-09, UC-MNT-10 | Covered |
 | FR29 | UC-COND-01, UC-COND-05 | Covered |
 | FR30 | UC-COND-02, UC-COND-03, UC-COND-04 | Covered |
+| FR31 | UC-AI-01, UC-AI-02, UC-AI-03, UC-AI-04 | Covered |
+| FR32 | UC-COND-06, UC-COND-07, UC-COND-08 | Covered |
 
 ---
 
-## 14. Student Feature Traceability
+## 15. Student Feature Traceability
 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Đào Duy Anh
 
@@ -668,10 +731,12 @@ Examples include:
 | ST21-ST24 Residence declarations | UC-RES-01, UC-RES-02, UC-RES-03, UC-RES-04 |
 | ST25-ST26 Notifications | UC-NOT-01, UC-NOT-02 |
 | ST27-ST28 Evaluation and violations | UC-COND-04, UC-COND-05 |
+| ST29-ST30 Dormify AI assistance | UC-AI-01, UC-AI-02 |
+| ST31 Violation appeal | UC-COND-06 |
 
 ---
 
-## 15. Maintenance Staff Feature Traceability
+## 16. Maintenance Staff Feature Traceability
 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Đào Duy Anh
 
@@ -683,10 +748,11 @@ Examples include:
 | MT05-MT06 | UC-MNT-08 |
 | MT07 | UC-MNT-09 |
 | MT08 | UC-MNT-10 |
+| MT09 AI assistant | UC-AI-01, UC-AI-02 |
 
 ---
 
-## 16. Floor Manager Function Reassignment (Diagram-Level Simplification)
+## 17. Floor Manager Function Reassignment (Diagram-Level Simplification)
 
 **Performed by:** Trần Huỳnh Mạnh Đạt | **Reviewed by:** Đào Duy Anh | **Edited by:** Đào Duy Anh
 
@@ -696,7 +762,7 @@ Examples include:
 | FM03 Track room conditions | Dormitory Manager - UC-ROOM-01 |
 | FM04-FM09 Manage meter readings | Dormitory Manager - UC-FIN-01 |
 | FM10-FM12 Track residence declarations | Dormitory Manager - UC-RES-05 |
-| FM13 Record violations | Dormitory Manager - UC-COND-01 |
+| FM13 Record violations | Dormitory Manager - UC-COND-01, UC-COND-07, UC-COND-08 |
 | FM14 Perform periodic evaluations | Dormitory Manager - UC-COND-03 |
 | FM15 Receive feedback | Dormitory Manager - UC-FBK-03 |
 | FM16 Track repair requests | Dormitory Manager - UC-MNT-04 |

@@ -58,8 +58,12 @@ Hệ thống quản lý Ký túc xá toàn diện hỗ trợ 3 nhóm đối tư�
 
 #### 3.6. Quản lý Cư trú & Nội quy
 - [ ] **FR25: Theo dõi báo vắng qua đêm:** Sinh viên tự khai báo vắng mặt trên hệ thống, quản sinh theo dõi danh sách để quản lý tạm trú tạm vắng.
-- [ ] **FR29: Quản lý vi phạm:** Ghi nhận và lưu lịch sử vi phạm nội quy của sinh viên.
-- [ ] **FR30: Đánh giá điểm sinh viên:** Hệ thống điểm rèn luyện, tự động trừ điểm theo bộ Rules vi phạm đã thiết lập.
+- [✅] **FR29: Quản lý vi phạm:** Ghi nhận và lưu lịch sử vi phạm nội quy của sinh viên.
+- [✅] **FR30: Đánh giá điểm sinh viên:** Hệ thống điểm rèn luyện, tự động trừ điểm theo bộ Rules vi phạm đã thiết lập.
+
+#### 3.8. Trợ lý AI & Kênh phản hồi (bổ sung từ PA4)
+- [✅] **FR31: Trợ lý ảo Dormify AI:** Người dùng đã đăng nhập đặt câu hỏi về ký túc xá và nhận câu trả lời tiếng Việt được truy xuất từ chính tài liệu của dự án (vector search kết hợp keyword search trên MongoDB), có chip nguồn tài liệu, có ngữ cảnh cá nhân (phòng/hợp đồng/hóa đơn của chính người hỏi) và thẻ hóa đơn dựng từ dữ liệu backend. Người dùng đánh giá câu trả lời; admin xem lại các đánh giá tiêu cực và dựng lại kho tri thức.
+- [✅] **FR32: Khiếu nại & thu hồi vi phạm:** Sinh viên khiếu nại vi phạm còn hiệu lực kèm lý do; ban quản lý duyệt (chấp nhận thì thu hồi vi phạm và hoàn lại điểm hành vi, tối đa 100; từ chối thì kèm ghi chú) hoặc thu hồi trực tiếp vi phạm ghi nhầm. Điểm chỉ được hoàn đúng một lần.
 
 #### 3.7. Quản lý Sự cố (Maintenance)
 - [✅] **FR26: Tiếp nhận yêu cầu sửa chữa:** Sinh viên báo cáo sự cố qua form.
@@ -68,3 +72,5 @@ Hệ thống quản lý Ký túc xá toàn diện hỗ trợ 3 nhóm đối tư�
 
 ---
 *Ghi chú: [✅] là các tính năng đã hoàn thiện. [ ] là các tính năng chờ phát triển.*
+
+*Đồng bộ PA4 (26/08/2026): FR31 và FR32 được bổ sung để danh mục yêu cầu chức năng khớp với các bảng truy vết trong `PA3/documents/Use Case Model.md`, `PA3/documents/Use Case Specification.md` và `PA4/Part A - Revised Use-Case Specification/Use Case Specification.md`, vốn đã tham chiếu tới hai mã này. Trạng thái FR29–FR30 được cập nhật theo mã nguồn hiện tại (module `violations`).*
