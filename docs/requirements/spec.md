@@ -64,6 +64,10 @@ Hệ thống quản lý Ký túc xá toàn diện hỗ trợ 3 nhóm đối tư�
 - [✅] **FR29: Quản lý vi phạm:** Ghi nhận và lưu lịch sử vi phạm nội quy của sinh viên.
 - [✅] **FR30: Đánh giá điểm sinh viên:** Điểm hành vi khởi tạo 100, tự động trừ theo mức phạt từng vi phạm (không tụt dưới 0), sinh viên nhận thông báo kèm điểm còn lại.
 
+#### 3.8. Trợ lý AI & Kênh phản hồi
+- [✅] **FR31: Trợ lý ảo Dormify AI:** Người dùng đã đăng nhập hỏi và nhận câu trả lời tiếng Việt truy xuất từ tài liệu dự án (vector search + keyword search trên MongoDB), kèm chip nguồn, ngữ cảnh cá nhân của chính người hỏi và thẻ hóa đơn dựng từ dữ liệu backend. Có đánh giá câu trả lời, trang admin xem đánh giá tiêu cực và chức năng dựng lại kho tri thức. Mô hình chạy trên Ollama cục bộ.
+- [✅] **FR32: Khiếu nại & thu hồi vi phạm:** Sinh viên khiếu nại vi phạm đang hiệu lực kèm lý do; ban quản lý duyệt chấp nhận (thu hồi vi phạm + hoàn điểm hành vi, trần 100) hoặc từ chối kèm ghi chú; ban quản lý cũng thu hồi trực tiếp được vi phạm ghi nhầm. Hoàn điểm đúng một lần.
+
 #### 3.7. Quản lý Sự cố (Maintenance)
 - [✅] **FR26: Tiếp nhận yêu cầu sửa chữa:** Sinh viên báo sự cố qua form kèm ảnh (Cloudinary) + mức ưu tiên.
 - [✅] **FR27: Phân công nhân viên:** Quản lý phân công cho nhân viên bảo trì cụ thể; nhân viên nhận thông báo realtime và xem việc tại khu vực `/staff` (có bộ lọc, tìm kiếm, điểm đánh giá trung bình).
@@ -80,8 +84,14 @@ Hệ thống quản lý Ký túc xá toàn diện hỗ trợ 3 nhóm đối tư�
 | 3 | **Ô nhập giới tính** | Thêm trường giới tính vào form hồ sơ sinh viên và form tạo/sửa phòng để phân phòng tự động tách nam/nữ thực sự (backend đã sẵn sàng). |
 | 4 | **Cổng thanh toán thật** | Thay Mock Payment bằng VNPay/MoMo/ZaloPay như đề xuất trong proposal. |
 | 5 | **Đăng ký khách thăm** (proposal 3.6) | Chưa có trong spec lẫn code. |
-| 6 | **Hòm thư góp ý/khiếu nại** (proposal 3.8) | Đã có thông báo 1 chiều (announcements), chưa có kênh phản hồi ngược từ sinh viên. |
-| 7 | **Tính năng AI** (proposal mục 4) | NLP phân loại ticket bảo trì + RAG chatbot nội quy. |
+| 6 | **NLP phân loại ticket bảo trì** (proposal mục 4) | Nửa còn lại của hạng mục AI: tự động gán nhóm/độ ưu tiên cho yêu cầu sửa chữa. RAG chatbot đã hoàn thành (FR31). |
+
+### Đã chuyển khỏi backlog tại PA4
+
+| Tính năng | Kết quả |
+| --- | --- |
+| **Hòm thư góp ý/khiếu nại** (proposal 3.8) | Đã làm — module `feedback` (sinh viên gửi, ban quản lý phản hồi trên cùng một bản ghi), spec-kit `003-feedback-inbox`. |
+| **RAG chatbot nội quy** (proposal mục 4) | Đã làm — FR31 Dormify AI. |
 
 ---
 *Ghi chú: [✅] hoàn thiện · [🔶] hoàn thiện một phần · [ ] chờ phát triển.*
